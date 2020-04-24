@@ -23,12 +23,16 @@ public class ModuleSpawner : MonoBehaviour
         //test
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            
+            currentModules[index] = SpawnModule(1f, 1f, 5);
+            if (selectedModule != null)
+                selectedModule = currentModules[index].GetComponent<Module>();
             index++;
-            if(index ==3)
+            if (index == 3)
             {
                 index = 0;
             }
-            currentModules[index] = SpawnModule(1f, 1f, 5);
+           
 
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
