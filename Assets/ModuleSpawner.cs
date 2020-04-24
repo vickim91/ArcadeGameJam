@@ -18,6 +18,11 @@ public class ModuleSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
+    void setSelectedModule(int index)
+    {
+        if(currentModules[index] != null)
+        selectedModule = currentModules[index].GetComponent<Module>();
+    }
     void Update()
     {
         //test
@@ -25,8 +30,11 @@ public class ModuleSpawner : MonoBehaviour
         {
             
             currentModules[index] = SpawnModule(1f, 1f, 5);
-            if (selectedModule != null)
-                selectedModule = currentModules[index].GetComponent<Module>();
+            if (selectedModule == null)
+            {
+                setSelectedModule(index);
+            }
+              
             index++;
             if (index == 3)
             {
@@ -42,19 +50,14 @@ public class ModuleSpawner : MonoBehaviour
             {
                 selectedIndex = 2;
             }
-            GameObject o = currentModules[selectedIndex];
-            if(o)
-            selectedModule = o.GetComponent<Module>();
-
+            setSelectedModule(selectedIndex);
         }
         if(Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedIndex--;
             if (selectedIndex < 0)
                 selectedIndex = 0;
-            GameObject o = currentModules[selectedIndex];
-            if(o)
-            selectedModule = o.GetComponent<Module>();
+            setSelectedModule(selectedIndex);
         }
         //rotér mod uret
         if (Input.GetKeyDown(KeyCode.LeftArrow))
