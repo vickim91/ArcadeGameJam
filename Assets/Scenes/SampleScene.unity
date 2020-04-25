@@ -306,6 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1823340749}
   - component: {fileID: 1823340748}
+  - component: {fileID: 1823340750}
   m_Layer: 0
   m_Name: ModuleSpawner
   m_TagString: Untagged
@@ -326,12 +327,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modules:
-  - {fileID: 4495883379776404831, guid: 3f4f5d846612aba408c889f67da8a543, type: 3}
-  - {fileID: 4495883379776404831, guid: 2ed5592364608e2478937a47cdb3522b, type: 3}
-  - {fileID: 4495883379776404831, guid: 82a8005c671048a45b589a2636ca2543, type: 3}
+  - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
+  - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
+  - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
   moduleParams:
   - {x: 0, y: 50, z: 0}
-  - {x: 1, y: 25, z: 0}
+  - {x: 1, y: 33.56, z: 0}
   - {x: 2, y: 25, z: 0}
   probalities: 
   currentSelectables: []
@@ -363,3 +364,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1823340750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823340747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e862a6e6507915f43b8676633c0215b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  divisionAmount: 5
+  spawnModule:
+  - modTypeRotProb: {x: 0, y: 0, z: 0}
+    divisionApplication: 0400000003000000
+  - modTypeRotProb: {x: 0, y: 1, z: 0}
+    divisionApplication: 
+  - modTypeRotProb: {x: 0, y: 0, z: 0}
+    divisionApplication: 
+  - modTypeRotProb: {x: 0, y: 0, z: 0}
+    divisionApplication: 
+  spawnSequence:
+  - probality: 20
+    seqTypeRot:
+    - {x: 1, y: 30}
+    - {x: 1, y: 70}
+    - {x: 1, y: 50}
+    divisionApplication: 020000000300000004000000
+  - probality: 10
+    seqTypeRot:
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    divisionApplication: 
+  - probality: 0
+    seqTypeRot: []
+    divisionApplication: 
+  - probality: 0
+    seqTypeRot: []
+    divisionApplication: 
+  - probality: 0
+    seqTypeRot: []
+    divisionApplication: 
