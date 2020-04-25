@@ -18,6 +18,6 @@ public class GiveMeColorsToo : MonoBehaviour
     void Update()
     {
         parentRenderer.material.GetColor("_Color");
-        thisRenderer.material.SetColor("_Color", new Color()); // LOL virker slet ikke det her
+        //thisRenderer.material.SetColor("_Color", new Color()); // LOL virker slet ikke det her
     }
 }

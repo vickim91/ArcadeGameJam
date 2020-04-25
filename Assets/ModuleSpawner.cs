@@ -37,12 +37,22 @@ public class ModuleSpawner : MonoBehaviour
         {
             if (selectedModule != null)
             {
-                selectedModule.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+                ColorTheUnselectedSelectables();
             }
             selectedModule = currentSelectables[index].GetComponent<Module>();
-            selectedModule.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            selectedModule.GetComponent<Renderer>().material.SetColor("_Color", Color.red);                
         }
     }
+
+    private void ColorTheUnselectedSelectables()
+    {
+        for (int i = 0; i < numberOfSelectableModules; i++)
+        {
+            if (currentSelectables[i].transform.position.z < playerPosition)
+                currentSelectables[i].GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+        }
+    }
+
     void Update()
     {
         if (currentSelectables[0] != null)
@@ -50,6 +60,7 @@ public class ModuleSpawner : MonoBehaviour
             closestModulePositionRead = currentSelectables[0].transform.position.z;
             if (currentSelectables[0].transform.position.z > playerPosition)
             {
+                currentSelectables[0].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 for (int i = 0; i < numberOfModules - 1; i++)
                 {
                     upcomingModules[i] = upcomingModules[i + 1];
@@ -62,7 +73,13 @@ public class ModuleSpawner : MonoBehaviour
                 {
                     currentSelectables[i] = upcomingModules[i];
                 }
-                setSelectedModule(0);
+                if (selectedIndex == 0)
+                {
+                    
+                }
+                if (selectedIndex > 0)
+                selectedIndex--;
+                setSelectedModule(selectedIndex);
             }
         }
         if (autoSpawn)
@@ -82,9 +99,9 @@ public class ModuleSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedIndex++;
-            if(selectedIndex > 2)
+            if(selectedIndex > numberOfSelectableModules - 1)
             {
-                selectedIndex = 2;
+                selectedIndex = numberOfSelectableModules - 1;
             }
             setSelectedModule(selectedIndex);
         }
@@ -100,7 +117,7 @@ public class ModuleSpawner : MonoBehaviour
         {
             if (selectedModule)
             {
-                print("roter mod uret ModuleSpawner");
+//                print("roter mod uret ModuleSpawner");
                 selectedModule.Rotate(false);
             }
         }

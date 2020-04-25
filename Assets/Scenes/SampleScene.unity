@@ -653,7 +653,7 @@ MonoBehaviour:
   module: {fileID: 538663567}
   currentSelectables: []
   upcomingModules: []
-  numberOfSelectableModules: 3
+  numberOfSelectableModules: 5
   numberOfModules: 20
   selectedIndex: 0
   selectedModule: {fileID: 0}
