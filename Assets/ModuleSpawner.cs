@@ -8,6 +8,7 @@ public class ModuleSpawner : MonoBehaviour
     public GameObject[] modules;
     LevelDesigner.SpawnModule[] moduleParams;
     LevelDesigner.Sequence[] sequenceParams;
+ 
     public int[] probalities;
     public int chanceForSequence;
     public int[] sequenceProbabilities;
@@ -57,22 +58,43 @@ public class ModuleSpawner : MonoBehaviour
         moduleParams = levelDesigner.spawnModule;
         foreach (LevelDesigner.SpawnModule sM in moduleParams)
         {
-            bool include = false;
-            for(int i =0; i< sM.divisionApplication.Length; i++)
-            {
 
-            } 
-            float thisProb = sM.modTypeRotProb.z;
-            totalProb += Mathf.RoundToInt(thisProb);
+          for ( int i=0; i < sM.divisionApplication.Length; i++)
+            {
+                if (sM.divisionApplication[i])
+                {
+                    if (levelDesigner.divisionStepSequence[i] == division)
+                    {
+                        float thisProb = sM.modTypeRotProb.z;
+                        totalProb += Mathf.RoundToInt(thisProb);
+                        break;
+                    }
+                }
+            }
+        
         }
         int totalSequenceProbs = 0;
         sequenceParams = levelDesigner.spawnSequence;
         foreach (LevelDesigner.Sequence sE in sequenceParams)
         {
-            float thisProb = sE.probality;
-            totalSequenceProbs += Mathf.RoundToInt(thisProb);
+            for(int i =0; i < sE.divisionApplication.Length; i++)
+            {
+                if (sE.divisionApplication[i])
+                {
+                    if (levelDesigner.divisionStepSequence[i]==division)
+                    {
+                        float thisProb = sE.probality;
+                        totalSequenceProbs += Mathf.RoundToInt(thisProb);
+                        break;
+                    }
+                }
+            }
+           
         }
+
         probalities = new int[totalProb];
+        sequenceProbabilities = new int[totalSequenceProbs];
+       
 
         int min = 0;
         int index = 0;
