@@ -15,7 +15,7 @@ public class ModuleSpawner : MonoBehaviour
 
     public GameObject[] currentSelectables;
     public GameObject[] upcomingModules;
-    public Vector3[] moduleQueue;
+    public Vector2[] moduleQueue;
     public int queueLength;
     public int numberOfSelectableModules;
     private int indexUpcomingModules;
@@ -45,10 +45,10 @@ public class ModuleSpawner : MonoBehaviour
         upcomingModules = new GameObject[numberOfModules];
         indexUpcomingModules = -1;
         selectedIndex = 0;
-        moduleQueue = new Vector3[queueLength];
+        moduleQueue = new Vector2[queueLength];
         for (int i = 0; i < moduleQueue.Length; i++)
         {
-            moduleQueue[i] = new Vector3(-1, -1, -1);
+            moduleQueue[i] = new Vector3(-1, -1);
         }
         SetProbabilities();
     }
@@ -244,6 +244,8 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
+    private string spawnNameModOrSeq;
+
     private void PrepareModuleThenSpawn()
     {
         if (moduleQueue[0].x > -2)
@@ -260,7 +262,8 @@ public class ModuleSpawner : MonoBehaviour
                 {
                     int thisType = Mathf.RoundToInt(thisSequence.seqTypeRot[e].x);
                     int thisRotation = Mathf.RoundToInt(thisSequence.seqTypeRot[e].y / (360 / div));
-                    moduleQueue[e] = new Vector3(thisType, thisRotation, 1);
+                    moduleQueue[e] = new Vector2(thisType, thisRotation);
+                    spawnNameModOrSeq = "seq" + seqProb;
                 }
 
             }
@@ -269,7 +272,8 @@ public class ModuleSpawner : MonoBehaviour
                 int roll = Random.Range(0, modProbabilities.Length - 1);
                 int modProb = modProbabilities[roll];
                 int thisRotation = Mathf.RoundToInt(moduleParams[modProb].modTypeRotProb.y / (360 / div));
-                moduleQueue[0] = new Vector3(modProbabilities[roll], thisRotation, 0);
+                moduleQueue[0] = new Vector2(modProbabilities[roll], thisRotation);
+                spawnNameModOrSeq = "mod" + modProb;
             }
         }
 
@@ -278,15 +282,11 @@ public class ModuleSpawner : MonoBehaviour
         //int rand = Random.Range(0, division);
 
         upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(moduleQueue[0].y), Mathf.RoundToInt(moduleQueue[0].x));
-        string modOrSeq;
-        if (moduleQueue[0].z == 0)
-            upcomingModules[indexUpcomingModules].name = upcomingModules[indexUpcomingModules].name + "mod";
-        if (moduleQueue[0].z == 1)
-            upcomingModules[indexUpcomingModules].name = upcomingModules[indexUpcomingModules].name + "seq";
-        upcomingModules[indexUpcomingModules].name += moduleNumber;
+
+        upcomingModules[indexUpcomingModules].name = moduleNumber.ToString() + spawnNameModOrSeq + upcomingModules[indexUpcomingModules].name;
         
 
-        moduleQueue[0] = new Vector3(-1, -1, -1);
+        moduleQueue[0] = new Vector3(-1, -1);
         for(int i=0; i < moduleQueue.Length-1;i++)
         {
             moduleQueue[i] = moduleQueue[i +1];
