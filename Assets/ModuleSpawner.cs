@@ -7,7 +7,7 @@ public class ModuleSpawner : MonoBehaviour
     // Start is called before the first frame update
     public GameObject[] modules;
     public Vector3[] moduleParams;
-   
+    public int[] probalities;
     
     public GameObject[] currentSelectables;
     public GameObject[] upcomingModules;
@@ -36,6 +36,27 @@ public class ModuleSpawner : MonoBehaviour
         indexUpcomingModules = -1;
         selectedIndex = 0;
         moduleQueue = new int[queueLength];
+
+        int totalProb = 0;
+        foreach (Vector3 v in moduleParams)
+        {
+            totalProb += Mathf.RoundToInt(v.y);
+        }
+
+        probalities = new int[totalProb];
+
+        int min = 0;
+        int index = 0;
+        foreach(Vector3 v in moduleParams)
+        {
+            int max = Mathf.RoundToInt(v.y);
+            for (int i=min; i<= max; i++ )
+            {
+                probalities[i] = index;
+            }
+            index++;
+            min = max;
+        }
     }
 
     void setSelectedModule(int index)
@@ -149,7 +170,8 @@ public class ModuleSpawner : MonoBehaviour
        // opbyg queue
        if(moduleQueue[0] == null)
         {
-            int roll = Random.Range(0, 100);
+            int roll = Random.Range(0, probalities.Length-1);
+            moduleQueue[0] = roll;
 
         }
         
@@ -161,6 +183,10 @@ public class ModuleSpawner : MonoBehaviour
         upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division, rand, moduleQueue[0]);
         upcomingModules[indexUpcomingModules].name = "Module" + moduleNumber;
 
+        for(int i=0; i < moduleQueue.Length-1;i++)
+        {
+            moduleQueue[i] = moduleQueue[i +1];
+        }
         for (int i = 0; i < numberOfSelectableModules; i++)
         {
             currentSelectables[i] = upcomingModules[i];
