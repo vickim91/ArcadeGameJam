@@ -7,18 +7,20 @@ public class Module : MonoBehaviour
     public float speed;
     public int division;
     public bool selected;
-    public float rotationSpeed;
+   
     Vector3 targetRotationEuler;
     
     private void Awake()
     {
         
     }
-   public void Init(float speed, float rotationSpeed, int division)
+   public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps)
     {
         this.speed = speed;
-        this.rotationSpeed = rotationSpeed;
+        this.degreesPerSecond = rotationSpeed;
         this.division = division;
+        transform.Rotate(new Vector3(0f, 0f, (360 / division) * initialRotationSteps));
+       
     }
     public void Rotate(bool clockwise)
     {
