@@ -24,7 +24,7 @@ public class LevelDesigner : MonoBehaviour
     public Sequence[] spawnSequence;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         DemonstrationAfDivision();
 
@@ -55,7 +55,6 @@ public class LevelDesigner : MonoBehaviour
             {
                 divisionApplication[i] = divisionStepSequence[i];
             }
-            print("test" + i + divApplTest[i]);
         }
     }
 
@@ -69,7 +68,7 @@ public class LevelDesigner : MonoBehaviour
     {
         mod.divisionApplication = new bool[divisionStepSequence.Length];
         int length = mod.divisionApplication.Length;
-        for (int i = 1; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
             mod.divisionApplication[i] = true;
         }
@@ -78,9 +77,9 @@ public class LevelDesigner : MonoBehaviour
     {
         seq.divisionApplication = new bool[divisionStepSequence.Length];
         int length = seq.divisionApplication.Length;
-        for (int i = 1; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
-            seq.divisionApplication[i] = true; 
+            seq.divisionApplication[i] = true;
         }
     }
 
