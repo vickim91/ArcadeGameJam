@@ -8,6 +8,7 @@ public class Module : MonoBehaviour
     public int division;
     //public bool selected;
     public int type;
+    public int step;
     Vector3 targetRotationEuler;
     
     private void Awake()
@@ -19,8 +20,24 @@ public class Module : MonoBehaviour
         this.speed = speed;
         this.degreesPerSecond = rotationSpeed;
         this.division = division;
+        addStep(initialRotationSteps);
+        
         transform.Rotate(new Vector3(0f, 0f, (360 / division) * initialRotationSteps));
        
+    }
+    public void addStep(int step)
+    {
+        this.step += step;
+        while (this.step > division-1)
+        {
+            int rest = step % division;
+            this.step = rest;
+        }
+        while (this.step < 0)
+        {
+            this.step = step + division;
+        }
+        
     }
     public void Rotate(bool clockwise)
     {
@@ -30,6 +47,7 @@ public class Module : MonoBehaviour
 
             // targetRotationEuler = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360 / division);
             AddRotation(360 / division);
+            
 
         }
         // temp.x = temp.x + 360 / division;
@@ -50,6 +68,12 @@ public class Module : MonoBehaviour
     public void AddRotation(float degrees)
     {
         this.degreesRemaining += degrees;
+        if (degrees > 0)
+            addStep(1);
+        else
+            addStep(-1);
+
+        
     }
     public void OnTriggerEnter(Collider other)
     {

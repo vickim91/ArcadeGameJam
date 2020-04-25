@@ -158,6 +158,7 @@ public class ModuleSpawner : MonoBehaviour
             {
 //                print("roter mod uret ModuleSpawner");
                 selectedModule.Rotate(false);
+                checkForLineUp();
             }
         }
         //rotér med uret
@@ -166,6 +167,7 @@ public class ModuleSpawner : MonoBehaviour
             if (selectedModule)
             {
                 selectedModule.Rotate(true);
+                checkForLineUp();
             }
         }
     }
@@ -232,7 +234,7 @@ public class ModuleSpawner : MonoBehaviour
         bool lineUp = false;
         int lineUpCount = 0;
         int lastType = -1;
-        float lastRotation = -1;
+        int lastStep = -1;
         int currentIndex = 0;
         foreach (GameObject g in currentSelectables)
         {
@@ -240,12 +242,12 @@ public class ModuleSpawner : MonoBehaviour
             if (g)
             {
                 Module m = g.GetComponent<Module>();
-                if (lastType != -1 && lastRotation != -1)
+                if (lastType != -1 && lastStep != -1)
                 {
-                    if (m.type == lastType && g.transform.eulerAngles.z == lastRotation)
+                    if (m.type == lastType && m.step == lastStep)
                     {
                         lineUpCount++;
-                        if(lineUpCount ==3)
+                        if(lineUpCount ==2)
                         {
                             lineUp = true;
                             TriggerSuperPower(currentIndex - 2);
@@ -258,7 +260,7 @@ public class ModuleSpawner : MonoBehaviour
                     }
                 }
                 lastType = m.type;
-                lastRotation = g.transform.eulerAngles.z;
+                lastStep = m.step;
                 currentIndex++;
             }
         }
@@ -266,7 +268,7 @@ public class ModuleSpawner : MonoBehaviour
     }
     public void TriggerSuperPower(int startIndex)
     {
-
+        print("lineUp starting at " + startIndex);
     }
 }
 
