@@ -5,9 +5,14 @@ using UnityEngine;
 public class ModuleSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject module;
+    public GameObject[] modules;
+    public Vector3[] moduleParams;
+   
+    
     public GameObject[] currentSelectables;
     public GameObject[] upcomingModules;
+    public int[] moduleQueue;
+    public int queueLength;
     public int numberOfSelectableModules;
     private int indexUpcomingModules;
     public int numberOfModules;
@@ -22,6 +27,7 @@ public class ModuleSpawner : MonoBehaviour
     private float autoSpawnTimer;
     public float gameSpeed;
     public float rotationSpeed;
+ 
 
     void Start()
     {
@@ -29,6 +35,7 @@ public class ModuleSpawner : MonoBehaviour
         upcomingModules = new GameObject[numberOfModules];
         indexUpcomingModules = -1;
         selectedIndex = 0;
+        moduleQueue = new int[queueLength];
     }
 
     void setSelectedModule(int index)
@@ -139,9 +146,19 @@ public class ModuleSpawner : MonoBehaviour
         //    currentModuleSelectables[indexSelectableModules] = SpawnModule(1f, 1f, division);
         //    currentModuleSelectables[indexSelectableModules].name = "Module" + moduleNumber;
         //}
+       // opbyg queue
+       if(moduleQueue[0] == null)
+        {
+            int roll = Random.Range(0, 100);
+
+        }
+        
 
         indexUpcomingModules++;
-        upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division);
+        //initialrotation
+        int rand = Random.Range(0, division);
+
+        upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division, rand, moduleQueue[0]);
         upcomingModules[indexUpcomingModules].name = "Module" + moduleNumber;
 
         for (int i = 0; i < numberOfSelectableModules; i++)
@@ -156,8 +173,8 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
-    public GameObject SpawnModule(float speed, float rotationSpeed, int division)
+    public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleIndex)
     {
-      return  gameObject.Instantiate(module, transform.position, module.transform.rotation, transform, speed, rotationSpeed, division);
+      return  gameObject.Instantiate(modules[moduleIndex], transform.position, modules[moduleIndex].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps);
     }
 }
