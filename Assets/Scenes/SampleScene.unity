@@ -480,24 +480,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
-  - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
-  - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
   modProbabilities: 
-  chanceForSequence: 50
   seqProbabilities: 
   currentSelectables: []
   upcomingModules: []
   moduleQueue: []
+  selectedIndex: 0
+  selectedModule: {fileID: 0}
+  closestModulePositionRead: 0
+  modules:
+  - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
+  - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
+  - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
+  chanceForSequence: 50
   queueLength: 3
   numberOfSelectableModules: 5
   numberOfModules: 20
-  selectedIndex: 0
-  selectedModule: {fileID: 0}
   divisionStep: 1
   playerPosition: 8
-  closestModulePositionRead: 0
   autoSpawn: 1
   autoSpawnSpeed: 1
   gameSpeed: 1
@@ -529,34 +529,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   divisionStepSequence: 0200000003000000050000000600000007000000
-  divisionApplication: 
-  divApplTest: 01000100
   spawnModule:
-  - modTypeRotProb: {x: 0, y: 15, z: 10}
+  - modTypeRotProb: {x: 0, y: 15, z: 2}
     divisionApplication: 
-  - modTypeRotProb: {x: 1, y: 15, z: 5}
+  - modTypeRotProb: {x: 1, y: 15, z: 4}
     divisionApplication: 
-  - modTypeRotProb: {x: 2, y: 15, z: 1}
+  - modTypeRotProb: {x: 2, y: 15, z: 5}
     divisionApplication: 
   spawnSequence:
-  - probality: 20
+  - probality: 2
+    seqTypeRot:
+    - {x: 0, y: 30}
+    - {x: 0, y: 70}
+    - {x: 0, y: 50}
+    divisionApplication: 
+  - probality: 3
     seqTypeRot:
     - {x: 1, y: 30}
     - {x: 1, y: 70}
     - {x: 1, y: 50}
-    divisionApplication: 
-  - probality: 10
+    divisionApplication: 00
+  - probality: 4
     seqTypeRot:
-    - {x: 2, y: 0}
-    - {x: 2, y: 0}
-    - {x: 2, y: 0}
-    divisionApplication: 
-  - probality: 0
-    seqTypeRot: []
-    divisionApplication: 
-  - probality: 0
-    seqTypeRot: []
-    divisionApplication: 
-  - probality: 0
-    seqTypeRot: []
-    divisionApplication: 
+    - {x: 2, y: 30}
+    - {x: 2, y: 70}
+    - {x: 2, y: 50}
+    divisionApplication: 00

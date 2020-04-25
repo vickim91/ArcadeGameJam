@@ -84,11 +84,10 @@ public class ModuleSpawner : MonoBehaviour
                 totalSequenceProbs += Mathf.RoundToInt(thisProb);
             }
         }
-
         modProbabilities = new int[totalModuleProbs];
         seqProbabilities = new int[totalSequenceProbs];
 
-        int min = 0;
+        int modMin = 0;
         int modIndex = 0;
         int modMax = 0;
         foreach (LevelDesigner.SpawnModule sM in moduleParams)
@@ -98,12 +97,12 @@ public class ModuleSpawner : MonoBehaviour
                 float thisProb = sM.modTypeRotProb.z;
                 modMax += Mathf.RoundToInt(thisProb);
 
-                for (int i = min; i < modMax; i++)
+                for (int i = modMin; i < modMax; i++)
                 {
                     modProbabilities[i] = modIndex;
                 }
                 modIndex++;
-                min = modMax;
+                modMin = modMax;
             }
         }
         int seqIndex = 0;
@@ -114,18 +113,14 @@ public class ModuleSpawner : MonoBehaviour
             if (sE.divisionApplication[divisionStep])
             {
                 float thisProb = sE.probality;
-                //modMax += Mathf.RoundToInt(thisProb);
                 seqMax += Mathf.RoundToInt(thisProb);
 
                 for (int i = seqMin; i < seqMax; i++)
                 {
-                    //                seqProbabilities[i] = seqIndex;
                     seqProbabilities[i] = seqIndex;
                 }
                 seqIndex++;
-                //            modIndex++;
                 seqMin = seqMax;
-                //min = seqMax;
             }
         }
     }
@@ -274,14 +269,9 @@ public class ModuleSpawner : MonoBehaviour
         }
 
         upcomingModuleIndex++;
-        //initialrotation
-        //int rand = Random.Range(0, division);
-
         upcomingModules[upcomingModuleIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(moduleQueue[0].y), Mathf.RoundToInt(moduleQueue[0].x));
-
         upcomingModules[upcomingModuleIndex].name = spawnNameModOrSeq + upcomingModules[upcomingModuleIndex].name + moduleNumber.ToString();
         
-
 //        moduleQueue[0] = new Vector3(-1, -1);
         for(int i=0; i < moduleQueue.Length-1;i++)
         {
@@ -342,6 +332,6 @@ public class ModuleSpawner : MonoBehaviour
     }
     public void TriggerSuperPower(int startIndex)
     {
-        print("lineUp starting at " + startIndex);
+//        print("lineUp starting at " + startIndex);
     }
 }

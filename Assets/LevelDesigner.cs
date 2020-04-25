@@ -31,10 +31,10 @@ public class LevelDesigner : MonoBehaviour
 
     private void FillOutMissingBoolsInDivisionApplicationArrays()
     {
+        int lSteps = divisionStepSequence.Length;
         for (int i = 0; i < spawnModule.Length; i++)
         {
             int lThis = spawnModule[i].divisionApplication.Length;
-            int lSteps = divisionStepSequence.Length;
             if (lThis < lSteps)
             {
                 bool[] divAppFiller = new bool[lSteps];
@@ -55,7 +55,7 @@ public class LevelDesigner : MonoBehaviour
         for (int i = 0; i < spawnSequence.Length; i++)
         {
             int lThis = spawnSequence[i].divisionApplication.Length;
-            int lSteps = divisionStepSequence.Length;
+            
             if (lThis < lSteps)
             {
                 bool[] divAppFiller = new bool[lSteps];
