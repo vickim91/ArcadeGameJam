@@ -2,13 +2,15 @@
 
 public class LevelDesigner : MonoBehaviour
 {
-    public int divisionAmount = 5; 
+    public int[] divisionStepSequence;
+    public int[] divisionApplication;
+    public bool[] divApplTest;
 
     [System.Serializable]
     public class SpawnModule
     {
         public Vector3 modTypeRotProb;
-        public int[] divisionApplication;
+        public bool[] divisionApplication;
     }
     public SpawnModule[] spawnModule;
 
@@ -17,13 +19,15 @@ public class LevelDesigner : MonoBehaviour
     {
         public int probality;
         public Vector2[] seqTypeRot;
-        public int[] divisionApplication;
+        public bool[] divisionApplication;
     }
     public Sequence[] spawnSequence;
 
     // Start is called before the first frame update
     void Start()
     {
+        DemonstrationAfDivision();
+
         SetModuleRandomSpawnRotation(spawnModule.Length);
         SetSequenceRandomSpawnRotation(spawnSequence.Length);
         for (int i = 0; i < spawnModule.Length; i++)
@@ -42,6 +46,19 @@ public class LevelDesigner : MonoBehaviour
         }
     }
 
+    private void DemonstrationAfDivision()
+    {
+        divisionApplication = new int[divisionStepSequence.Length];
+        for (int i = 0; i < divApplTest.Length; i++)
+        {
+            if (divApplTest[i])
+            {
+                divisionApplication[i] = divisionStepSequence[i];
+            }
+            print("test" + i + divApplTest[i]);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -50,22 +67,20 @@ public class LevelDesigner : MonoBehaviour
 
     private void SetModuleSequenceDivisionApplicationToMax(SpawnModule mod)
     {
-        mod.divisionApplication = new int[divisionAmount];
+        mod.divisionApplication = new bool[divisionStepSequence.Length];
         int length = mod.divisionApplication.Length;
-        mod.divisionApplication[0] = 2;
         for (int i = 1; i < length; i++)
         {
-            mod.divisionApplication[i] = mod.divisionApplication[i - 1] + 1; // temporary: replace if division sequence is changed
+            mod.divisionApplication[i] = true;
         }
     }
     private void SetSequenceDivisionApplicationToMax(Sequence seq)
     {
-        seq.divisionApplication = new int[divisionAmount];
+        seq.divisionApplication = new bool[divisionStepSequence.Length];
         int length = seq.divisionApplication.Length;
-        seq.divisionApplication[0] = 2;
         for (int i = 1; i < length; i++)
         {
-            seq.divisionApplication[i] = seq.divisionApplication[i - 1] + 1; // temporary: replace if division sequence is changed
+            seq.divisionApplication[i] = true; 
         }
     }
 
