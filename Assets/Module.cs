@@ -51,7 +51,15 @@ public class Module : MonoBehaviour
     {
         this.degreesRemaining += degrees;
     }
+    public void OnTriggerEnter(Collider other)
+    {
+      
 
+        if (other.tag == "ModuleDestroyer")
+        {
+            Destroy(this.gameObject);
+        }
+    }
     // Update is called once per frame
     void Update()
     {

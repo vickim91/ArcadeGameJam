@@ -8,7 +8,7 @@ public class ModuleSpawner : MonoBehaviour
     public GameObject[] modules;
     public Vector3[] moduleParams;
     public int[] probalities;
-    
+    public int clusterProbability;
     public GameObject[] currentSelectables;
     public GameObject[] upcomingModules;
     public int[] moduleQueue;
@@ -21,6 +21,7 @@ public class ModuleSpawner : MonoBehaviour
     public int division;
     private int moduleNumber;
     public int playerPosition;
+    public int destroyPosition;
     public float closestModulePositionRead;
     public bool autoSpawn;
     public float autoSpawnSpeed;
@@ -36,6 +37,10 @@ public class ModuleSpawner : MonoBehaviour
         indexUpcomingModules = -1;
         selectedIndex = 0;
         moduleQueue = new int[queueLength];
+        for (int i =0; i< moduleQueue.Length; i++)
+        {
+            moduleQueue[i] = -1;
+        }
 
         int totalProb = 0;
         foreach (Vector3 v in moduleParams)
@@ -47,10 +52,12 @@ public class ModuleSpawner : MonoBehaviour
 
         int min = 0;
         int index = 0;
+        int max = 0;
         foreach(Vector3 v in moduleParams)
         {
-            int max = Mathf.RoundToInt(v.y);
-            for (int i=min; i<= max; i++ )
+            max += Mathf.RoundToInt(v.y);
+          
+            for (int i=min; i< max; i++ )
             {
                 probalities[i] = index;
             }
@@ -109,6 +116,7 @@ public class ModuleSpawner : MonoBehaviour
                 selectedIndex--;
                 setSelectedModule(selectedIndex);
             }
+          
         }
         if (autoSpawn)
         {
@@ -168,11 +176,23 @@ public class ModuleSpawner : MonoBehaviour
         //    currentModuleSelectables[indexSelectableModules].name = "Module" + moduleNumber;
         //}
        // opbyg queue
-       if(moduleQueue[0] == null)
+       if(moduleQueue[0] == -1)
         {
-            int roll = Random.Range(0, probalities.Length-1);
-            moduleQueue[0] = roll;
-
+            int clusterRoll = Random.Range(0, 100);
+            if (clusterRoll <= clusterProbability)
+            {
+                int roll = Random.Range(0, probalities.Length - 1);
+                for(int i=0; i<3;i++)
+                {
+                    moduleQueue[i] = probalities[roll];
+                }
+            }
+            else
+            {
+                int roll = Random.Range(0, probalities.Length - 1);
+                moduleQueue[0] = probalities[roll];
+               
+            }
         }
         
 
@@ -181,8 +201,9 @@ public class ModuleSpawner : MonoBehaviour
         int rand = Random.Range(0, division);
 
         upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division, rand, moduleQueue[0]);
-        upcomingModules[indexUpcomingModules].name = "Module" + moduleNumber;
+        upcomingModules[indexUpcomingModules].name +=   moduleNumber;
 
+        moduleQueue[0] = -1;
         for(int i=0; i < moduleQueue.Length-1;i++)
         {
             moduleQueue[i] = moduleQueue[i +1];
