@@ -486,10 +486,10 @@ MonoBehaviour:
   - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
   moduleParams:
   - {x: 0, y: 50, z: 0}
-  - {x: 1, y: 33.56, z: 0}
+  - {x: 1.01, y: 33.56, z: 0}
   - {x: 2, y: 25, z: 0}
   probalities: 
-  clusterProbability: 100
+  clusterProbability: 99
   currentSelectables: []
   upcomingModules: []
   moduleQueue: 
@@ -531,10 +531,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e862a6e6507915f43b8676633c0215b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  divisionAmount: 5
+  divisionStepSequence: 0200000003000000050000000600000007000000
+  divisionApplication: 
+  divApplTest: 01000100
   spawnModule:
   - modTypeRotProb: {x: 0, y: 0, z: 0}
-    divisionApplication: 0400000003000000
+    divisionApplication: 0101000100
   - modTypeRotProb: {x: 0, y: 1, z: 0}
     divisionApplication: 
   - modTypeRotProb: {x: 0, y: 0, z: 0}
@@ -547,7 +549,7 @@ MonoBehaviour:
     - {x: 1, y: 30}
     - {x: 1, y: 70}
     - {x: 1, y: 50}
-    divisionApplication: 020000000300000004000000
+    divisionApplication: 
   - probality: 10
     seqTypeRot:
     - {x: 2, y: 0}
