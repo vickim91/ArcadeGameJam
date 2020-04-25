@@ -6,8 +6,8 @@ public class Module : MonoBehaviour
 {
     public float speed;
     public int division;
-    public bool selected;
-   
+    //public bool selected;
+    public int type;
     Vector3 targetRotationEuler;
     
     private void Awake()

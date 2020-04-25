@@ -536,5 +536,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   division: 0
-  selected: 0
+  type: 2
   degreesPerSecond: 100

@@ -21,17 +21,18 @@ public class ModuleSpawner : MonoBehaviour
     public int division;
     private int moduleNumber;
     public int playerPosition;
-    public int destroyPosition;
+
     public float closestModulePositionRead;
     public bool autoSpawn;
     public float autoSpawnSpeed;
     private float autoSpawnTimer;
     public float gameSpeed;
     public float rotationSpeed;
- 
+    GameManager gameManager;
 
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         currentSelectables = new GameObject[numberOfSelectableModules];
         upcomingModules = new GameObject[numberOfModules];
         indexUpcomingModules = -1;
@@ -95,6 +96,8 @@ public class ModuleSpawner : MonoBehaviour
             closestModulePositionRead = currentSelectables[0].transform.position.z;
             if (currentSelectables[0].transform.position.z > playerPosition)
             {
+                //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
+                gameManager.addToScore(Mathf.RoundToInt( gameSpeed * 100));
                 currentSelectables[0].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 for (int i = 0; i < numberOfModules - 1; i++)
                 {
@@ -224,4 +227,46 @@ public class ModuleSpawner : MonoBehaviour
     {
       return  gameObject.Instantiate(modules[moduleIndex], transform.position, modules[moduleIndex].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps);
     }
+    public bool checkForLineUp()
+    {
+        bool lineUp = false;
+        int lineUpCount = 0;
+        int lastType = -1;
+        float lastRotation = -1;
+        int currentIndex = 0;
+        foreach (GameObject g in currentSelectables)
+        {
+           
+            if (g)
+            {
+                Module m = g.GetComponent<Module>();
+                if (lastType != -1 && lastRotation != -1)
+                {
+                    if (m.type == lastType && g.transform.eulerAngles.z == lastRotation)
+                    {
+                        lineUpCount++;
+                        if(lineUpCount ==3)
+                        {
+                            lineUp = true;
+                            TriggerSuperPower(currentIndex - 2);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        lineUpCount = 0;
+                    }
+                }
+                lastType = m.type;
+                lastRotation = g.transform.eulerAngles.z;
+                currentIndex++;
+            }
+        }
+        return lineUp;
+    }
+    public void TriggerSuperPower(int startIndex)
+    {
+
+    }
 }
+
