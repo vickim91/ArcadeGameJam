@@ -101,29 +101,34 @@ public class ModuleSpawner : MonoBehaviour
         int max = 0;
         foreach (LevelDesigner.SpawnModule sM in moduleParams)
         {
+            
             float thisProb = sM.modTypeRotProb.z;
-            max += Mathf.RoundToInt(thisProb);
+           
+                max += Mathf.RoundToInt(thisProb);
 
-            for (int i = min; i < max; i++)
-            {
-                probalities[i] = index;
-            }
-            index++;
-            min = max;
+                for (int i = min; i < max; i++)
+                {
+                    print(max + " max" + i + " i");
+                    probalities[i] = index;
+                }
+                index++;
+                min = max;
+            
         }
         int clusterIndex = 0;
         int clusterMax = 0;
+        int clusterMin = 0;
         foreach (LevelDesigner.Sequence sE in sequenceParams)
         {
             float thisProb = sE.probality;
             clusterMax += Mathf.RoundToInt(thisProb);
 
-            for (int i = min; i < max; i++)
+            for (int i = clusterMin; i < max; i++)
             {
                 sequenceProbabilities[i] = clusterIndex;
             }
             clusterIndex++;
-            min = clusterMax;
+            clusterMin = clusterMax;
         }
     }
 
@@ -269,6 +274,7 @@ public class ModuleSpawner : MonoBehaviour
                //thisSequnce.seqTypeRot.Length må ikke være over queueLength
                   for (int e = 0; e < thisSequence.seqTypeRot.Length; e++)
                     {
+                    print(e);
                         int thisType = Mathf.RoundToInt( thisSequence.seqTypeRot[e].x);
                         int thisRotation = Mathf.RoundToInt(thisSequence.seqTypeRot[e].y/ (360/division));
                         moduleQueue[e] = new Vector2(thisType, thisRotation);
