@@ -6,12 +6,15 @@ public class ModuleSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject[] modules;
-    public Vector3[] moduleParams;
+    LevelDesigner.SpawnModule[] moduleParams;
+    LevelDesigner.Sequence[] sequenceParams;
     public int[] probalities;
-    public int clusterProbability;
+    public int chanceForSequence;
+    public int[] sequenceProbabilities;
+
     public GameObject[] currentSelectables;
     public GameObject[] upcomingModules;
-    public int[] moduleQueue;
+    public Vector2[] moduleQueue;
     public int queueLength;
     public int numberOfSelectableModules;
     private int indexUpcomingModules;
@@ -29,41 +32,76 @@ public class ModuleSpawner : MonoBehaviour
     public float gameSpeed;
     public float rotationSpeed;
     GameManager gameManager;
+    LevelDesigner levelDesigner;
 
     void Start()
     {
+        levelDesigner = GetComponent<LevelDesigner>();
         gameManager = FindObjectOfType<GameManager>();
         currentSelectables = new GameObject[numberOfSelectableModules];
         upcomingModules = new GameObject[numberOfModules];
         indexUpcomingModules = -1;
         selectedIndex = 0;
-        moduleQueue = new int[queueLength];
-        for (int i =0; i< moduleQueue.Length; i++)
+        moduleQueue = new Vector2[queueLength];
+        for (int i = 0; i < moduleQueue.Length; i++)
         {
-            moduleQueue[i] = -1;
+            moduleQueue[i] = new Vector2(-1, -1);
         }
 
+        SetProbabilities();
+    }
+    //calculate probabilites 
+    public void SetProbabilities()
+    {
         int totalProb = 0;
-        foreach (Vector3 v in moduleParams)
+        moduleParams = levelDesigner.spawnModule;
+        foreach (LevelDesigner.SpawnModule sM in moduleParams)
         {
-            totalProb += Mathf.RoundToInt(v.y);
-        }
+            bool include = false;
+            for(int i =0; i< sM.divisionApplication.Length; i++)
+            {
 
+            } 
+            float thisProb = sM.modTypeRotProb.z;
+            totalProb += Mathf.RoundToInt(thisProb);
+        }
+        int totalSequenceProbs = 0;
+        sequenceParams = levelDesigner.spawnSequence;
+        foreach (LevelDesigner.Sequence sE in sequenceParams)
+        {
+            float thisProb = sE.probality;
+            totalSequenceProbs += Mathf.RoundToInt(thisProb);
+        }
         probalities = new int[totalProb];
 
         int min = 0;
         int index = 0;
         int max = 0;
-        foreach(Vector3 v in moduleParams)
+        foreach (LevelDesigner.SpawnModule sM in moduleParams)
         {
-            max += Mathf.RoundToInt(v.y);
-          
-            for (int i=min; i< max; i++ )
+            float thisProb = sM.modTypeRotProb.z;
+            max += Mathf.RoundToInt(thisProb);
+
+            for (int i = min; i < max; i++)
             {
                 probalities[i] = index;
             }
             index++;
             min = max;
+        }
+        int clusterIndex = 0;
+        int clusterMax = 0;
+        foreach (LevelDesigner.Sequence sE in sequenceParams)
+        {
+            float thisProb = sE.probality;
+            clusterMax += Mathf.RoundToInt(thisProb);
+
+            for (int i = min; i < max; i++)
+            {
+                sequenceProbabilities[i] = clusterIndex;
+            }
+            clusterIndex++;
+            min = clusterMax;
         }
     }
 
@@ -181,34 +219,57 @@ public class ModuleSpawner : MonoBehaviour
         //    currentModuleSelectables[indexSelectableModules].name = "Module" + moduleNumber;
         //}
        // opbyg queue
-       if(moduleQueue[0] == -1)
+       //if(moduleQueue[0] == -1)
+       // {
+       //     int clusterRoll = Random.Range(0, 100);
+       //     if (clusterRoll <= clusterProbability)
+       //     {
+       //         int roll = Random.Range(0, probalities.Length - 1);
+       //         for(int i=0; i<3;i++)
+       //         {
+       //             moduleQueue[i] = probalities[roll];
+       //         }
+       //     }
+       //     else
+       //     {
+       //         int roll = Random.Range(0, probalities.Length - 1);
+       //         moduleQueue[0] = probalities[roll];
+               
+       //     }
+       // }
+       if(moduleQueue[0].x == -1)
         {
             int clusterRoll = Random.Range(0, 100);
-            if (clusterRoll <= clusterProbability)
+            if (clusterRoll <= chanceForSequence)
             {
-                int roll = Random.Range(0, probalities.Length - 1);
-                for(int i=0; i<3;i++)
-                {
-                    moduleQueue[i] = probalities[roll];
-                }
+                int roll = Random.Range(0, sequenceProbabilities.Length - 1);
+                LevelDesigner.Sequence thisSequence = sequenceParams[roll];
+               //thisSequnce.seqTypeRot.Length må ikke være over queueLength
+                  for (int e = 0; e < thisSequence.seqTypeRot.Length; e++)
+                    {
+                        int thisType = Mathf.RoundToInt( thisSequence.seqTypeRot[e].x);
+                        int thisRotation = Mathf.RoundToInt(thisSequence.seqTypeRot[e].y/ (360/division));
+                        moduleQueue[e] = new Vector2(thisType, thisRotation);
+                    }
+                
             }
             else
             {
                 int roll = Random.Range(0, probalities.Length - 1);
-                moduleQueue[0] = probalities[roll];
-               
+                int thisRotation = Mathf.RoundToInt(moduleParams[probalities[roll]].modTypeRotProb.y / (360/division));
+                moduleQueue[0] = new Vector2(probalities[roll], thisRotation);
             }
         }
         
 
         indexUpcomingModules++;
         //initialrotation
-        int rand = Random.Range(0, division);
+        //int rand = Random.Range(0, division);
 
-        upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division, rand, moduleQueue[0]);
+        upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division, Mathf.RoundToInt(moduleQueue[0].y), Mathf.RoundToInt( moduleQueue[0].x));
         upcomingModules[indexUpcomingModules].name +=   moduleNumber;
 
-        moduleQueue[0] = -1;
+        moduleQueue[0] = new Vector2(-1, -1);
         for(int i=0; i < moduleQueue.Length-1;i++)
         {
             moduleQueue[i] = moduleQueue[i +1];
