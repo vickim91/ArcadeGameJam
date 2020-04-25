@@ -323,5 +323,4 @@ MonoBehaviour:
   speed: 0
   division: 0
   selected: 0
-  rotationSpeed: 0
   degreesPerSecond: 100
