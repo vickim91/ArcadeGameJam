@@ -6,42 +6,78 @@ public class ModuleSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject module;
-    public GameObject[] currentModules;
-    public int index;
+    public GameObject[] currentSelectables;
+    public GameObject[] upcomingModules;
+    public int numberOfSelectableModules;
+    private int indexUpcomingModules;
+    public int numberOfModules;
     public int selectedIndex;
     public Module selectedModule;
+    public int division;
+    private int moduleNumber;
+    public int playerPosition;
+    public float closestModulePositionRead;
+    public bool autoSpawn;
+    public float autoSpawnSpeed;
+    private float autoSpawnTimer;
+    public float gameSpeed;
+    public float rotationSpeed;
+
     void Start()
     {
-        currentModules = new GameObject[3];
-        index = 0;
+        currentSelectables = new GameObject[numberOfSelectableModules];
+        upcomingModules = new GameObject[numberOfModules];
+        indexUpcomingModules = -1;
         selectedIndex = 0;
     }
 
-    // Update is called once per frame
     void setSelectedModule(int index)
     {
-        if(currentModules[index] != null)
-        selectedModule = currentModules[index].GetComponent<Module>();
+        if(currentSelectables[index] != null)
+        {
+            if (selectedModule != null)
+            {
+                selectedModule.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+            }
+            selectedModule = currentSelectables[index].GetComponent<Module>();
+            selectedModule.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        }
     }
     void Update()
     {
+        if (currentSelectables[0] != null)
+        {
+            closestModulePositionRead = currentSelectables[0].transform.position.z;
+            if (currentSelectables[0].transform.position.z > playerPosition)
+            {
+                for (int i = 0; i < numberOfModules - 1; i++)
+                {
+                    upcomingModules[i] = upcomingModules[i + 1];
+                }
+                upcomingModules[numberOfModules - 1] = null;
+                if (indexUpcomingModules > -1)
+                    indexUpcomingModules--;
+                
+                for (int i = 0; i < numberOfSelectableModules; i++)
+                {
+                    currentSelectables[i] = upcomingModules[i];
+                }
+                setSelectedModule(0);
+            }
+        }
+        if (autoSpawn)
+        {
+            autoSpawnTimer += Time.deltaTime;
+            if (autoSpawnTimer > 1 / autoSpawnSpeed)
+            {
+                PrepareModuleThenSpawn();
+                autoSpawnTimer = 0;
+            }
+        }
         //test
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            
-            currentModules[index] = SpawnModule(1f, 1f, 5);
-            if (selectedModule == null)
-            {
-                setSelectedModule(index);
-            }
-              
-            index++;
-            if (index == 3)
-            {
-                index = 0;
-            }
-           
-
+            PrepareModuleThenSpawn();
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -77,6 +113,32 @@ public class ModuleSpawner : MonoBehaviour
             }
         }
     }
+
+    private void PrepareModuleThenSpawn()
+    {
+        //if (indexSelectableModules < numberOfSelectableModules - 1 && indexUpcomingModules < 1)
+        //{
+        //    indexSelectableModules++;
+        //    currentModuleSelectables[indexSelectableModules] = SpawnModule(1f, 1f, division);
+        //    currentModuleSelectables[indexSelectableModules].name = "Module" + moduleNumber;
+        //}
+
+        indexUpcomingModules++;
+        upcomingModules[indexUpcomingModules] = SpawnModule(gameSpeed, rotationSpeed, division);
+        upcomingModules[indexUpcomingModules].name = "Module" + moduleNumber;
+
+        for (int i = 0; i < numberOfSelectableModules; i++)
+        {
+            currentSelectables[i] = upcomingModules[i];
+        }
+        moduleNumber++;
+
+        if (selectedModule == null)
+        {
+            setSelectedModule(indexUpcomingModules);
+        }
+    }
+
     public GameObject SpawnModule(float speed, float rotationSpeed, int division)
     {
       return  gameObject.Instantiate(module, transform.position, module.transform.rotation, transform, speed, rotationSpeed, division);
