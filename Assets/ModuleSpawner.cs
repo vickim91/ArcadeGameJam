@@ -59,7 +59,7 @@ public class ModuleSpawner : MonoBehaviour
         spawnQueue = new Vector2[queueLength];
         for (int i = 0; i < spawnQueue.Length; i++)
         {
-            spawnQueue[i] = new Vector3(-1, -1);
+            spawnQueue[i] = new Vector2(-1, -1);
         }
         SetProbabilities();
     }
@@ -253,19 +253,22 @@ public class ModuleSpawner : MonoBehaviour
             div = divFree;
 
 
-        if (spawnQueue[0].x > -2)
+        if (spawnQueue[0].x == -1)
 //        if (moduleQueue[0].x == -1)
         {
+            print("enter if seq");
             int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
             if (rollSeqSpawnVsModSpawn <= levelDesigner.chanceForSequence)
             {
                 int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length);
                 int seqSpawnID = seqSpawnProbabilities[rollSeqSpawnID];
                 LevelDesigner.Sequence thisSeqSpawn = seqSpawnParams[seqSpawnID];
+                print("thisSeqSpawn.seqTypeRot.Length" + thisSeqSpawn.seqTypeRot.Length);
                 //thisSequnce.seqTypeRot.Length må ikke være over queueLength
                 for (int seqSpawnElem = 0; seqSpawnElem < thisSeqSpawn.seqTypeRot.Length; seqSpawnElem++)
                 {
                     int seqSpawnElemID = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].x);
+                    print(seqSpawnElemID + "seqSpawnElemID" );
                     int seqSpawnElemRotation = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].y / (360 / div));
                     spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation);
                     spawnNameModOrSeq = "S" + seqSpawnID + " ";
@@ -288,11 +291,15 @@ public class ModuleSpawner : MonoBehaviour
         spawnedMods[spawnedModsIndex].name = spawnNameModOrSeq + spawnedMods[spawnedModsIndex].name + moduleNumber.ToString();
         moduleNumber++;
 
-        //        moduleQueue[0] = new Vector3(-1, -1);
+        //gør det første element "tomt" hvis vi nu ikke er i en sequence
+       // spawnQueue[0] = new Vector2(-1, -1);
+       //ryk køen
         for (int i=0; i < spawnQueue.Length-1;i++)
         {
             spawnQueue[i] = spawnQueue[i +1];
         }
+        //gør det sidste element "tomt" hvis vi nu er i en sequence
+        spawnQueue[spawnQueue.Length-1] = new Vector2(-1, -1);
         for (int i = 0; i < numberOfSelectableMods; i++)
         {
             currentSelectables[i] = spawnedMods[i];
