@@ -492,11 +492,10 @@ MonoBehaviour:
   - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
   - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
   - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
-  chanceForSequence: 50
   queueLength: 3
-  numberOfSelectableModules: 5
-  numberOfModules: 20
-  divisionStep: 1
+  numberOfSelectableMods: 5
+  maxNumOfModsInGame: 20
+  divisionStep: 4
   playerPosition: 8
   autoSpawn: 1
   autoSpawnSpeed: 1
@@ -528,20 +527,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e862a6e6507915f43b8676633c0215b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapToDiv: 0
+  chanceForSequence: 100
   divisionStepSequence: 0200000003000000050000000600000007000000
   spawnModule:
-  - modTypeRotProb: {x: 0, y: 15, z: 2}
+  - modTypeRotProb: {x: 0, y: 1, z: 1}
     divisionApplication: 
   - modTypeRotProb: {x: 1, y: 15, z: 4}
     divisionApplication: 
   - modTypeRotProb: {x: 2, y: 15, z: 5}
     divisionApplication: 
   spawnSequence:
-  - probality: 2
+  - probality: 1000
     seqTypeRot:
     - {x: 0, y: 30}
-    - {x: 0, y: 70}
-    - {x: 0, y: 50}
+    - {x: 1, y: 70}
+    - {x: 2, y: 50}
     divisionApplication: 
   - probality: 3
     seqTypeRot:

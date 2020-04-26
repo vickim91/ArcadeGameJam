@@ -22,10 +22,10 @@ public class ModuleSpawner : MonoBehaviour
 
     // behavior parameters
     public GameObject[] modules; 
-    public int chanceForSequence;
     public int queueLength; // note: set this to the length of the longest sequence at start
-    public int numberOfSelectableModules;
-    public int numberOfModules;
+    public int numberOfSelectableMods;
+    public int maxNumOfModsInGame;
+    // level design tools:
     public int divisionStep;
     public int playerPosition;
     public bool autoSpawn;
@@ -34,6 +34,7 @@ public class ModuleSpawner : MonoBehaviour
     public float rotationSpeed;
 
     private int div;
+    private int divFree = 360;
     private float autoSpawnTimer;
     private int moduleNumber;
     private string spawnNameModOrSeq;
@@ -41,10 +42,9 @@ public class ModuleSpawner : MonoBehaviour
     void Start()
     {
         levelDesigner = GetComponent<LevelDesigner>();
-        div = levelDesigner.divisionStepSequence[divisionStep];
         gameManager = FindObjectOfType<GameManager>();
-        currentSelectables = new GameObject[numberOfSelectableModules];
-        upcomingModules = new GameObject[numberOfModules];
+        currentSelectables = new GameObject[numberOfSelectableMods];
+        upcomingModules = new GameObject[maxNumOfModsInGame];
         upcomingModuleIndex = -1;
         selectedIndex = 0;
         moduleQueue = new Vector2[queueLength];
@@ -84,7 +84,7 @@ public class ModuleSpawner : MonoBehaviour
                 totalSequenceProbs += Mathf.RoundToInt(thisProb);
             }
         }
-        modProbabilities = new int[totalModuleProbs];
+        modProbabilities = new int[totalModuleProbs]; // this number represents the spawn module element (not its type)
         seqProbabilities = new int[totalSequenceProbs];
 
         int modMin = 0;
@@ -135,21 +135,21 @@ public class ModuleSpawner : MonoBehaviour
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
                 currentSelectables[0].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                for (int i = 0; i < numberOfModules - 1; i++)
+                for (int i = 0; i < maxNumOfModsInGame - 1; i++)
                 {
                     upcomingModules[i] = upcomingModules[i + 1];
                 }
-                upcomingModules[numberOfModules - 1] = null;
+                upcomingModules[maxNumOfModsInGame - 1] = null;
                 if (upcomingModuleIndex > -1)
                     upcomingModuleIndex--;
 
-                for (int i = 0; i < numberOfSelectableModules; i++)
+                for (int i = 0; i < numberOfSelectableMods; i++)
                 {
                     currentSelectables[i] = upcomingModules[i];
                 }
                 if (selectedIndex < 0)
                 {
-                    Debug.Log("hey");
+                    Debug.Log("hey, does this ever happen?");
                     selectedIndex = 0;
                 }
                 if (selectedIndex > 0)
@@ -182,9 +182,9 @@ public class ModuleSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedIndex++;
-            if (selectedIndex > numberOfSelectableModules - 1)
+            if (selectedIndex > numberOfSelectableMods - 1)
             {
-                selectedIndex = numberOfSelectableModules - 1;
+                selectedIndex = numberOfSelectableMods - 1;
             }
             SetSelectedModule(selectedIndex);
         }
@@ -230,7 +230,7 @@ public class ModuleSpawner : MonoBehaviour
 
     private void ColorTheUnselectedSelectables()
     {
-        for (int i = 0; i < numberOfSelectableModules; i++)
+        for (int i = 0; i < numberOfSelectableMods; i++)
         {
             if (currentSelectables[i] != null && currentSelectables[i].transform.position.z < playerPosition )
                 currentSelectables[i].GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
@@ -239,11 +239,16 @@ public class ModuleSpawner : MonoBehaviour
 
     private void PrepareModuleThenSpawn()
     {
+        div = levelDesigner.divisionStepSequence[divisionStep];
+        if (levelDesigner.snapToDiv == false)
+            div = divFree;
+
+
         if (moduleQueue[0].x > -2)
 //        if (moduleQueue[0].x == -1)
         {
             int clusterRoll = Random.Range(0, 100);
-            if (clusterRoll <= chanceForSequence)
+            if (clusterRoll <= levelDesigner.chanceForSequence)
             {
                 int roll = Random.Range(0, seqProbabilities.Length - 1);
                 int seqProb = seqProbabilities[roll];
@@ -268,8 +273,10 @@ public class ModuleSpawner : MonoBehaviour
             }
         }
 
+        int spawnType = Mathf.RoundToInt(moduleQueue[0].x);
+        int moduleType = Mathf.RoundToInt(moduleParams[spawnType].modTypeRotProb.x);
         upcomingModuleIndex++;
-        upcomingModules[upcomingModuleIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(moduleQueue[0].y), Mathf.RoundToInt(moduleQueue[0].x));
+        upcomingModules[upcomingModuleIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(moduleQueue[0].y), moduleType);
         upcomingModules[upcomingModuleIndex].name = spawnNameModOrSeq + upcomingModules[upcomingModuleIndex].name + moduleNumber.ToString();
         
 //        moduleQueue[0] = new Vector3(-1, -1);
@@ -277,7 +284,7 @@ public class ModuleSpawner : MonoBehaviour
         {
             moduleQueue[i] = moduleQueue[i +1];
         }
-        for (int i = 0; i < numberOfSelectableModules; i++)
+        for (int i = 0; i < numberOfSelectableMods; i++)
         {
             currentSelectables[i] = upcomingModules[i];
         }

@@ -2,6 +2,8 @@
 
 public class LevelDesigner : MonoBehaviour
 {
+    public bool snapToDiv;
+    public int chanceForSequence;
     public int[] divisionStepSequence;
 
     [System.Serializable]
@@ -89,6 +91,7 @@ public class LevelDesigner : MonoBehaviour
             float rotation = spawnModule[i].modTypeRotProb.y;
             if (rotation == 0)
             {
+                Debug.Log("time for some random rotation, oke?");
                 spawnModule[i].modTypeRotProb.y = Random.Range(0, 360);
             }
         }
