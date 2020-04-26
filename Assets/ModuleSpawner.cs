@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Threading.Tasks;
 public class ModuleSpawner : MonoBehaviour
 {
     GameManager gameManager;
@@ -25,6 +25,10 @@ public class ModuleSpawner : MonoBehaviour
     public int queueLength; // note: set this to the length of the longest sequence at start
     public int numberOfSelectableMods;
     public int maxNumOfModsInGame;
+    public int lightSpeedCounter;
+    public int initialLightSpeedCounter;
+    public int deAccellerationStartPoint;
+    public float acceleration;
     // level design tools:
     public int divisionStep;
     public int playerPosition;
@@ -38,7 +42,7 @@ public class ModuleSpawner : MonoBehaviour
     private float autoSpawnTimer;
     private int moduleNumber;
     private string spawnNameModOrSeq;
-
+    
     /*
      * naming convention: a mod(module) is not the same as a modSpawn(moduleSpawn)
          * a mod exists in the game, deriving from a modSpawn or seqSpawn.
@@ -184,6 +188,16 @@ public class ModuleSpawner : MonoBehaviour
 
     private void InputMethods()
     {
+        //change speed test
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SetSpeed(2, 10f, 2, 200);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SetSpeed(1, 10f, 1, 100);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PrepareModuleThenSpawn();
@@ -284,15 +298,25 @@ public class ModuleSpawner : MonoBehaviour
             }
         }
 
+        //Starpower
+        bool spawnAsPuny = false;
+        if (lightSpeedCounter > 0)
+            spawnAsPuny = true;
+
         int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
         int moduleType = Mathf.RoundToInt(modSpawnParams[spawnID].modTypeRotProb.x);
         spawnedModsIndex++;
-        spawnedMods[spawnedModsIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(spawnQueue[0].y), moduleType);
+        spawnedMods[spawnedModsIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(spawnQueue[0].y), moduleType, spawnAsPuny);
         spawnedMods[spawnedModsIndex].name = spawnNameModOrSeq + spawnedMods[spawnedModsIndex].name + moduleNumber.ToString();
         moduleNumber++;
+        //starpower count down
+        lightSpeedCounter--;
+        //trigger deaccelleration if relevant
+        if(lightSpeedCounter == deAccellerationStartPoint)
+        {
 
-        //gør det første element "tomt" hvis vi nu ikke er i en sequence
-       // spawnQueue[0] = new Vector2(-1, -1);
+        }
+
        //ryk køen
         for (int i=0; i < spawnQueue.Length-1;i++)
         {
@@ -300,6 +324,7 @@ public class ModuleSpawner : MonoBehaviour
         }
         //gør det sidste element "tomt" hvis vi nu er i en sequence
         spawnQueue[spawnQueue.Length-1] = new Vector2(-1, -1);
+
         for (int i = 0; i < numberOfSelectableMods; i++)
         {
             currentSelectables[i] = spawnedMods[i];
@@ -311,9 +336,72 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
-    public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleType)
+    public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleType, bool spawnAsPuny)
     {
-      return  gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps);
+      return  gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
+    }
+    //brug til acceleration /deAcceleration
+   private async Task SetSpeed(float targetGameSpeed, float acceleration, float targetSpawnSpeed, float rotationSpeed)
+    {
+        await Task.Yield();
+        float gameSpeedDiff = targetGameSpeed - this.gameSpeed;
+        float spawnSpeedDiff = targetGameSpeed - this.autoSpawnSpeed;
+        float rotationSpeedDiff = rotationSpeed - this.rotationSpeed;
+        while (Mathf.Abs(gameSpeedDiff)> 0 || Mathf.Abs(spawnSpeedDiff) > 0 || Mathf.Abs(rotationSpeed)>0)
+        {
+
+            if (gameSpeedDiff > 0)
+            {
+                this.gameSpeed += 0.01f;
+                gameSpeedDiff -= 0.01f;
+            }
+            else
+            {
+                this.gameSpeed -= 0.01f;
+                gameSpeedDiff += 0.01f;
+            }
+            if (spawnSpeedDiff > 0)
+            {
+                this.autoSpawnSpeed += 0.01f;
+                spawnSpeedDiff -= 0.01f;
+            }
+            else
+            {
+                this.autoSpawnSpeed -= 0.01f;
+                spawnSpeedDiff += 0.01f;
+            }
+            if (rotationSpeedDiff > 0)
+            {
+                this.rotationSpeed += 1f;
+                rotationSpeedDiff -= 1f;
+            }
+            else
+            {
+                this.rotationSpeed -= 1f;
+                rotationSpeed += 1f;
+            }
+            //round to avoid imprecision
+            if(Mathf.Abs(gameSpeedDiff) < 0.05f )
+            {
+                this.gameSpeed = targetGameSpeed;
+            }
+            if (Mathf.Abs(spawnSpeedDiff) < 0.05f)
+            {
+                this.autoSpawnSpeed = targetSpawnSpeed;
+            }
+            if (Mathf.Abs(rotationSpeedDiff) < 0.05f)
+            {
+                this.rotationSpeed = rotationSpeed;
+            }
+            float delay = 1 / acceleration;
+            print("delay" + delay);
+            int miliseconds = Mathf.RoundToInt(delay * 1000);
+            print(miliseconds + " miliseconds");
+            await Task.Delay(miliseconds);
+
+        }
+       
+
     }
 
     public bool CheckForLineup()
@@ -336,7 +424,7 @@ public class ModuleSpawner : MonoBehaviour
                         if(lineUpCount ==2)
                         {
                             lineUp = true;
-                            TriggerSuperPower(currentIndex - 2);
+                            TriggerStarPower(currentIndex - 2);
                             break;
                         }
                     }
@@ -352,8 +440,19 @@ public class ModuleSpawner : MonoBehaviour
         }
         return lineUp;
     }
-    public void TriggerSuperPower(int startIndex)
+    public void TriggerStarPower(int startIndex)
     {
-//        print("lineUp starting at " + startIndex);
+        lightSpeedCounter = initialLightSpeedCounter;
+        foreach(GameObject g  in spawnedMods)
+        {
+            if (g)
+            {
+                Module m = g.GetComponent<Module>();
+                m.SetPuny(true);
+            }
+            
+        }
+       // SetSpeed(2, 1, 2, 200);
+
     }
 }

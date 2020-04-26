@@ -9,21 +9,28 @@ public class Module : MonoBehaviour
     //public bool selected;
     public int type;
     public int step;
+    public bool isPuny;
     Vector3 targetRotationEuler;
     
     private void Awake()
     {
         
     }
-   public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps)
+   public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )
     {
         this.speed = speed;
         this.degreesPerSecond = rotationSpeed;
         this.division = division;
+        this.isPuny = isPuny;
         addStep(initialRotationSteps);
         
         transform.Rotate(new Vector3(0f, 0f, (360 / division) * initialRotationSteps));
        
+    }
+    //til superpower
+    public void SetPuny(bool isPuny)
+    {
+        this.isPuny = isPuny;
     }
     public void addStep(int step)
     {
