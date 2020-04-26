@@ -13,7 +13,7 @@ public class ModuleSpawner : MonoBehaviour
     public int[] seqSpawnProbabilities; // read
 
     public GameObject[] currentSelectables; // read
-    public GameObject[] spawnedMods; // read
+    public GameObject[] spawnedMods; // read // this does not include module that has reached the player
     public Vector2[] spawnQueue; // read
     private int spawnedModsIndex;
     public int selectedModIndex; // read
@@ -93,43 +93,43 @@ public class ModuleSpawner : MonoBehaviour
                 totalSeqSpawnProbs += Mathf.RoundToInt(seqSpawnProb);
             }
         }
-        modSpawnProbabilities = new int[totalModSpawnProbs];  // this number represents the spawn module element (not its type). its size represents the pool of possibilities
+        modSpawnProbabilities = new int[totalModSpawnProbs];  // this number represents the spawn module ID (not its type). its size represents the pool of possibilities
         seqSpawnProbabilities = new int[totalSeqSpawnProbs];
 
         int modSpawnID = 0;
-        int firstModSpawnID = 0;
-        int lastModSpawnID = 0;
+        int firstModSpawnIndex = 0;
+        int lastModSpawnIndex = 0;
         foreach (LevelDesigner.SpawnModule sM in modSpawnParams)
         {
             if (sM.divApplication[divisionStep])
             {
                 float thisModSpawnProbability = sM.modTypeRotProb.z;
-                lastModSpawnID += Mathf.RoundToInt(thisModSpawnProbability);
+                lastModSpawnIndex += Mathf.RoundToInt(thisModSpawnProbability);
 
-                for (int i = firstModSpawnID; i < lastModSpawnID; i++)
+                for (int i = firstModSpawnIndex; i < lastModSpawnIndex; i++)
                 {
                     modSpawnProbabilities[i] = modSpawnID;
                 }
                 modSpawnID++;
-                firstModSpawnID = lastModSpawnID;
+                firstModSpawnIndex = lastModSpawnIndex;
             }
         }
         int seqSpawnID = 0;
-        int firstSeqSpawnID = 0;
-        int lastSeqSpawnID = 0;
+        int firstSeqSpawnIndex = 0;
+        int lastSeqSpawnIndex = 0;
         foreach (LevelDesigner.Sequence sE in seqSpawnParams)
         {
             if (sE.divApplication[divisionStep])
             {
                 float thisSeqSpawnProbability = sE.probality;
-                lastSeqSpawnID += Mathf.RoundToInt(thisSeqSpawnProbability);
+                lastSeqSpawnIndex += Mathf.RoundToInt(thisSeqSpawnProbability);
 
-                for (int i = firstSeqSpawnID; i < lastSeqSpawnID; i++)
+                for (int i = firstSeqSpawnIndex; i < lastSeqSpawnIndex; i++)
                 {
                     seqSpawnProbabilities[i] = seqSpawnID;
                 }
                 seqSpawnID++;
-                firstSeqSpawnID = lastSeqSpawnID;
+                firstSeqSpawnIndex = lastSeqSpawnIndex;
             }
         }
     }
@@ -259,7 +259,7 @@ public class ModuleSpawner : MonoBehaviour
             int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
             if (rollSeqSpawnVsModSpawn <= levelDesigner.chanceForSequence)
             {
-                int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length - 1);
+                int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length);
                 int seqSpawnID = seqSpawnProbabilities[rollSeqSpawnID];
                 LevelDesigner.Sequence thisSeqSpawn = seqSpawnParams[seqSpawnID];
                 //thisSequnce.seqTypeRot.Length må ikke være over queueLength
@@ -270,11 +270,10 @@ public class ModuleSpawner : MonoBehaviour
                     spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation);
                     spawnNameModOrSeq = "S" + seqSpawnID + " ";
                 }
-
             }
             else
             {
-                int rollModSpawnID = Random.Range(0, modSpawnProbabilities.Length - 1);
+                int rollModSpawnID = Random.Range(0, modSpawnProbabilities.Length);
                 int modSpawnID = modSpawnProbabilities[rollModSpawnID];
                 int modSpawnRotation = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.y / (360 / div));
                 spawnQueue[0] = new Vector2(modSpawnProbabilities[rollModSpawnID], modSpawnRotation);
