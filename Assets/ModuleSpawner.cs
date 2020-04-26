@@ -6,8 +6,8 @@ public class ModuleSpawner : MonoBehaviour
 {
     GameManager gameManager;
     LevelDesigner levelDesigner;
-    LevelDesigner.SpawnModule[] modSpawnParams;
-    LevelDesigner.Sequence[] seqSpawnParams;
+    LevelDesigner.ModuleSpawn[] modSpawnParams;
+    LevelDesigner.SequenceSpawn[] seqSpawnParams;
     
     public int[] modSpawnProbabilities; // read
     public int[] seqSpawnProbabilities; // read
@@ -32,9 +32,9 @@ public class ModuleSpawner : MonoBehaviour
     // level design tools:
     public int divisionStep;
     public int playerPosition;
-    public bool autoSpawn;
-    public float autoSpawnSpeed;
+    public bool autoSpawn; //remove
     public float gameSpeed;
+    public float spawnRate;
     public float rotationSpeed;
 
     private int div;
@@ -78,8 +78,8 @@ public class ModuleSpawner : MonoBehaviour
     public void SetProbabilities()
     {
         int totalModSpawnProbs = 0;
-        modSpawnParams = levelDesigner.spawnModule;
-        foreach (LevelDesigner.SpawnModule sM in modSpawnParams)
+        modSpawnParams = levelDesigner.moduleSpawn;
+        foreach (LevelDesigner.ModuleSpawn sM in modSpawnParams)
         {
             if (sM.divApplication[divisionStep])
             {
@@ -88,8 +88,8 @@ public class ModuleSpawner : MonoBehaviour
             }
         }
         int totalSeqSpawnProbs = 0;
-        seqSpawnParams = levelDesigner.spawnSequence;
-        foreach (LevelDesigner.Sequence sE in seqSpawnParams)
+        seqSpawnParams = levelDesigner.sequenceSpawn;
+        foreach (LevelDesigner.SequenceSpawn sE in seqSpawnParams)
         {
             if (sE.divApplication[divisionStep])
             {
@@ -103,7 +103,7 @@ public class ModuleSpawner : MonoBehaviour
         int modSpawnID = 0;
         int firstModSpawnIndex = 0;
         int lastModSpawnIndex = 0;
-        foreach (LevelDesigner.SpawnModule sM in modSpawnParams)
+        foreach (LevelDesigner.ModuleSpawn sM in modSpawnParams)
         {
             if (sM.divApplication[divisionStep])
             {
@@ -121,7 +121,7 @@ public class ModuleSpawner : MonoBehaviour
         int seqSpawnID = 0;
         int firstSeqSpawnIndex = 0;
         int lastSeqSpawnIndex = 0;
-        foreach (LevelDesigner.Sequence sE in seqSpawnParams)
+        foreach (LevelDesigner.SequenceSpawn sE in seqSpawnParams)
         {
             if (sE.divApplication[divisionStep])
             {
@@ -178,7 +178,7 @@ public class ModuleSpawner : MonoBehaviour
         if (autoSpawn)
         {
             autoSpawnTimer += Time.deltaTime;
-            if (autoSpawnTimer > 1 / autoSpawnSpeed)
+            if (autoSpawnTimer > 1 / spawnRate)
             {
                 PrepareModuleThenSpawn();
                 autoSpawnTimer = 0;
@@ -191,11 +191,12 @@ public class ModuleSpawner : MonoBehaviour
         //change speed test
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SetSpeed(2, 10f, 2, 200);
+                //star power parameters
+            SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            SetSpeed(1, 10f, 1, 100);
+            SetSpeed(gameSpeed, starPowDeacc, spawnRate, rotationSpeed);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -260,6 +261,7 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
+    private int sequenceBeingSpawned;
     private void PrepareModuleThenSpawn()
     {
         div = levelDesigner.divisionStepSequence[divisionStep];
@@ -270,31 +272,40 @@ public class ModuleSpawner : MonoBehaviour
         if (spawnQueue[0].x == -1)
 //        if (moduleQueue[0].x == -1)
         {
-            print("enter if seq");
+            //print("enter if seq");
             int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
             if (rollSeqSpawnVsModSpawn <= levelDesigner.chanceForSequence)
             {
                 int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length);
                 int seqSpawnID = seqSpawnProbabilities[rollSeqSpawnID];
-                LevelDesigner.Sequence thisSeqSpawn = seqSpawnParams[seqSpawnID];
-                print("thisSeqSpawn.seqTypeRot.Length" + thisSeqSpawn.seqTypeRot.Length);
+                LevelDesigner.SequenceSpawn thisSeqSpawn = seqSpawnParams[seqSpawnID];
+                //print("thisSeqSpawn.seqTypeRot.Length" + thisSeqSpawn.seqTypeRot.Length);
                 //thisSequnce.seqTypeRot.Length må ikke være over queueLength
                 for (int seqSpawnElem = 0; seqSpawnElem < thisSeqSpawn.seqTypeRot.Length; seqSpawnElem++)
                 {
                     int seqSpawnElemID = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].x);
-                    print(seqSpawnElemID + "seqSpawnElemID" );
+                    //print(seqSpawnElemID + "seqSpawnElemID" );
                     int seqSpawnElemRotation = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].y / (360 / div));
-                    spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation);
+
+                    //Debug.Log("rotIsZero" + seqSpawnID + "(" + seqSpawnElemID + ")" + levelDesigner.CheckIfSpawnRotationIsZero(true, seqSpawnID, seqSpawnElemID));
+
+                    spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation); //here
                     spawnNameModOrSeq = "S" + seqSpawnID + " ";
                 }
+                sequenceBeingSpawned = seqSpawnID;
             }
             else
             {
                 int rollModSpawnID = Random.Range(0, modSpawnProbabilities.Length);
                 int modSpawnID = modSpawnProbabilities[rollModSpawnID];
+//                int modSpawnType = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.x);
                 int modSpawnRotation = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.y / (360 / div));
-                spawnQueue[0] = new Vector2(modSpawnProbabilities[rollModSpawnID], modSpawnRotation);
+
+                //Debug.Log("rotIsZero" + modSpawnID + levelDesigner.CheckIfSpawnRotationIsZero(false, -1, modSpawnID));
+
+                spawnQueue[0] = new Vector2(modSpawnID, modSpawnRotation); //here
                 spawnNameModOrSeq = "M" + modSpawnID + " ";
+                sequenceBeingSpawned = -1;
             }
         }
 
@@ -303,10 +314,20 @@ public class ModuleSpawner : MonoBehaviour
         if (lightSpeedCounter > 0)
             spawnAsPuny = true;
 
+//        Debug.Log("spawnQueue:" + spawnQueue[0].x + " " + spawnQueue[1].x + " " + spawnQueue[2].x);
         int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
-        int moduleType = Mathf.RoundToInt(modSpawnParams[spawnID].modTypeRotProb.x);
+//        Debug.Log("spawnID: " + spawnID);
+        int moduleType = spawnID;
+//        int moduleType = Mathf.RoundToInt(modSpawnParams[spawnID].modTypeRotProb.x);
+        int moduleRotation = Mathf.RoundToInt(spawnQueue[0].y);
+        if (sequenceBeingSpawned > -1)
+        {
+//            moduleType = Mathf.RoundToInt(seqSpawnParams[sequenceBeingSpawned].seqTypeRot[spawnID].x);
+        }
+//        Debug.Log("modType: " + moduleType);
+        //        Debug.Log("spawnQueue.y:" + spawnQueue[0].y);
         spawnedModsIndex++;
-        spawnedMods[spawnedModsIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(spawnQueue[0].y), moduleType, spawnAsPuny);
+        spawnedMods[spawnedModsIndex] = SpawnModule(gameSpeed, rotationSpeed, div, moduleRotation, moduleType, spawnAsPuny);
         spawnedMods[spawnedModsIndex].name = spawnNameModOrSeq + spawnedMods[spawnedModsIndex].name + moduleNumber.ToString();
         moduleNumber++;
         //starpower count down
@@ -321,7 +342,9 @@ public class ModuleSpawner : MonoBehaviour
         for (int i=0; i < spawnQueue.Length-1;i++)
         {
             spawnQueue[i] = spawnQueue[i +1];
+            //print("queue" + i + " " + spawnQueue[i]);
         }
+
         //gør det sidste element "tomt" hvis vi nu er i en sequence
         spawnQueue[spawnQueue.Length-1] = new Vector2(-1, -1);
 
@@ -340,14 +363,32 @@ public class ModuleSpawner : MonoBehaviour
     {
       return  gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
     }
+
+    /*
+    public float gameSpeed;
+    public float spawnRate;
+    public float rotationSpeed;
+    */
+    //star power parameters
+    public float starPowGameSpeed;
+    public float starPowSpawnrate;
+    public float starPowRotSpeed;
+    public float starPowAcc;
+    public float starPowDeacc;
+
+    //star power calculation variables
+    public float gameSpeedCalc; // Read
+    public float spawnRateCalc; // Read
+    public float rotSpeedCalc; // Read
+
     //brug til acceleration /deAcceleration
-   private async Task SetSpeed(float targetGameSpeed, float acceleration, float targetSpawnSpeed, float rotationSpeed)
+    private async Task SetSpeed(float targetGameSpeed, float acceleration, float targetSpawnRate, float targetRotationSpeed)
     {
         await Task.Yield();
         float gameSpeedDiff = targetGameSpeed - this.gameSpeed;
-        float spawnSpeedDiff = targetGameSpeed - this.autoSpawnSpeed;
-        float rotationSpeedDiff = rotationSpeed - this.rotationSpeed;
-        while (Mathf.Abs(gameSpeedDiff)> 0 || Mathf.Abs(spawnSpeedDiff) > 0 || Mathf.Abs(rotationSpeed)>0)
+        float spawnSpeedDiff = targetGameSpeed - this.spawnRate;
+        float rotationSpeedDiff = targetRotationSpeed - this.rotationSpeed;
+        while (Mathf.Abs(gameSpeedDiff)> 0 || Mathf.Abs(spawnSpeedDiff) > 0 || Mathf.Abs(targetRotationSpeed)>0)
         {
 
             if (gameSpeedDiff > 0)
@@ -362,12 +403,12 @@ public class ModuleSpawner : MonoBehaviour
             }
             if (spawnSpeedDiff > 0)
             {
-                this.autoSpawnSpeed += 0.01f;
+                this.spawnRate += 0.01f;
                 spawnSpeedDiff -= 0.01f;
             }
             else
             {
-                this.autoSpawnSpeed -= 0.01f;
+                this.spawnRate -= 0.01f;
                 spawnSpeedDiff += 0.01f;
             }
             if (rotationSpeedDiff > 0)
@@ -378,7 +419,7 @@ public class ModuleSpawner : MonoBehaviour
             else
             {
                 this.rotationSpeed -= 1f;
-                rotationSpeed += 1f;
+                targetRotationSpeed += 1f;
             }
             //round to avoid imprecision
             if(Mathf.Abs(gameSpeedDiff) < 0.05f )
@@ -387,11 +428,11 @@ public class ModuleSpawner : MonoBehaviour
             }
             if (Mathf.Abs(spawnSpeedDiff) < 0.05f)
             {
-                this.autoSpawnSpeed = targetSpawnSpeed;
+                this.spawnRate = targetSpawnRate;
             }
             if (Mathf.Abs(rotationSpeedDiff) < 0.05f)
             {
-                this.rotationSpeed = rotationSpeed;
+                this.rotationSpeed = targetRotationSpeed;
             }
             float delay = 1 / acceleration;
             print("delay" + delay);

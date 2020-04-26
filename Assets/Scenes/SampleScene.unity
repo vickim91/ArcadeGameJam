@@ -290,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0, y: 0.99966407, z: -0, w: -0.025919262}
-  m_LocalPosition: {x: -0.08, y: 0.94, z: 10.38}
+  m_LocalPosition: {x: 0.09, y: 2.13, z: 13.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -384,7 +384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091280385}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.06, y: 0.38, z: 14.36}
+  m_LocalPosition: {x: 0.06, y: 0.38, z: 10.04}
   m_LocalScale: {x: 2.2729, y: 2.2729, z: 2.2729}
   m_Children: []
   m_Father: {fileID: 0}
@@ -492,15 +492,27 @@ MonoBehaviour:
   - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
   - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
   - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
-  queueLength: 3
+  queueLength: 6
   numberOfSelectableMods: 5
   maxNumOfModsInGame: 20
+  lightSpeedCounter: 0
+  initialLightSpeedCounter: 0
+  deAccellerationStartPoint: 0
+  acceleration: 0
   divisionStep: 4
   playerPosition: 8
   autoSpawn: 1
-  autoSpawnSpeed: 1
-  gameSpeed: 1
-  rotationSpeed: 100
+  gameSpeed: 0.5
+  spawnRate: 0.5
+  rotationSpeed: 200
+  starPowGameSpeed: 2
+  starPowSpawnrate: 2
+  starPowRotSpeed: 200
+  starPowAcc: 10
+  starPowDeacc: 10
+  gameSpeedCalc: 0
+  spawnRateCalc: 0
+  rotSpeedCalc: 0
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0
@@ -530,29 +542,35 @@ MonoBehaviour:
   snapToDiv: 1
   chanceForSequence: 100
   divisionStepSequence: 0200000003000000050000000600000007000000
-  spawnModule:
-  - modTypeRotProb: {x: 0, y: 1, z: 1}
+  moduleSpawn:
+  - modTypeRotProb: {x: 0, y: 0, z: 2}
     divApplication: 
-  - modTypeRotProb: {x: 1, y: 15, z: 4}
+    initialRotation: 0
+  - modTypeRotProb: {x: 0, y: 2, z: 1}
     divApplication: 
-  - modTypeRotProb: {x: 2, y: 15, z: 5}
+    initialRotation: 0
+  - modTypeRotProb: {x: 0, y: 2, z: 1}
     divApplication: 
-  spawnSequence:
-  - probality: 1000
+    initialRotation: 0
+  sequenceSpawn:
+  - probality: 5
     seqTypeRot:
-    - {x: 0, y: 30}
-    - {x: 1, y: 70}
-    - {x: 2, y: 50}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
     divApplication: 
-  - probality: 3
+    initialRotation: []
+  - probality: 5
     seqTypeRot:
-    - {x: 1, y: 30}
-    - {x: 1, y: 70}
-    - {x: 1, y: 50}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
     divApplication: 
-  - probality: 4
+    initialRotation: []
+  - probality: 5
     seqTypeRot:
-    - {x: 2, y: 30}
-    - {x: 2, y: 70}
-    - {x: 2, y: 50}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 0}
     divApplication: 
+    initialRotation: []
