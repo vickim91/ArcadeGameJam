@@ -261,7 +261,6 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
-    private int sequenceBeingSpawned;
     private void PrepareModuleThenSpawn()
     {
         div = levelDesigner.divisionStepSequence[divisionStep];
@@ -270,42 +269,39 @@ public class ModuleSpawner : MonoBehaviour
 
 
         if (spawnQueue[0].x == -1)
-//        if (moduleQueue[0].x == -1)
         {
-            //print("enter if seq");
             int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
             if (rollSeqSpawnVsModSpawn <= levelDesigner.chanceForSequence)
             {
                 int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length);
                 int seqSpawnID = seqSpawnProbabilities[rollSeqSpawnID];
                 LevelDesigner.SequenceSpawn thisSeqSpawn = seqSpawnParams[seqSpawnID];
-                //print("thisSeqSpawn.seqTypeRot.Length" + thisSeqSpawn.seqTypeRot.Length);
                 //thisSequnce.seqTypeRot.Length må ikke være over queueLength
                 for (int seqSpawnElem = 0; seqSpawnElem < thisSeqSpawn.seqTypeRot.Length; seqSpawnElem++)
                 {
                     int seqSpawnElemID = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].x);
-                    //print(seqSpawnElemID + "seqSpawnElemID" );
+                    if (levelDesigner.CheckIfSpawnRotationIsZero(true, seqSpawnID, seqSpawnElemID))
+                    {
+                        thisSeqSpawn.seqTypeRot[seqSpawnElem].y = Random.Range(0, 360);
+                    }
                     int seqSpawnElemRotation = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].y / (360 / div));
-
-                    //Debug.Log("rotIsZero" + seqSpawnID + "(" + seqSpawnElemID + ")" + levelDesigner.CheckIfSpawnRotationIsZero(true, seqSpawnID, seqSpawnElemID));
 
                     spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation); //here
                     spawnNameModOrSeq = "S" + seqSpawnID + " ";
                 }
-                sequenceBeingSpawned = seqSpawnID;
             }
             else
             {
                 int rollModSpawnID = Random.Range(0, modSpawnProbabilities.Length);
                 int modSpawnID = modSpawnProbabilities[rollModSpawnID];
-//                int modSpawnType = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.x);
+                if (levelDesigner.CheckIfSpawnRotationIsZero(false, -1, modSpawnID))
+                {
+                    modSpawnParams[modSpawnID].modTypeRotProb.y = Random.Range(0, 360);
+                }
                 int modSpawnRotation = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.y / (360 / div));
-
-                //Debug.Log("rotIsZero" + modSpawnID + levelDesigner.CheckIfSpawnRotationIsZero(false, -1, modSpawnID));
 
                 spawnQueue[0] = new Vector2(modSpawnID, modSpawnRotation); //here
                 spawnNameModOrSeq = "M" + modSpawnID + " ";
-                sequenceBeingSpawned = -1;
             }
         }
 
@@ -314,18 +310,9 @@ public class ModuleSpawner : MonoBehaviour
         if (lightSpeedCounter > 0)
             spawnAsPuny = true;
 
-//        Debug.Log("spawnQueue:" + spawnQueue[0].x + " " + spawnQueue[1].x + " " + spawnQueue[2].x);
         int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
-//        Debug.Log("spawnID: " + spawnID);
         int moduleType = spawnID;
-//        int moduleType = Mathf.RoundToInt(modSpawnParams[spawnID].modTypeRotProb.x);
         int moduleRotation = Mathf.RoundToInt(spawnQueue[0].y);
-        if (sequenceBeingSpawned > -1)
-        {
-//            moduleType = Mathf.RoundToInt(seqSpawnParams[sequenceBeingSpawned].seqTypeRot[spawnID].x);
-        }
-//        Debug.Log("modType: " + moduleType);
-        //        Debug.Log("spawnQueue.y:" + spawnQueue[0].y);
         spawnedModsIndex++;
         spawnedMods[spawnedModsIndex] = SpawnModule(gameSpeed, rotationSpeed, div, moduleRotation, moduleType, spawnAsPuny);
         spawnedMods[spawnedModsIndex].name = spawnNameModOrSeq + spawnedMods[spawnedModsIndex].name + moduleNumber.ToString();
@@ -342,7 +329,6 @@ public class ModuleSpawner : MonoBehaviour
         for (int i=0; i < spawnQueue.Length-1;i++)
         {
             spawnQueue[i] = spawnQueue[i +1];
-            //print("queue" + i + " " + spawnQueue[i]);
         }
 
         //gør det sidste element "tomt" hvis vi nu er i en sequence

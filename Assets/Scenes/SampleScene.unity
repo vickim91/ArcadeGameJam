@@ -494,7 +494,7 @@ MonoBehaviour:
   - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
   queueLength: 6
   numberOfSelectableMods: 5
-  maxNumOfModsInGame: 20
+  maxNumOfModsInGame: 50
   lightSpeedCounter: 0
   initialLightSpeedCounter: 0
   deAccellerationStartPoint: 0
@@ -546,10 +546,10 @@ MonoBehaviour:
   - modTypeRotProb: {x: 0, y: 0, z: 2}
     divApplication: 
     initialRotation: 0
-  - modTypeRotProb: {x: 0, y: 2, z: 1}
+  - modTypeRotProb: {x: 0, y: 0, z: 1}
     divApplication: 
     initialRotation: 0
-  - modTypeRotProb: {x: 0, y: 2, z: 1}
+  - modTypeRotProb: {x: 0, y: 0, z: 1}
     divApplication: 
     initialRotation: 0
   sequenceSpawn:

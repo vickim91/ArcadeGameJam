@@ -32,8 +32,8 @@ public class LevelDesigner : MonoBehaviour
     void Awake()
     {
         SetInitialRotations();
-        SetModuleRandomSpawnRotation();
-        SetSequenceRandomSpawnRotation();
+        //SetModuleRandomSpawnRotation();
+        //SetSequenceRandomSpawnRotation();
         FillOutMissingBoolsInDivisionApplicationArrays();
     }
 
