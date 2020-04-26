@@ -480,14 +480,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modProbabilities: 
-  seqProbabilities: 
+  modSpawnProbabilities: 
+  seqSpawnProbabilities: 
   currentSelectables: []
-  upcomingModules: []
-  moduleQueue: []
-  selectedIndex: 0
+  spawnedMods: []
+  spawnQueue: []
+  selectedModIndex: 0
   selectedModule: {fileID: 0}
-  closestModulePositionRead: 0
+  positionOfClosestModule: 0
   modules:
   - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
   - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
@@ -527,32 +527,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e862a6e6507915f43b8676633c0215b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapToDiv: 0
+  snapToDiv: 1
   chanceForSequence: 100
   divisionStepSequence: 0200000003000000050000000600000007000000
   spawnModule:
   - modTypeRotProb: {x: 0, y: 1, z: 1}
-    divisionApplication: 
+    divApplication: 
   - modTypeRotProb: {x: 1, y: 15, z: 4}
-    divisionApplication: 
+    divApplication: 
   - modTypeRotProb: {x: 2, y: 15, z: 5}
-    divisionApplication: 
+    divApplication: 
   spawnSequence:
   - probality: 1000
     seqTypeRot:
     - {x: 0, y: 30}
     - {x: 1, y: 70}
     - {x: 2, y: 50}
-    divisionApplication: 
+    divApplication: 
   - probality: 3
     seqTypeRot:
     - {x: 1, y: 30}
     - {x: 1, y: 70}
     - {x: 1, y: 50}
-    divisionApplication: 00
+    divApplication: 
   - probality: 4
     seqTypeRot:
     - {x: 2, y: 30}
     - {x: 2, y: 70}
     - {x: 2, y: 50}
-    divisionApplication: 00
+    divApplication: 

@@ -10,7 +10,7 @@ public class LevelDesigner : MonoBehaviour
     public class SpawnModule
     {
         public Vector3 modTypeRotProb;
-        public bool[] divisionApplication;
+        public bool[] divApplication;
     }
     public SpawnModule[] spawnModule;
 
@@ -19,7 +19,7 @@ public class LevelDesigner : MonoBehaviour
     {
         public int probality;
         public Vector2[] seqTypeRot;
-        public bool[] divisionApplication;
+        public bool[] divApplication;
     }
     public Sequence[] spawnSequence;
 
@@ -36,13 +36,13 @@ public class LevelDesigner : MonoBehaviour
         int lSteps = divisionStepSequence.Length;
         for (int i = 0; i < spawnModule.Length; i++)
         {
-            int lThis = spawnModule[i].divisionApplication.Length;
+            int lThis = spawnModule[i].divApplication.Length;
             if (lThis < lSteps)
             {
                 bool[] divAppFiller = new bool[lSteps];
                 for (int divApps = 0; divApps < lThis; divApps++)
                 {
-                    divAppFiller[divApps] = spawnModule[i].divisionApplication[divApps];
+                    divAppFiller[divApps] = spawnModule[i].divApplication[divApps];
                 }
                 if (lThis == 0)
                 {
@@ -51,19 +51,19 @@ public class LevelDesigner : MonoBehaviour
                         divAppFiller[divApps] = true;
                     }
                 }
-                spawnModule[i].divisionApplication = divAppFiller;
+                spawnModule[i].divApplication = divAppFiller;
             }
         }
         for (int i = 0; i < spawnSequence.Length; i++)
         {
-            int lThis = spawnSequence[i].divisionApplication.Length;
+            int lThis = spawnSequence[i].divApplication.Length;
             
             if (lThis < lSteps)
             {
                 bool[] divAppFiller = new bool[lSteps];
                 for (int divApps = 0; divApps < lThis; divApps++)
                 {
-                    divAppFiller[divApps] = spawnSequence[i].divisionApplication[divApps];
+                    divAppFiller[divApps] = spawnSequence[i].divApplication[divApps];
                     divAppFiller[divApps] = true;
                 }
                 if (lThis == 0)
@@ -73,7 +73,7 @@ public class LevelDesigner : MonoBehaviour
                         divAppFiller[divApps] = true;
                     }
                 }
-                spawnSequence[i].divisionApplication = divAppFiller;
+                spawnSequence[i].divApplication = divAppFiller;
             }
         }
     }

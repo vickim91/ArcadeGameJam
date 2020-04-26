@@ -6,19 +6,19 @@ public class ModuleSpawner : MonoBehaviour
 {
     GameManager gameManager;
     LevelDesigner levelDesigner;
-    LevelDesigner.SpawnModule[] moduleParams;
-    LevelDesigner.Sequence[] sequenceParams;
+    LevelDesigner.SpawnModule[] modSpawnParams;
+    LevelDesigner.Sequence[] seqSpawnParams;
     
-    public int[] modProbabilities; // read
-    public int[] seqProbabilities; // read
+    public int[] modSpawnProbabilities; // read
+    public int[] seqSpawnProbabilities; // read
 
     public GameObject[] currentSelectables; // read
-    public GameObject[] upcomingModules; // read
-    public Vector2[] moduleQueue; // read
-    private int upcomingModuleIndex;
-    public int selectedIndex; // read
+    public GameObject[] spawnedMods; // read
+    public Vector2[] spawnQueue; // read
+    private int spawnedModsIndex;
+    public int selectedModIndex; // read
     public Module selectedModule; // read
-    public float closestModulePositionRead; // read
+    public float positionOfClosestModule; // read
 
     // behavior parameters
     public GameObject[] modules; 
@@ -39,18 +39,27 @@ public class ModuleSpawner : MonoBehaviour
     private int moduleNumber;
     private string spawnNameModOrSeq;
 
+    /*
+     * naming convention: a mod(module) is not the same as a modSpawn(moduleSpawn)
+         * a mod exists in the game, deriving from a modSpawn or seqSpawn.
+         * a modSpawn is an instruction, that does not apply for sequences.
+         * a seqSpawn is an instruction, that hosts an array of sequence elements
+         * a seqElem is an instruction similar to modSpawn
+         * so, what is a sequence? maybe a sequence could be a memory bank, that keeps track of the seqSpawn...
+     */
+
     void Start()
     {
         levelDesigner = GetComponent<LevelDesigner>();
         gameManager = FindObjectOfType<GameManager>();
         currentSelectables = new GameObject[numberOfSelectableMods];
-        upcomingModules = new GameObject[maxNumOfModsInGame];
-        upcomingModuleIndex = -1;
-        selectedIndex = 0;
-        moduleQueue = new Vector2[queueLength];
-        for (int i = 0; i < moduleQueue.Length; i++)
+        spawnedMods = new GameObject[maxNumOfModsInGame]; // these does not include spawned modules that have reached the player
+        spawnedModsIndex = -1;
+        selectedModIndex = 0;
+        spawnQueue = new Vector2[queueLength];
+        for (int i = 0; i < spawnQueue.Length; i++)
         {
-            moduleQueue[i] = new Vector3(-1, -1);
+            spawnQueue[i] = new Vector3(-1, -1);
         }
         SetProbabilities();
     }
@@ -64,63 +73,63 @@ public class ModuleSpawner : MonoBehaviour
 
     public void SetProbabilities()
     {
-        int totalModuleProbs = 0;
-        moduleParams = levelDesigner.spawnModule;
-        foreach (LevelDesigner.SpawnModule sM in moduleParams)
+        int totalModSpawnProbs = 0;
+        modSpawnParams = levelDesigner.spawnModule;
+        foreach (LevelDesigner.SpawnModule sM in modSpawnParams)
         {
-            if (sM.divisionApplication[divisionStep])
+            if (sM.divApplication[divisionStep])
             {
-                float thisProb = sM.modTypeRotProb.z;
-                totalModuleProbs += Mathf.RoundToInt(thisProb);
+                float modSpawnProb = sM.modTypeRotProb.z;
+                totalModSpawnProbs += Mathf.RoundToInt(modSpawnProb);
             }
         }
-        int totalSequenceProbs = 0;
-        sequenceParams = levelDesigner.spawnSequence;
-        foreach (LevelDesigner.Sequence sE in sequenceParams)
+        int totalSeqSpawnProbs = 0;
+        seqSpawnParams = levelDesigner.spawnSequence;
+        foreach (LevelDesigner.Sequence sE in seqSpawnParams)
         {
-            if (sE.divisionApplication[divisionStep])
+            if (sE.divApplication[divisionStep])
             {
-                float thisProb = sE.probality;
-                totalSequenceProbs += Mathf.RoundToInt(thisProb);
+                float seqSpawnProb = sE.probality;
+                totalSeqSpawnProbs += Mathf.RoundToInt(seqSpawnProb);
             }
         }
-        modProbabilities = new int[totalModuleProbs]; // this number represents the spawn module element (not its type)
-        seqProbabilities = new int[totalSequenceProbs];
+        modSpawnProbabilities = new int[totalModSpawnProbs];  // this number represents the spawn module element (not its type). its size represents the pool of possibilities
+        seqSpawnProbabilities = new int[totalSeqSpawnProbs];
 
-        int modMin = 0;
-        int modIndex = 0;
-        int modMax = 0;
-        foreach (LevelDesigner.SpawnModule sM in moduleParams)
+        int modSpawnID = 0;
+        int firstModSpawnID = 0;
+        int lastModSpawnID = 0;
+        foreach (LevelDesigner.SpawnModule sM in modSpawnParams)
         {
-            if (sM.divisionApplication[divisionStep])
+            if (sM.divApplication[divisionStep])
             {
-                float thisProb = sM.modTypeRotProb.z;
-                modMax += Mathf.RoundToInt(thisProb);
+                float thisModSpawnProbability = sM.modTypeRotProb.z;
+                lastModSpawnID += Mathf.RoundToInt(thisModSpawnProbability);
 
-                for (int i = modMin; i < modMax; i++)
+                for (int i = firstModSpawnID; i < lastModSpawnID; i++)
                 {
-                    modProbabilities[i] = modIndex;
+                    modSpawnProbabilities[i] = modSpawnID;
                 }
-                modIndex++;
-                modMin = modMax;
+                modSpawnID++;
+                firstModSpawnID = lastModSpawnID;
             }
         }
-        int seqIndex = 0;
-        int seqMin = 0;
-        int seqMax = 0;
-        foreach (LevelDesigner.Sequence sE in sequenceParams)
+        int seqSpawnID = 0;
+        int firstSeqSpawnID = 0;
+        int lastSeqSpawnID = 0;
+        foreach (LevelDesigner.Sequence sE in seqSpawnParams)
         {
-            if (sE.divisionApplication[divisionStep])
+            if (sE.divApplication[divisionStep])
             {
-                float thisProb = sE.probality;
-                seqMax += Mathf.RoundToInt(thisProb);
+                float thisSeqSpawnProbability = sE.probality;
+                lastSeqSpawnID += Mathf.RoundToInt(thisSeqSpawnProbability);
 
-                for (int i = seqMin; i < seqMax; i++)
+                for (int i = firstSeqSpawnID; i < lastSeqSpawnID; i++)
                 {
-                    seqProbabilities[i] = seqIndex;
+                    seqSpawnProbabilities[i] = seqSpawnID;
                 }
-                seqIndex++;
-                seqMin = seqMax;
+                seqSpawnID++;
+                firstSeqSpawnID = lastSeqSpawnID;
             }
         }
     }
@@ -129,7 +138,7 @@ public class ModuleSpawner : MonoBehaviour
     {
         if (currentSelectables[0] != null)
         {
-            closestModulePositionRead = currentSelectables[0].transform.position.z;
+            positionOfClosestModule = currentSelectables[0].transform.position.z;
             if (currentSelectables[0].transform.position.z > playerPosition)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
@@ -137,24 +146,24 @@ public class ModuleSpawner : MonoBehaviour
                 currentSelectables[0].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 for (int i = 0; i < maxNumOfModsInGame - 1; i++)
                 {
-                    upcomingModules[i] = upcomingModules[i + 1];
+                    spawnedMods[i] = spawnedMods[i + 1];
                 }
-                upcomingModules[maxNumOfModsInGame - 1] = null;
-                if (upcomingModuleIndex > -1)
-                    upcomingModuleIndex--;
+                spawnedMods[maxNumOfModsInGame - 1] = null;
+                if (spawnedModsIndex > -1)
+                    spawnedModsIndex--;
 
                 for (int i = 0; i < numberOfSelectableMods; i++)
                 {
-                    currentSelectables[i] = upcomingModules[i];
+                    currentSelectables[i] = spawnedMods[i];
                 }
-                if (selectedIndex < 0)
+                if (selectedModIndex < 0)
                 {
                     Debug.Log("hey, does this ever happen?");
-                    selectedIndex = 0;
+                    selectedModIndex = 0;
                 }
-                if (selectedIndex > 0)
-                    selectedIndex--;
-                SetSelectedModule(selectedIndex);
+                if (selectedModIndex > 0)
+                    selectedModIndex--;
+                SetSelectedModule(selectedModIndex);
             }
 
         }
@@ -181,19 +190,19 @@ public class ModuleSpawner : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            selectedIndex++;
-            if (selectedIndex > numberOfSelectableMods - 1)
+            selectedModIndex++;
+            if (selectedModIndex > numberOfSelectableMods - 1)
             {
-                selectedIndex = numberOfSelectableMods - 1;
+                selectedModIndex = numberOfSelectableMods - 1;
             }
-            SetSelectedModule(selectedIndex);
+            SetSelectedModule(selectedModIndex);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            selectedIndex--;
-            if (selectedIndex < 0)
-                selectedIndex = 0;
-            SetSelectedModule(selectedIndex);
+            selectedModIndex--;
+            if (selectedModIndex < 0)
+                selectedModIndex = 0;
+            SetSelectedModule(selectedModIndex);
         }
         //rotér mod uret
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -244,61 +253,61 @@ public class ModuleSpawner : MonoBehaviour
             div = divFree;
 
 
-        if (moduleQueue[0].x > -2)
+        if (spawnQueue[0].x > -2)
 //        if (moduleQueue[0].x == -1)
         {
-            int clusterRoll = Random.Range(0, 100);
-            if (clusterRoll <= levelDesigner.chanceForSequence)
+            int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
+            if (rollSeqSpawnVsModSpawn <= levelDesigner.chanceForSequence)
             {
-                int roll = Random.Range(0, seqProbabilities.Length - 1);
-                int seqProb = seqProbabilities[roll];
-                LevelDesigner.Sequence thisSequence = sequenceParams[seqProb];
+                int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length - 1);
+                int seqSpawnID = seqSpawnProbabilities[rollSeqSpawnID];
+                LevelDesigner.Sequence thisSeqSpawn = seqSpawnParams[seqSpawnID];
                 //thisSequnce.seqTypeRot.Length må ikke være over queueLength
-                for (int e = 0; e < thisSequence.seqTypeRot.Length; e++)
+                for (int seqSpawnElem = 0; seqSpawnElem < thisSeqSpawn.seqTypeRot.Length; seqSpawnElem++)
                 {
-                    int thisType = Mathf.RoundToInt(thisSequence.seqTypeRot[e].x);
-                    int thisRotation = Mathf.RoundToInt(thisSequence.seqTypeRot[e].y / (360 / div));
-                    moduleQueue[e] = new Vector2(thisType, thisRotation);
-                    spawnNameModOrSeq = "S" + seqProb + " ";
+                    int seqSpawnElemID = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].x);
+                    int seqSpawnElemRotation = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].y / (360 / div));
+                    spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation);
+                    spawnNameModOrSeq = "S" + seqSpawnID + " ";
                 }
 
             }
             else
             {
-                int roll = Random.Range(0, modProbabilities.Length - 1);
-                int modProb = modProbabilities[roll];
-                int thisRotation = Mathf.RoundToInt(moduleParams[modProb].modTypeRotProb.y / (360 / div));
-                moduleQueue[0] = new Vector2(modProbabilities[roll], thisRotation);
-                spawnNameModOrSeq = "M" + modProb + " ";
+                int rollModSpawnID = Random.Range(0, modSpawnProbabilities.Length - 1);
+                int modSpawnID = modSpawnProbabilities[rollModSpawnID];
+                int modSpawnRotation = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.y / (360 / div));
+                spawnQueue[0] = new Vector2(modSpawnProbabilities[rollModSpawnID], modSpawnRotation);
+                spawnNameModOrSeq = "M" + modSpawnID + " ";
             }
         }
 
-        int spawnType = Mathf.RoundToInt(moduleQueue[0].x);
-        int moduleType = Mathf.RoundToInt(moduleParams[spawnType].modTypeRotProb.x);
-        upcomingModuleIndex++;
-        upcomingModules[upcomingModuleIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(moduleQueue[0].y), moduleType);
-        upcomingModules[upcomingModuleIndex].name = spawnNameModOrSeq + upcomingModules[upcomingModuleIndex].name + moduleNumber.ToString();
-        
-//        moduleQueue[0] = new Vector3(-1, -1);
-        for(int i=0; i < moduleQueue.Length-1;i++)
+        int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
+        int moduleType = Mathf.RoundToInt(modSpawnParams[spawnID].modTypeRotProb.x);
+        spawnedModsIndex++;
+        spawnedMods[spawnedModsIndex] = SpawnModule(gameSpeed, rotationSpeed, div, Mathf.RoundToInt(spawnQueue[0].y), moduleType);
+        spawnedMods[spawnedModsIndex].name = spawnNameModOrSeq + spawnedMods[spawnedModsIndex].name + moduleNumber.ToString();
+        moduleNumber++;
+
+        //        moduleQueue[0] = new Vector3(-1, -1);
+        for (int i=0; i < spawnQueue.Length-1;i++)
         {
-            moduleQueue[i] = moduleQueue[i +1];
+            spawnQueue[i] = spawnQueue[i +1];
         }
         for (int i = 0; i < numberOfSelectableMods; i++)
         {
-            currentSelectables[i] = upcomingModules[i];
+            currentSelectables[i] = spawnedMods[i];
         }
-        moduleNumber++;
 
         if (selectedModule == null)
         {
-            SetSelectedModule(upcomingModuleIndex);
+            SetSelectedModule(spawnedModsIndex);
         }
     }
 
-    public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleIndex)
+    public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleType)
     {
-      return  gameObject.Instantiate(modules[moduleIndex], transform.position, modules[moduleIndex].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps);
+      return  gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps);
     }
 
     public bool CheckForLineup()
