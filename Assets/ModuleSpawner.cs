@@ -29,10 +29,9 @@ public class ModuleSpawner : MonoBehaviour
     public int initialLightSpeedCounter;
     public int deAccellerationStartPoint;
     public float acceleration;
+    public int playerPosition;
     // level design tools:
     public int divisionStep;
-    public int playerPosition;
-    public bool autoSpawn; //remove
     public float gameSpeed;
     public float spawnRate;
     public float rotationSpeed;
@@ -175,7 +174,7 @@ public class ModuleSpawner : MonoBehaviour
 
     private void AutoSpawn()
     {
-        if (autoSpawn)
+        if (autoSpawnTimer > 0)
         {
             autoSpawnTimer += Time.deltaTime;
             if (autoSpawnTimer > 1 / spawnRate)
