@@ -2,15 +2,15 @@
 
 public class LevelDesigner : MonoBehaviour
 {
+    public bool snapToDiv;
+    public int chanceForSequence;
     public int[] divisionStepSequence;
-    public int[] divisionApplication;
-    public bool[] divApplTest;
 
     [System.Serializable]
     public class SpawnModule
     {
         public Vector3 modTypeRotProb;
-        public bool[] divisionApplication;
+        public bool[] divApplication;
     }
     public SpawnModule[] spawnModule;
 
@@ -19,43 +19,62 @@ public class LevelDesigner : MonoBehaviour
     {
         public int probality;
         public Vector2[] seqTypeRot;
-        public bool[] divisionApplication;
+        public bool[] divApplication;
     }
     public Sequence[] spawnSequence;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        DemonstrationAfDivision();
-
         SetModuleRandomSpawnRotation(spawnModule.Length);
         SetSequenceRandomSpawnRotation(spawnSequence.Length);
+        FillOutMissingBoolsInDivisionApplicationArrays();
+    }
+
+    private void FillOutMissingBoolsInDivisionApplicationArrays()
+    {
+        int lSteps = divisionStepSequence.Length;
         for (int i = 0; i < spawnModule.Length; i++)
         {
-            if (spawnModule[i].divisionApplication.Length == 0)
+            int lThis = spawnModule[i].divApplication.Length;
+            if (lThis < lSteps)
             {
-                SetModuleSequenceDivisionApplicationToMax(spawnModule[i]);
+                bool[] divAppFiller = new bool[lSteps];
+                for (int divApps = 0; divApps < lThis; divApps++)
+                {
+                    divAppFiller[divApps] = spawnModule[i].divApplication[divApps];
+                }
+                if (lThis == 0)
+                {
+                    for (int divApps = 0; divApps < lSteps; divApps++)
+                    {
+                        divAppFiller[divApps] = true;
+                    }
+                }
+                spawnModule[i].divApplication = divAppFiller;
             }
         }
         for (int i = 0; i < spawnSequence.Length; i++)
         {
-            if (spawnSequence[i].divisionApplication.Length == 0)
+            int lThis = spawnSequence[i].divApplication.Length;
+            
+            if (lThis < lSteps)
             {
-                SetSequenceDivisionApplicationToMax(spawnSequence[i]);
+                bool[] divAppFiller = new bool[lSteps];
+                for (int divApps = 0; divApps < lThis; divApps++)
+                {
+                    divAppFiller[divApps] = spawnSequence[i].divApplication[divApps];
+                    divAppFiller[divApps] = true;
+                }
+                if (lThis == 0)
+                {
+                    for (int divApps = 0; divApps < lSteps; divApps++)
+                    {
+                        divAppFiller[divApps] = true;
+                    }
+                }
+                spawnSequence[i].divApplication = divAppFiller;
             }
-        }
-    }
-
-    private void DemonstrationAfDivision()
-    {
-        divisionApplication = new int[divisionStepSequence.Length];
-        for (int i = 0; i < divApplTest.Length; i++)
-        {
-            if (divApplTest[i])
-            {
-                divisionApplication[i] = divisionStepSequence[i];
-            }
-            print("test" + i + divApplTest[i]);
         }
     }
 
@@ -65,25 +84,6 @@ public class LevelDesigner : MonoBehaviour
 
     }
 
-    private void SetModuleSequenceDivisionApplicationToMax(SpawnModule mod)
-    {
-        mod.divisionApplication = new bool[divisionStepSequence.Length];
-        int length = mod.divisionApplication.Length;
-        for (int i = 1; i < length; i++)
-        {
-            mod.divisionApplication[i] = true;
-        }
-    }
-    private void SetSequenceDivisionApplicationToMax(Sequence seq)
-    {
-        seq.divisionApplication = new bool[divisionStepSequence.Length];
-        int length = seq.divisionApplication.Length;
-        for (int i = 1; i < length; i++)
-        {
-            seq.divisionApplication[i] = true; 
-        }
-    }
-
     private void SetModuleRandomSpawnRotation(int length)
     {
         for (int i = 0; i < length; i++)
@@ -91,6 +91,7 @@ public class LevelDesigner : MonoBehaviour
             float rotation = spawnModule[i].modTypeRotProb.y;
             if (rotation == 0)
             {
+                Debug.Log("time for some random rotation, oke?");
                 spawnModule[i].modTypeRotProb.y = Random.Range(0, 360);
             }
         }
