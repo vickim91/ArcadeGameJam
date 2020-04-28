@@ -219,6 +219,16 @@ MonoBehaviour:
   type: 0
   step: 0
   isPuny: 0
+  isThirdAlignment: 0
+  isSecondAlignment: 0
+  isClearable: 0
+  rotatingClockwise: 0
+  rotatingCounterclockwise: 0
+  rotationStop: 1
+  thisModSelectionIndex: -1
+  clearableWindowSize: 5
+  clearableAngles:
+  - 0
   degreesPerSecond: 100
 --- !u!1 &4165167023404884169
 GameObject:

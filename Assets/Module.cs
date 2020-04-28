@@ -33,11 +33,19 @@ public class Module : MonoBehaviour
     public bool CheckIfClearable()
     {
         bool clearable = false;
+        this.isClearable = false;
         for (int i=0; i < clearableAngles.Length; i++)
         {
-            if(this.transform.eulerAngles.z < clearableAngles[i] - clearableWindowSize && this.transform.eulerAngles.z > clearableAngles[i] + clearableWindowSize)
+            Quaternion currentRot = this.transform.rotation;
+            Vector3 otherAngleEuler = new Vector3(0f, 0f, clearableAngles[i]);
+            Quaternion otherRot = Quaternion.Euler(otherAngleEuler);
+            float angle = Quaternion.Angle(currentRot, otherRot);
+            if(Mathf.Abs(angle) < clearableWindowSize)
             {
                 clearable = true;
+                this.isClearable = true;
+                print(this.gameObject.name + " is clearable");
+                break;
             }
          
         }
@@ -124,7 +132,10 @@ public class Module : MonoBehaviour
                     fixedAngle = fixedAngle % 360;
               
                 this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
-               
+
+                //check if clearable
+                CheckIfClearable();
+
                 rotationStop = true;
                 rotationVelocityChange = true;
             }
@@ -186,6 +197,9 @@ public class Module : MonoBehaviour
             fixedAngle = fixedAngle % 360;
 
         this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
+
+        //check is clearable
+        CheckIfClearable();
 
        // transform.Rotate(new Vector3(0f, 0f, (360 / division) * initialRotationSteps));
        
