@@ -22,6 +22,8 @@ public class AudioManager : MonoBehaviour
 
     public float varRotStopPitching;
     public float varRotPitching;
+    public float varDistVolSlopeRot;
+    public float varDistVolSlopeRotStop;
     public float varVolDuckPercent;
     public float varVolDuckSlope;
     public float selectionPitching;
@@ -45,8 +47,6 @@ public class AudioManager : MonoBehaviour
         InstantiateAudioEvent(ref selectPrevMod);
         InstantiateAudioEvent(ref rotCueRight);
         InstantiateAudioEvent(ref rotCueLeft);
-
-        ShiftingStartValues();
     }
 
     void Update()
@@ -120,35 +120,31 @@ public class AudioManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             RotationCue(false, true);
-                        Rotation(false, selectedModule, true);
+            Rotation(selectedModule, true);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             RotationCue(false, false);
-                        Rotation(false, selectedModule, false);
+            Rotation(selectedModule, false);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             RotationStop(selectedModule);
-            Rotation(true, selectedModule, false);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
             RotationStop(selectedModule);
             RotationStopClearable(selectedModule);
-            Rotation(true, selectedModule, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             TwoAligned();
             RotationStop(selectedModule);
-            Rotation(true, selectedModule, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ThreeAligned();
             RotationStop(selectedModule);
-            Rotation(true, selectedModule, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
@@ -159,6 +155,7 @@ public class AudioManager : MonoBehaviour
     public void RotationStop(int selMod)
     {
         rotStopV[selMod].TriggerAudioEvent();
+        rotationV[selMod].StopAudioLoop();
     }
 
     public void RotationStopClearable(int selMod)
@@ -166,67 +163,64 @@ public class AudioManager : MonoBehaviour
         rotStopClearableV[selMod].TriggerAudioEvent();
     }
 
-    public void Rotation(bool stop, int selectedModule, bool clockwise)
+    public void Rotation(int selectedModule, bool clockwise)
     {
-        if (stop)
-        {
-            rotationV[selectedModule].StopAudioLoop();
-        }
+        float pitchClockwise = rotationV[selectedModule].initialPitch + varRotPitching * selectedModule;
+        if (clockwise)
+            rotationV[selectedModule].pitch = pitchClockwise;
         else
+            rotationV[selectedModule].pitch = pitchClockwise - rotPitchingCounterclockwise;
+        if (rotationV[selectedModule].IsPlaying() == false)
+            rotationV[selectedModule].StartAudioLoop();
+        if (rotationV[selectedModule].isStopping)
+            rotationV[selectedModule].StartAudioLoop();
+    }
+
+    int previousSelection;
+    public void UpdateLoopVolumeDuckingAppliance(int selectedModule)
+    {
+        if (previousSelection != selectedModule)
         {
-            print("selModRotationStart:" + selectedModule);
-            float pitchClockwise = rotationV[selectedModule].initialPitch + varRotPitching * selectedModule;
-            if (clockwise)
-                rotationV[selectedModule].pitch = pitchClockwise;
-            else
-                rotationV[selectedModule].pitch = pitchClockwise - rotPitchingCounterclockwise;
             for (int i = 0; i < numOfSelectables; i++)
             {
-                if (rotationV[i].IsPlaying())
+                float initVol = rotationV[i].initialVolume;
+                float duckVol = initVol * varVolDuckPercent * 0.01f;
+                float distSlope = varDistVolSlopeRot * i;
+                float fadeSlope = varVolDuckSlope;
+                if (i != selectedModule)
+                    rotationV[i].FadeAudioLoop(duckVol - distSlope, -fadeSlope);
+                else
                 {
-                    float initVol = rotationV[i].initialVolume;
-                    float duckVol = initVol * varVolDuckPercent * 0.01f;
-                    float slope = varVolDuckSlope;
-                    if (i != selectedModule)
-                        rotationV[i].FadeAudioLoop(duckVol, -slope);
-                    else
-                        rotationV[i].FadeAudioLoop(initVol, slope);
+                    rotationV[i].FadeAudioLoop(initVol - distSlope, fadeSlope*2);
+                    rotationV[i].StartAudioLoop();
                 }
             }
-            if (rotationV[selectedModule].IsPlaying() == false)
-                rotationV[selectedModule].StartAudioLoop();
+            previousSelection = selectedModule;
         }
     }
 
-    int counter;
-    bool isPlaying;
-
-    public void ShiftingStartValues()
+    public void UpdateEventVolumeDuckingAppliance(int moduleIndex, bool isSelected)
     {
-        counter = 4;
-        rotationV[4].name = rotationV[4].name + "playing";
-//        Rotation(false, 4, true);
+        float initVol = rotStopV[moduleIndex].sound[0].initialVolume;
+        float distSlope = varDistVolSlopeRotStop * moduleIndex;
+        if (isSelected)
+            rotStopV[moduleIndex].sound[0].volume = initVol - distSlope;
+        else
+            rotStopV[moduleIndex].sound[0].volume = initVol - distSlope;
     }
+
     public void ShiftRotationLoopVoices()
     {
         if (rotationV[0].IsPlaying())
         {
-            Rotation(true, 0, false);
+            rotationV[0].StopAudioLoop();
         }
-        isPlaying = false;
         AudioLoop rotVZero = rotationV[0];
         for (int i = 0; i < 4; i++)
         {
             rotationV[i] = rotationV[i + 1];
-//            Debug.Log(i + " " + rotationV[i].IsPlaying());
         }
         rotationV[4] = rotVZero;
-    }
-
-    public void ModulePassesPlayer()
-    {
-        Rotation(true, 0, false);
-        // should anything extra happen here? a shift in the array? is that even neccessary?
     }
 
     public void TwoAligned()

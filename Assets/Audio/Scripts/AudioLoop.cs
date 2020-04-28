@@ -9,10 +9,10 @@ public class AudioLoop : MonoBehaviour
 {
     private AudioSource audioSource;
     public AudioClip soundFile;
-    public float pitch = 1;
+    public float pitch;
     [HideInInspector]
     public float initialPitch;
-    public float volume = 0.5f;
+    public float volume;
     [HideInInspector]
     public float initialVolume;
     public AudioMixerGroup output;
@@ -29,7 +29,7 @@ public class AudioLoop : MonoBehaviour
     public RangedFloat pitchFadeOutSlope;
     private float pitchFadeOutSlopeCalc;
     [HideInInspector]
-    public bool stopping;
+    public bool isStopping;
     private bool fading;
     private float fadeVolDestination;
     private float fadeVolSlope;
@@ -64,7 +64,7 @@ public class AudioLoop : MonoBehaviour
         //    SceneManager.LoadScene("SampleScene");
         //}
 
-        if (stopping)
+        if (isStopping)
             FadeOutThenStop();
         else if (fading)
         {
@@ -101,7 +101,7 @@ public class AudioLoop : MonoBehaviour
 
     private void FadeVolume()
     {
-        if (stopping == false)
+        if (isStopping == false)
         {
             if (fadeVolSlope < 0)
             {
@@ -141,7 +141,7 @@ public class AudioLoop : MonoBehaviour
 
     public void StartAudioLoop()
     {
-        stopping = false;
+        isStopping = false;
         audioSource.outputAudioMixerGroup = output;
         audioSource.clip = soundFile;
         audioSource.Play();
@@ -152,7 +152,7 @@ public class AudioLoop : MonoBehaviour
     public void StopAudioLoop()
     {
         pitchFadeOutSlopeCalc = UnityEngine.Random.Range(pitchFadeOutSlope.minValue, pitchFadeOutSlope.maxValue);
-        stopping = true;
+        isStopping = true;
     }
 
     public bool IsPlaying()
@@ -165,7 +165,7 @@ public class AudioLoop : MonoBehaviour
 
     public void TriggerSeekAndPlay()
     {
-        stopping = false;
+        isStopping = false;
         StartAudioLoop();
         audioSource.time = soundFile.length * seekPercent * 0.01f;
     }

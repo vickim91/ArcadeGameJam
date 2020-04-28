@@ -126,11 +126,10 @@ public class Module : MonoBehaviour
                 {
                     this.transform.Rotate(new Vector3(0F, 0F, -rotationThisFrame));
                     this.degreesRemaining += rotationThisFrame;
-                    if (rotatingClockwise || rotationStop)
-                    {
+                    if (rotationStop)
                         rotationVelocityChange = true;
-                        print("velChange");
-                    }
+                    if (rotatingClockwise)
+                        rotationVelocityChange = true;
                     rotatingCounterclockwise = true;
                     rotatingClockwise = false;
                     rotationStop = false;
@@ -149,11 +148,10 @@ public class Module : MonoBehaviour
         }
         else if (rotationVelocityChange)
         {
-            print("here");
             rotationVelocityChange = false;
             if (rotationStop == true)
             {
-                audioManager.Rotation(true, thisModSelectionIndex, false);
+                audioManager.UpdateEventVolumeDuckingAppliance(thisModSelectionIndex, isSelected);
                 audioManager.RotationStop(thisModSelectionIndex);
                 if (isThirdAlignment)
                     audioManager.ThreeAligned();
@@ -164,11 +162,13 @@ public class Module : MonoBehaviour
             }
             else if (rotatingClockwise)
             {
-                audioManager.Rotation(false, thisModSelectionIndex, true);
+                audioManager.Rotation(thisModSelectionIndex, true);
+                audioManager.UpdateLoopVolumeDuckingAppliance(thisModSelectionIndex);
             }
             else if (rotatingCounterclockwise)
             {
-                audioManager.Rotation(false, thisModSelectionIndex, false);
+                audioManager.Rotation(thisModSelectionIndex, false);
+                audioManager.UpdateLoopVolumeDuckingAppliance(thisModSelectionIndex);
             }
         }
     }
@@ -177,7 +177,7 @@ public class Module : MonoBehaviour
     {
         hasReachedPlayer = true;
         GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-        audioManager.Rotation(true, thisModSelectionIndex, false);
+        //audioManager.Rotation(true, thisModSelectionIndex, false);
     }
     public void SelectThisModule()
     {

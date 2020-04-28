@@ -17,6 +17,8 @@ public class AudioEvent : MonoBehaviour
         public RangedFloat initialPitch;
         [Range(0, 1)]
         public float volume;
+        [HideInInspector]
+        public float initialVolume;
     }
     public Sound[] sound;
     public enum Parameters
@@ -61,6 +63,7 @@ public class AudioEvent : MonoBehaviour
         for (int i = 0; i < sound.Length; i++)
         {
             sound[i].initialPitch = sound[i].pitch;
+            sound[i].initialVolume = sound[i].volume;
         }
         BuildVoices();
     }
