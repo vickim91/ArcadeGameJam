@@ -30,8 +30,17 @@ public class ModuleSpawner : MonoBehaviour
     public int lightSpeedCounter;
     public int initialLightSpeedCounter;
     public int deAccellerationStartPoint;
-    public float acceleration;
+    
     public int playerPosition;
+    //speed variables
+    public float acceleration;
+    private float gameSpeedRemaining;
+    private float spawnSpeedRemaining;
+    private float rotationSpeedRemaining;
+    public float initialGameSpeed;
+    public float initialSpawnRate;
+    public float initialRotationSpeed;
+
     // level design tools:
     public int divisionStep;
     public float gameSpeed;
@@ -76,6 +85,101 @@ public class ModuleSpawner : MonoBehaviour
         CheckIfModuleHasReachedThePlayer();
         AutoSpawn();
         InputMethodsForTesting();
+        UpdateSpeed();
+    }
+    private void UpdateSpeed()
+    {
+        //game speed 
+        if(Mathf.Abs(gameSpeedRemaining) >0f )
+        {
+            float gameSpeedChangeThisFrame = acceleration * Time.deltaTime;
+            if(gameSpeedChangeThisFrame >= Mathf.Abs(gameSpeedRemaining)){
+                gameSpeed += gameSpeedRemaining;
+                gameSpeedRemaining = 0f;
+            
+            }
+            else
+            {
+                //positive acceleration
+                if(gameSpeedRemaining > 0f)
+                {
+                    gameSpeed += gameSpeedChangeThisFrame;
+                    gameSpeedRemaining -= gameSpeedChangeThisFrame;
+                }
+                //negative acceleration
+                else if(gameSpeedRemaining < 0f)
+                {
+                    gameSpeed -= gameSpeedChangeThisFrame;
+                    gameSpeedRemaining += gameSpeedChangeThisFrame;
+                }
+            }
+            foreach (GameObject g in spawnedMods)
+            {
+                if (g)
+                {
+                    Module m = g.GetComponent<Module>();
+                    m.speed = gameSpeed;
+
+                }
+            }
+        }
+        //spawn speed
+        if (Mathf.Abs(spawnSpeedRemaining) > 0f)
+        {
+            float spawnRateChangeThisFrame = acceleration * Time.deltaTime;
+            if (spawnRateChangeThisFrame >= Mathf.Abs(spawnSpeedRemaining)){
+                spawnRate += spawnSpeedRemaining;
+                spawnSpeedRemaining = 0f;
+              
+            }
+            else
+            {
+                //positive accel
+                if(spawnSpeedRemaining > 0f)
+                {
+                    spawnRate += spawnRateChangeThisFrame;
+                    spawnSpeedRemaining -= spawnRateChangeThisFrame;
+                }
+                //negative accel
+                else if(spawnSpeedRemaining < 0f)
+                {
+                    spawnRate -= spawnRateChangeThisFrame;
+                    spawnSpeedRemaining += spawnRateChangeThisFrame;
+                }
+            }
+        }
+        //rotation speed
+        if(Mathf.Abs(rotationSpeedRemaining) > 0f)
+        {
+            //100 for at match scale med de andre speeds
+            float rotationChangeThisFrame = acceleration * 100 * Time.deltaTime;
+            if(rotationChangeThisFrame >= Mathf.Abs(rotationSpeedRemaining) || Mathf.Abs( rotationSpeedRemaining) < 1f)
+            {
+                rotationSpeed += rotationSpeedRemaining;
+                rotationSpeedRemaining = 0f;
+            }
+            //positive accel
+            if(rotationSpeedRemaining > 0f)
+            {
+                rotationSpeed += rotationChangeThisFrame;
+                rotationSpeedRemaining -= rotationChangeThisFrame;
+            }
+            //negative accel
+            else if(rotationSpeedRemaining < 0f)
+            {
+                rotationSpeed -= rotationChangeThisFrame;
+                rotationSpeedRemaining += rotationChangeThisFrame;
+            }
+            foreach (GameObject g in spawnedMods)
+            {
+                if (g)
+                {
+                    Module m = g.GetComponent<Module>();
+                    m.degreesPerSecond = rotationSpeed;
+
+                }
+            }
+        }
     }
 
     public void SetProbabilities()
@@ -278,7 +382,7 @@ public class ModuleSpawner : MonoBehaviour
 
     private void AutoSpawn()
     {
-        if (autoSpawnTimer > 0)
+        if (spawnRate > 0)
         {
             autoSpawnTimer += Time.deltaTime;
             if (autoSpawnTimer > 1 / spawnRate)
@@ -299,7 +403,7 @@ public class ModuleSpawner : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            SetSpeed(gameSpeed, starPowDeacc, spawnRate, rotationSpeed);
+            SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate, initialRotationSpeed);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -352,6 +456,7 @@ public class ModuleSpawner : MonoBehaviour
 
     private void SetSelectedModule(int index)
     {
+        print(index + "index");
         if(currentSelectables[index] != null)
         {
 //            selectedModule = currentSelectables[index].GetComponent<Module>();
@@ -383,66 +488,13 @@ public class ModuleSpawner : MonoBehaviour
     public float rotSpeedCalc; // Read
 
     //brug til acceleration /deAcceleration
-    private async Task SetSpeed(float targetGameSpeed, float acceleration, float targetSpawnRate, float targetRotationSpeed)
+    public void SetSpeed(float targetGameSpeed, float acceleration, float targetSpawnRate, float targetRotationSpeed)
     {
-        await Task.Yield();
-        float gameSpeedDiff = targetGameSpeed - this.gameSpeed;
-        float spawnSpeedDiff = targetGameSpeed - this.spawnRate;
-        float rotationSpeedDiff = targetRotationSpeed - this.rotationSpeed;
-        while (Mathf.Abs(gameSpeedDiff)> 0 || Mathf.Abs(spawnSpeedDiff) > 0 || Mathf.Abs(targetRotationSpeed)>0)
-        {
-
-            if (gameSpeedDiff > 0)
-            {
-                this.gameSpeed += 0.01f;
-                gameSpeedDiff -= 0.01f;
-            }
-            else
-            {
-                this.gameSpeed -= 0.01f;
-                gameSpeedDiff += 0.01f;
-            }
-            if (spawnSpeedDiff > 0)
-            {
-                this.spawnRate += 0.01f;
-                spawnSpeedDiff -= 0.01f;
-            }
-            else
-            {
-                this.spawnRate -= 0.01f;
-                spawnSpeedDiff += 0.01f;
-            }
-            if (rotationSpeedDiff > 0)
-            {
-                this.rotationSpeed += 1f;
-                rotationSpeedDiff -= 1f;
-            }
-            else
-            {
-                this.rotationSpeed -= 1f;
-                targetRotationSpeed += 1f;
-            }
-            //round to avoid imprecision
-            if(Mathf.Abs(gameSpeedDiff) < 0.05f )
-            {
-                this.gameSpeed = targetGameSpeed;
-            }
-            if (Mathf.Abs(spawnSpeedDiff) < 0.05f)
-            {
-                this.spawnRate = targetSpawnRate;
-            }
-            if (Mathf.Abs(rotationSpeedDiff) < 0.05f)
-            {
-                this.rotationSpeed = targetRotationSpeed;
-            }
-            float delay = 1 / acceleration;
-//            print("delay" + delay);
-            int miliseconds = Mathf.RoundToInt(delay * 1000);
-//            print(miliseconds + " miliseconds");
-            await Task.Delay(miliseconds);
-
-        }
        
+        gameSpeedRemaining = targetGameSpeed - this.gameSpeed;
+        spawnSpeedRemaining = targetSpawnRate - this.spawnRate;
+        rotationSpeedRemaining = targetRotationSpeed - this.rotationSpeed;
+        this.acceleration = acceleration;
 
     }
 

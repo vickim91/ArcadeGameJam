@@ -654,8 +654,11 @@ MonoBehaviour:
   lightSpeedCounter: 0
   initialLightSpeedCounter: 0
   deAccellerationStartPoint: 0
-  acceleration: 0
   playerPosition: 8
+  acceleration: 0.1
+  initialGameSpeed: 0.5
+  initialSpawnRate: 0.5
+  initialRotationSpeed: 100
   divisionStep: 4
   gameSpeed: 0.5
   spawnRate: 0.5
@@ -663,8 +666,8 @@ MonoBehaviour:
   starPowGameSpeed: 2
   starPowSpawnrate: 2
   starPowRotSpeed: 200
-  starPowAcc: 10
-  starPowDeacc: 10
+  starPowAcc: 0.8
+  starPowDeacc: 0.2
   gameSpeedCalc: 0
   spawnRateCalc: 0
   rotSpeedCalc: 0
