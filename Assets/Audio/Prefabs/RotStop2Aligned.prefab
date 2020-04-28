@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2543555487054817492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4837253272651277812}
+  - component: {fileID: 1811171930082379589}
+  m_Layer: 0
+  m_Name: RotStop2Aligned
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4837253272651277812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543555487054817492}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.262877, y: -2.6622639, z: -2.456581}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1811171930082379589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543555487054817492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4cac98026402f42a1539c7709aab03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound:
+  - soundFile: {fileID: 8300000, guid: 854810877d3ac8f4db1ab72a4e279e00, type: 3}
+    pitch:
+      minValue: 1.0042373
+      maxValue: 1.0042373
+    initialPitch:
+      minValue: 0
+      maxValue: 0
+    volume: 0.5
+  pitchAndVolLogic: 0
+  output: {fileID: -7288260760328263198, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
+  voicePrefab: {fileID: 7037097917955545936, guid: b789f748b9a3c32468fe2b52fda7b33a,
+    type: 3}
+  voiceMax: 1
+  kill: 0
+  seq: 0
+  fadeOutWhenStopped: 0
+  fadeOutSlopeWhenStopped: 0

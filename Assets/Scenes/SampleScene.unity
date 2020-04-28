@@ -121,6 +121,74 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &409055531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 409055533}
+  - component: {fileID: 409055532}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &409055532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409055531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06016f682b7e394197d21d0ada7ded1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotation: {fileID: 5903827950238681526, guid: 926ab8f6b8508494c976ef3171405af5,
+    type: 3}
+  rotationStop: {fileID: 7768872319237251835, guid: 51b7b7e26517faa4c801707514d8d8b1,
+    type: 3}
+  rotStopClearable: {fileID: 526386380091411881, guid: aec8ac35809b63b408f57896d4e25f43,
+    type: 3}
+  rotStopTwoAligned: {fileID: 1811171930082379589, guid: a1667164976b90447bcef1d63376c1b3,
+    type: 3}
+  rotStopThreeAligned: {fileID: 8642944671205534134, guid: d50bcb31d3aa05d449366da130facf7a,
+    type: 3}
+  selectNextMod: {fileID: 300845004421199379, guid: 9b15eda04f28e104cadffde0810c2cb6,
+    type: 3}
+  selectPrevMod: {fileID: 3192898335893119080, guid: 33193050fda0b5941b6ae951bfa3b3d9,
+    type: 3}
+  rotCueRight: {fileID: 1144775848249085298, guid: 649fd8febbbba25408dd0e1b470b1e97,
+    type: 3}
+  rotCueLeft: {fileID: 4295081687006113183, guid: 1c63a7aa59b4d2540be4754c261ffe0f,
+    type: 3}
+  varRotStopPitching: 0.01
+  varRotPitching: 0.01
+  varVolDuckPercent: 35
+  varVolDuckSlope: 0.1
+  selectionPitching: 0.01
+  rotCuePitching: 0.01
+  rotPitchingCounterclockwise: 0.1
+--- !u!4 &409055533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409055531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.262877, y: -2.6622639, z: -2.456581}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +553,6 @@ MonoBehaviour:
   currentSelectables: []
   spawnedMods: []
   spawnQueue: []
-  selectedModIndex: 0
   selectedModule: {fileID: 0}
   positionOfClosestModule: 0
   modules:
@@ -499,12 +566,11 @@ MonoBehaviour:
   initialLightSpeedCounter: 0
   deAccellerationStartPoint: 0
   acceleration: 0
-  divisionStep: 4
   playerPosition: 8
-  autoSpawn: 1
+  divisionStep: 4
   gameSpeed: 0.5
   spawnRate: 0.5
-  rotationSpeed: 200
+  rotationSpeed: 50
   starPowGameSpeed: 2
   starPowSpawnrate: 2
   starPowRotSpeed: 200

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 public class ModuleSpawner : MonoBehaviour
 {
     GameManager gameManager;
+    AudioManager audioManager;
     LevelDesigner levelDesigner;
     LevelDesigner.ModuleSpawn[] modSpawnParams;
     LevelDesigner.SequenceSpawn[] seqSpawnParams;
@@ -16,7 +17,7 @@ public class ModuleSpawner : MonoBehaviour
     public GameObject[] spawnedMods; // read // this does not include module that has reached the player
     public Vector2[] spawnQueue; // read
     private int spawnedModsIndex;
-    public int selectedModIndex; // read
+    public static int selectedModIndex; // read
     public Module selectedModule; // read
     public float positionOfClosestModule; // read
 
@@ -41,7 +42,7 @@ public class ModuleSpawner : MonoBehaviour
     private float autoSpawnTimer;
     private int moduleNumber;
     private string spawnNameModOrSeq;
-    
+
     /*
      * naming convention: a mod(module) is not the same as a modSpawn(moduleSpawn)
          * a mod exists in the game, deriving from a modSpawn or seqSpawn.
@@ -55,6 +56,7 @@ public class ModuleSpawner : MonoBehaviour
     {
         levelDesigner = GetComponent<LevelDesigner>();
         gameManager = FindObjectOfType<GameManager>();
+        audioManager = FindObjectOfType<AudioManager>();
         currentSelectables = new GameObject[numberOfSelectableMods];
         spawnedMods = new GameObject[maxNumOfModsInGame]; // these does not include spawned modules that have reached the player
         spawnedModsIndex = -1;
@@ -144,6 +146,7 @@ public class ModuleSpawner : MonoBehaviour
             positionOfClosestModule = currentSelectables[0].transform.position.z;
             if (currentSelectables[0].transform.position.z > playerPosition)
             {
+                currentSelectables[0].GetComponent<Module>().hasReachedPlayer = true;
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
                 currentSelectables[0].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
@@ -167,6 +170,12 @@ public class ModuleSpawner : MonoBehaviour
                 if (selectedModIndex > 0)
                     selectedModIndex--;
                 SetSelectedModule(selectedModIndex);
+
+
+                for (int i = 0; i < numberOfSelectableMods; i++)
+                {
+                    currentSelectables[i].GetComponent<Module>().thisModSelectionIndex = i; // for sounds
+                }
             }
 
         }
@@ -209,13 +218,18 @@ public class ModuleSpawner : MonoBehaviour
             {
                 selectedModIndex = numberOfSelectableMods - 1;
             }
+            else
+                audioManager.SelectNextModule(selectedModIndex);
             SetSelectedModule(selectedModIndex);
+
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedModIndex--;
             if (selectedModIndex < 0)
                 selectedModIndex = 0;
+            else
+                audioManager.SelectPrevMod(selectedModIndex);
             SetSelectedModule(selectedModIndex);
         }
         //rotér mod uret
@@ -223,7 +237,11 @@ public class ModuleSpawner : MonoBehaviour
         {
             if (selectedModule)
             {
-                selectedModule.Rotate(false);
+                if (currentSelectables[selectedModIndex].transform.position.z < playerPosition)
+                {
+                    audioManager.RotationCue(false, false);
+                    selectedModule.Rotate(false, selectedModIndex);
+                }
                 CheckForLineup();
             }
         }
@@ -232,7 +250,11 @@ public class ModuleSpawner : MonoBehaviour
         {
             if (selectedModule)
             {
-                selectedModule.Rotate(true);
+                if (currentSelectables[selectedModIndex].transform.position.z < playerPosition)
+                {
+                    audioManager.RotationCue(false, true);
+                    selectedModule.Rotate(true, selectedModIndex);
+                }
                 CheckForLineup();
             }
         }
@@ -420,9 +442,9 @@ public class ModuleSpawner : MonoBehaviour
                 this.rotationSpeed = targetRotationSpeed;
             }
             float delay = 1 / acceleration;
-            print("delay" + delay);
+//            print("delay" + delay);
             int miliseconds = Mathf.RoundToInt(delay * 1000);
-            print(miliseconds + " miliseconds");
+//            print(miliseconds + " miliseconds");
             await Task.Delay(miliseconds);
 
         }

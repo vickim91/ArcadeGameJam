@@ -11,10 +11,11 @@ public class Module : MonoBehaviour
     public int step;
     public bool isPuny;
     Vector3 targetRotationEuler;
+    AudioManager audioManager;
     
     private void Awake()
     {
-        
+        audioManager = FindObjectOfType<AudioManager>();
     }
    public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )
     {
@@ -44,13 +45,15 @@ public class Module : MonoBehaviour
         {
             this.step = step + division;
         }
-        
     }
-    public void Rotate(bool clockwise)
+
+
+
+    public void Rotate(bool clockwise, int selectionIndex)
     {
+        thisModSelectionIndex = selectionIndex;
         if (clockwise)
         {
-
             // targetRotationEuler = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360 / division);
             AddRotation(360 / division);
             
@@ -90,9 +93,23 @@ public class Module : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    bool isThirdAlignment; // controlled by modulespawner (tbc)
+    bool isSecondAlignment; // controlled by modulespawner (tbc)
+    public bool isClearable; // controlled by modulespawner (tbc)
+    public bool hasReachedPlayer; // controlled by modulespawner 
+    bool rotatingClockwise;
+    bool rotatingCounterclockwise;
+    bool rotationVelocityChange;
+    public int thisModSelectionIndex = -1; // controlled by modulespawner
+
     // Update is called once per frame
     void Update()
     {
+        if (hasReachedPlayer)
+        {
+            audioManager.Rotation(true, thisModSelectionIndex, false);
+        }
         transform.position = transform.position + Vector3.forward * speed * Time.deltaTime;
 
         if (Mathf.Abs(this.degreesRemaining) > 0F)
@@ -106,22 +123,45 @@ public class Module : MonoBehaviour
             {
                 this.transform.Rotate(new Vector3(0F, 0F, degreesRemaining));
                 this.degreesRemaining = 0F;
+                audioManager.Rotation(true, thisModSelectionIndex, false);
+                if (hasReachedPlayer == false)
+                {
+                    audioManager.RotationStop(thisModSelectionIndex);
+                    rotatingClockwise = false;
+                    rotatingCounterclockwise = false;
+                }
+                else if (isThirdAlignment)
+                    audioManager.ThreeAligned();
+                else if (isSecondAlignment)
+                    audioManager.TwoAligned();
+                else if (isClearable)
+                    audioManager.RotationStopClearable(thisModSelectionIndex);
             }
             else // otherwise, rotate the amount necessary and subtract that from the counter
             {
-               
                 if (degreesRemaining > 0)
                 {
                     this.transform.Rotate(new Vector3(0F, 0F, rotationThisFrame));
                     this.degreesRemaining -= rotationThisFrame;
+                    if (rotatingClockwise && hasReachedPlayer == false)
+                    {
+                        audioManager.Rotation(false, thisModSelectionIndex, true);
+                    }
+                    rotatingClockwise = true;
+                    rotatingCounterclockwise = false;
                 }
                 else
                 {
                     this.transform.Rotate(new Vector3(0F, 0F, -rotationThisFrame));
                     degreesRemaining += rotationThisFrame;
+                    if (rotatingCounterclockwise && hasReachedPlayer == false)
+                    {
+                        audioManager.Rotation(false, thisModSelectionIndex, false);
+                    }
+                    rotatingClockwise = false;
+                    rotatingCounterclockwise = true;
                 }
             }
         }
-
     }
 }
