@@ -12,14 +12,14 @@ public class Module : MonoBehaviour
     Vector3 targetRotationEuler;
     AudioManager audioManager;
 
-    private bool isSelected; 
+    private bool isSelected;
     public bool isThirdAlignment; // controlled by modulespawner (tbc)
     public bool isSecondAlignment; // controlled by modulespawner (tbc)
     public bool isClearable; // controlled by modulespawner (tbc)
-    private bool hasReachedPlayer; 
-    public bool rotatingClockwise;
-    public bool rotatingCounterclockwise;
-    public bool rotationStop = true;
+    private bool hasReachedPlayer;
+    bool rotatingClockwise = true;
+    bool rotatingCounterclockwise = true;
+    bool rotationStop = true;
     bool rotationVelocityChange;
     public int thisModSelectionIndex = -1; // controlled by modulespawner
 
@@ -44,7 +44,7 @@ public class Module : MonoBehaviour
         bool didSet = false;
         if (!isThirdAlignment)
         {
-            isSecondAlignment = true;
+            isThirdAlignment = true;
             didSet = true;
             //dostuff
         }
@@ -58,37 +58,6 @@ public class Module : MonoBehaviour
 
     private void Update()
     {
-        if (hasReachedPlayer)
-        {
-            
-        }
-        else if (rotationVelocityChange)
-        {
-            rotationVelocityChange = false;
-            if (rotationStop == true)
-            {
-                audioManager.Rotation(true, thisModSelectionIndex, false);
-                audioManager.RotationStop(thisModSelectionIndex);
-                if (isThirdAlignment)
-                    audioManager.ThreeAligned();
-                else if (isSecondAlignment)
-                    audioManager.TwoAligned();
-                else if (isClearable)
-                    audioManager.RotationStopClearable(thisModSelectionIndex);
-            }
-            if (rotatingClockwise)
-            {
-                audioManager.Rotation(false, thisModSelectionIndex, true);
-                Debug.Log("clockwise:" + thisModSelectionIndex);
-            }
-            else if (rotatingCounterclockwise)
-            {
-                audioManager.Rotation(false, thisModSelectionIndex, false);
-                Debug.Log("counterclockwise:" + thisModSelectionIndex);
-            }
-        }
-
-
         transform.position = transform.position + Vector3.forward * speed * Time.deltaTime;
 
         if (Mathf.Abs(this.degreesRemaining) > 0F)
@@ -107,12 +76,13 @@ public class Module : MonoBehaviour
             }
             else // otherwise, rotate the amount necessary and subtract that from the counter
             {
-                rotationStop = false;
                 if (degreesRemaining > 0)
                 {
                     this.transform.Rotate(new Vector3(0F, 0F, rotationThisFrame));
                     this.degreesRemaining -= rotationThisFrame;
-                    if (rotatingCounterclockwise || rotationStop)
+                    if (rotationStop)
+                        rotationVelocityChange = true;
+                    if (rotatingCounterclockwise)
                         rotationVelocityChange = true;
                     rotatingCounterclockwise = false;
                     rotatingClockwise = true;
@@ -121,20 +91,56 @@ public class Module : MonoBehaviour
                 else
                 {
                     this.transform.Rotate(new Vector3(0F, 0F, -rotationThisFrame));
-                    degreesRemaining += rotationThisFrame;
+                    this.degreesRemaining += rotationThisFrame;
                     if (rotatingClockwise || rotationStop)
+                    {
                         rotationVelocityChange = true;
+                        print("velChange");
+                    }
                     rotatingCounterclockwise = true;
                     rotatingClockwise = false;
                     rotationStop = false;
                 }
             }
         }
+
+        PlaySounds();
+    }
+
+    private void PlaySounds()
+    {
+        if (hasReachedPlayer)
+        {
+            print("sup");
+        }
+        else if (rotationVelocityChange)
+        {
+            print("here");
+            rotationVelocityChange = false;
+            if (rotationStop == true)
+            {
+                audioManager.Rotation(true, thisModSelectionIndex, false);
+                audioManager.RotationStop(thisModSelectionIndex);
+                if (isThirdAlignment)
+                    audioManager.ThreeAligned();
+                else if (isSecondAlignment)
+                    audioManager.TwoAligned();
+                else if (isClearable)
+                    audioManager.RotationStopClearable(thisModSelectionIndex);
+            }
+            else if (rotatingClockwise)
+            {
+                audioManager.Rotation(false, thisModSelectionIndex, true);
+            }
+            else if (rotatingCounterclockwise)
+            {
+                audioManager.Rotation(false, thisModSelectionIndex, false);
+            }
+        }
     }
 
     public void HasReachedPlayer()
     {
-        Debug.Log("reachedPlayer:" + thisModSelectionIndex);
         hasReachedPlayer = true;
         GetComponent<Renderer>().material.SetColor("_Color", Color.white);
         audioManager.Rotation(true, thisModSelectionIndex, false);

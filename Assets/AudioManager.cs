@@ -51,7 +51,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        InputMethodsForTesting();
+//        InputMethodsForTesting();
     }
 
     private void InstantiateAudioEvent(ref AudioEvent audioEvent)
@@ -174,6 +174,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+            print("selModRotationStart:" + selectedModule);
             float pitchClockwise = rotationV[selectedModule].initialPitch + varRotPitching * selectedModule;
             if (clockwise)
                 rotationV[selectedModule].pitch = pitchClockwise;
@@ -217,7 +218,7 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             rotationV[i] = rotationV[i + 1];
-            Debug.Log(i + " " + rotationV[i].IsPlaying());
+//            Debug.Log(i + " " + rotationV[i].IsPlaying());
         }
         rotationV[4] = rotVZero;
     }

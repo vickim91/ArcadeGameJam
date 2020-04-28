@@ -349,6 +349,7 @@ public class ModuleSpawner : MonoBehaviour
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
                 currentSelectablesScript[0].HasReachedPlayer();
+                audioManager.ShiftRotationLoopVoices();
                 
                 for (int i = 0; i < maxNumOfModsInGame - 1; i++)
                 {
