@@ -45,11 +45,13 @@ public class AudioManager : MonoBehaviour
         InstantiateAudioEvent(ref selectPrevMod);
         InstantiateAudioEvent(ref rotCueRight);
         InstantiateAudioEvent(ref rotCueLeft);
+
+        ShiftingStartValues();
     }
 
     void Update()
     {
-        //InputMethodsForTesting();
+        InputMethodsForTesting();
     }
 
     private void InstantiateAudioEvent(ref AudioEvent audioEvent)
@@ -148,6 +150,10 @@ public class AudioManager : MonoBehaviour
             RotationStop(selectedModule);
             Rotation(true, selectedModule, false);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            ShiftRotationLoopVoices();
+        }
     }
 
     public void RotationStop(int selMod)
@@ -189,6 +195,31 @@ public class AudioManager : MonoBehaviour
             if (rotationV[selectedModule].IsPlaying() == false)
                 rotationV[selectedModule].StartAudioLoop();
         }
+    }
+
+    int counter;
+    bool isPlaying;
+
+    public void ShiftingStartValues()
+    {
+        counter = 4;
+        rotationV[4].name = rotationV[4].name + "playing";
+//        Rotation(false, 4, true);
+    }
+    public void ShiftRotationLoopVoices()
+    {
+        if (rotationV[0].IsPlaying())
+        {
+            Rotation(true, 0, false);
+        }
+        isPlaying = false;
+        AudioLoop rotVZero = rotationV[0];
+        for (int i = 0; i < 4; i++)
+        {
+            rotationV[i] = rotationV[i + 1];
+            Debug.Log(i + " " + rotationV[i].IsPlaying());
+        }
+        rotationV[4] = rotVZero;
     }
 
     public void ModulePassesPlayer()
