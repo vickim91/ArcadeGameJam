@@ -111,7 +111,6 @@ public class Module : MonoBehaviour
         hasReachedPlayer = true;
         GetComponent<Renderer>().material.SetColor("_Color", Color.white);
         audioManager.Rotation(true, thisModSelectionIndex, false);
-        audioManager.Rotation(true, 0, false);
     }
     public void SelectThisModule()
     {

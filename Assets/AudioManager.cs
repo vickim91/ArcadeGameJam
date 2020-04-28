@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-//        InputMethodsForTesting();
+        //InputMethodsForTesting();
     }
 
     private void InstantiateAudioEvent(ref AudioEvent audioEvent)
@@ -118,12 +118,12 @@ public class AudioManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             RotationCue(false, true);
-            //            Rotation(false, selectedModule, true);
+                        Rotation(false, selectedModule, true);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             RotationCue(false, false);
-            //            Rotation(false, selectedModule, false);
+                        Rotation(false, selectedModule, false);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
