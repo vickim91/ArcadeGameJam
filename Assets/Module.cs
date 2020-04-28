@@ -22,11 +22,34 @@ public class Module : MonoBehaviour
     bool rotationStop = true;
     bool rotationVelocityChange;
     public int thisModSelectionIndex = -1; // controlled by modulespawner
+    public float clearableWindowSize;
+    public float[] clearableAngles;
 
 
     private void Start()
     {
         audioManager = FindObjectOfType<AudioManager>();
+    }
+    public bool CheckIfClearable()
+    {
+        bool clearable = false;
+        this.isClearable = false;
+        for (int i=0; i < clearableAngles.Length; i++)
+        {
+            Quaternion currentRot = this.transform.rotation;
+            Vector3 otherAngleEuler = new Vector3(0f, 0f, clearableAngles[i]);
+            Quaternion otherRot = Quaternion.Euler(otherAngleEuler);
+            float angle = Quaternion.Angle(currentRot, otherRot);
+            if(Mathf.Abs(angle) < clearableWindowSize)
+            {
+                clearable = true;
+                this.isClearable = true;
+                print(this.gameObject.name + " is clearable");
+                break;
+            }
+         
+        }
+        return clearable;
     }
     public bool SetAsSecondAllignment()
     {
@@ -71,6 +94,17 @@ public class Module : MonoBehaviour
             {
                 this.transform.Rotate(new Vector3(0F, 0F, degreesRemaining));
                 this.degreesRemaining = 0F;
+                //fix float imprecision
+           
+                float fixedAngle = (360 / division) * step;
+                if (fixedAngle > 360)
+                    fixedAngle = fixedAngle % 360;
+              
+                this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
+
+                //check if clearable
+                CheckIfClearable();
+
                 rotationStop = true;
                 rotationVelocityChange = true;
             }
@@ -163,8 +197,17 @@ public class Module : MonoBehaviour
         this.division = division;
         this.isPuny = isPuny;
         addStep(initialRotationSteps);
-        
-        transform.Rotate(new Vector3(0f, 0f, (360 / division) * initialRotationSteps));
+
+        float fixedAngle = (360 / division) * step;
+        if (fixedAngle > 360)
+            fixedAngle = fixedAngle % 360;
+
+        this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
+
+        //check is clearable
+        CheckIfClearable();
+
+       // transform.Rotate(new Vector3(0f, 0f, (360 / division) * initialRotationSteps));
        
     }
     //til superpower
@@ -177,7 +220,8 @@ public class Module : MonoBehaviour
         this.step += step;
         while (this.step > division-1)
         {
-            int rest = step % division;
+            
+            int rest = this.step % division;
             this.step = rest;
         }
         while (this.step < 0)

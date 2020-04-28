@@ -657,10 +657,10 @@ MonoBehaviour:
   playerPosition: 8
   acceleration: 0.1
   initialGameSpeed: 0.5
-  initialSpawnRate: 0.5
+  initialSpawnRate: 0
   initialRotationSpeed: 100
   divisionStep: 4
-  gameSpeed: 0.5
+  gameSpeed: 0.1
   spawnRate: 0.5
   rotationSpeed: 50
   starPowGameSpeed: 2
