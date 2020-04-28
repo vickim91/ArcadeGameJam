@@ -229,6 +229,7 @@ MonoBehaviour:
   clearableWindowSize: 5
   clearableAngles:
   - 0
+  - 90
   degreesPerSecond: 100
 --- !u!1 &4165167023404884169
 GameObject:
