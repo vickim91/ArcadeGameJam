@@ -518,31 +518,66 @@ public class ModuleSpawner : MonoBehaviour
                         if(lineUpCount ==2)
                         {
                             lineUp = true;
-                            TriggerStarPower(currentIndex - 2);
+                            TriggerStarPower(currentIndex);
                             break;
                         }
+                        // hvis det kun er 2 der liner op
+                        else if (lineUpCount == 1)
+                        {
+                            //set as secondInAllignment
+                            TwoAlligned(currentIndex);
+                        }
+                     
                     }
                     else
                     {
                         lineUpCount = 0;
+                        //clear previous allignment state
+                        NotAlligned(currentIndex);
                     }
                 }
                 lastType = m.type;
                 lastStep = m.step;
-                currentIndex++;
+               
             }
+            currentIndex++;
         }
         return lineUp;
     }
-    public void TriggerStarPower(int startIndex)
+    public void NotAlligned(int index)
+    {
+        //currentModule[index]
+        Module thisModule = currentSelectables[index].GetComponent<Module>();
+        thisModule.clearAlignmentStatuses();
+
+    }
+    public void TwoAlligned(int indexForSecondModuleInAllignment)
+    {
+        // second module in allignment
+        Module secondModule = currentSelectables[indexForSecondModuleInAllignment].GetComponent<Module>();
+        if (!secondModule.isSecondAlignment)
+        {
+            secondModule.SetAsSecondAllignment();
+            //do stuff
+        }
+    }
+    public void TriggerStarPower(int indexForThirdModuleInAlligment)
     {
         lightSpeedCounter = initialLightSpeedCounter;
+        Module thirdModule = currentSelectables[indexForThirdModuleInAlligment].GetComponent<Module>();
+        if(!thirdModule.isThirdAlignment)
+        {
+            //set as third in allignment
+            thirdModule.SetAsThirdAlligment();
+            //do stuff
+        }
         foreach(GameObject g  in spawnedMods)
         {
             if (g)
             {
                 Module m = g.GetComponent<Module>();
                 m.SetPuny(true);
+                
             }
             
         }

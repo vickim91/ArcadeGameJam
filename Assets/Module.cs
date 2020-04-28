@@ -28,6 +28,33 @@ public class Module : MonoBehaviour
     {
         audioManager = FindObjectOfType<AudioManager>();
     }
+    public bool SetAsSecondAllignment()
+    {
+        bool didSet = false;
+        if (!isSecondAlignment)
+        {
+            isSecondAlignment = true;
+            didSet = true;
+            //dostuff
+        }
+        return didSet;
+    }
+    public bool SetAsThirdAlligment()
+    {
+        bool didSet = false;
+        if (!isThirdAlignment)
+        {
+            isSecondAlignment = true;
+            didSet = true;
+            //dostuff
+        }
+        return didSet;
+    }
+    public void clearAlignmentStatuses()
+    {
+        isSecondAlignment = false;
+        isThirdAlignment = false;
+    }
 
     private void Update()
     {
