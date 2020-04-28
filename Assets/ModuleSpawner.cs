@@ -14,7 +14,8 @@ public class ModuleSpawner : MonoBehaviour
     public int[] seqSpawnProbabilities; // read
 
     public GameObject[] currentSelectables; // read
-    public GameObject[] spawnedMods; // read // this does not include module that has reached the player
+    public Module[] currentSelectablesScript; // read
+    public GameObject[] spawnedMods; // read // this does not include modules that have reached the player
     public Vector2[] spawnQueue; // read
     private int spawnedModsIndex;
     public static int selectedModIndex; // read
@@ -58,6 +59,7 @@ public class ModuleSpawner : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         audioManager = FindObjectOfType<AudioManager>();
         currentSelectables = new GameObject[numberOfSelectableMods];
+        currentSelectablesScript = new Module[numberOfSelectableMods];
         spawnedMods = new GameObject[maxNumOfModsInGame]; // these does not include spawned modules that have reached the player
         spawnedModsIndex = -1;
         selectedModIndex = 0;
@@ -73,7 +75,7 @@ public class ModuleSpawner : MonoBehaviour
     {
         CheckIfModuleHasReachedThePlayer();
         AutoSpawn();
-        InputMethods();
+        InputMethodsForTesting();
     }
 
     public void SetProbabilities()
@@ -139,149 +141,6 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
-    private void CheckIfModuleHasReachedThePlayer()
-    {
-        if (currentSelectables[0] != null)
-        {
-            positionOfClosestModule = currentSelectables[0].transform.position.z;
-            if (currentSelectables[0].transform.position.z > playerPosition)
-            {
-                currentSelectables[0].GetComponent<Module>().hasReachedPlayer = true;
-                //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
-                gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
-                currentSelectables[0].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                for (int i = 0; i < maxNumOfModsInGame - 1; i++)
-                {
-                    spawnedMods[i] = spawnedMods[i + 1];
-                }
-                spawnedMods[maxNumOfModsInGame - 1] = null;
-                if (spawnedModsIndex > -1)
-                    spawnedModsIndex--;
-
-                for (int i = 0; i < numberOfSelectableMods; i++)
-                {
-                    currentSelectables[i] = spawnedMods[i];
-                }
-                if (selectedModIndex < 0)
-                {
-                    Debug.Log("hey, does this ever happen?");
-                    selectedModIndex = 0;
-                }
-                if (selectedModIndex > 0)
-                    selectedModIndex--;
-                SetSelectedModule(selectedModIndex);
-
-
-                for (int i = 0; i < numberOfSelectableMods; i++)
-                {
-                    currentSelectables[i].GetComponent<Module>().thisModSelectionIndex = i; // for sounds
-                }
-            }
-
-        }
-    }
-
-    private void AutoSpawn()
-    {
-        if (autoSpawnTimer > 0)
-        {
-            autoSpawnTimer += Time.deltaTime;
-            if (autoSpawnTimer > 1 / spawnRate)
-            {
-                PrepareModuleThenSpawn();
-                autoSpawnTimer = 0;
-            }
-        }
-    }
-
-    private void InputMethods()
-    {
-        //change speed test
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-                //star power parameters
-            SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SetSpeed(gameSpeed, starPowDeacc, spawnRate, rotationSpeed);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PrepareModuleThenSpawn();
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            selectedModIndex++;
-            if (selectedModIndex > numberOfSelectableMods - 1)
-            {
-                selectedModIndex = numberOfSelectableMods - 1;
-            }
-            else
-                audioManager.SelectNextModule(selectedModIndex);
-            SetSelectedModule(selectedModIndex);
-
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            selectedModIndex--;
-            if (selectedModIndex < 0)
-                selectedModIndex = 0;
-            else
-                audioManager.SelectPrevMod(selectedModIndex);
-            SetSelectedModule(selectedModIndex);
-        }
-        //rotér mod uret
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (selectedModule)
-            {
-                if (currentSelectables[selectedModIndex].transform.position.z < playerPosition)
-                {
-                    audioManager.RotationCue(false, false);
-                    selectedModule.Rotate(false, selectedModIndex);
-                }
-                CheckForLineup();
-            }
-        }
-        //rotér med uret
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (selectedModule)
-            {
-                if (currentSelectables[selectedModIndex].transform.position.z < playerPosition)
-                {
-                    audioManager.RotationCue(false, true);
-                    selectedModule.Rotate(true, selectedModIndex);
-                }
-                CheckForLineup();
-            }
-        }
-    }
-
-    void SetSelectedModule(int index)
-    {
-        if(currentSelectables[index] != null)
-        {
-            if (selectedModule != null)
-            {
-                ColorTheUnselectedSelectables();
-            }
-            selectedModule = currentSelectables[index].GetComponent<Module>();
-            selectedModule.GetComponent<Renderer>().material.SetColor("_Color", Color.red);                
-        }
-    }
-
-    private void ColorTheUnselectedSelectables()
-    {
-        for (int i = 0; i < numberOfSelectableMods; i++)
-        {
-            if (currentSelectables[i] != null && currentSelectables[i].transform.position.z < playerPosition )
-                currentSelectables[i].GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        }
-    }
-
     private void PrepareModuleThenSpawn()
     {
         div = levelDesigner.divisionStepSequence[divisionStep];
@@ -341,23 +200,28 @@ public class ModuleSpawner : MonoBehaviour
         //starpower count down
         lightSpeedCounter--;
         //trigger deaccelleration if relevant
-        if(lightSpeedCounter == deAccellerationStartPoint)
+        if (lightSpeedCounter == deAccellerationStartPoint)
         {
 
         }
 
-       //ryk køen
-        for (int i=0; i < spawnQueue.Length-1;i++)
+        //ryk køen
+        for (int i = 0; i < spawnQueue.Length - 1; i++)
         {
-            spawnQueue[i] = spawnQueue[i +1];
+            spawnQueue[i] = spawnQueue[i + 1];
         }
 
         //gør det sidste element "tomt" hvis vi nu er i en sequence
-        spawnQueue[spawnQueue.Length-1] = new Vector2(-1, -1);
+        spawnQueue[spawnQueue.Length - 1] = new Vector2(-1, -1);
 
         for (int i = 0; i < numberOfSelectableMods; i++)
         {
             currentSelectables[i] = spawnedMods[i];
+            if (currentSelectables[i] != null)
+            {
+                currentSelectablesScript[i] = currentSelectables[i].GetComponent<Module>();
+                currentSelectablesScript[i].thisModSelectionIndex = i;
+            }
         }
 
         if (selectedModule == null)
@@ -368,7 +232,137 @@ public class ModuleSpawner : MonoBehaviour
 
     public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleType, bool spawnAsPuny)
     {
-      return  gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
+        return gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
+    }
+
+    private void CheckIfModuleHasReachedThePlayer()
+    {
+        if (currentSelectables[0] != null)
+        {
+            positionOfClosestModule = currentSelectables[0].transform.position.z;
+            if (currentSelectables[0].transform.position.z > playerPosition)
+            {
+                //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
+                gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
+                currentSelectablesScript[0].HasReachedPlayer();
+                
+                for (int i = 0; i < maxNumOfModsInGame - 1; i++)
+                {
+                    spawnedMods[i] = spawnedMods[i + 1];
+                }
+                spawnedMods[maxNumOfModsInGame - 1] = null;
+                if (spawnedModsIndex > -1)
+                    spawnedModsIndex--;
+
+                for (int i = 0; i < numberOfSelectableMods; i++)
+                {
+                    currentSelectables[i] = spawnedMods[i];
+                    if (currentSelectables[i] != null)
+                    {
+                        currentSelectablesScript[i] = currentSelectables[i].GetComponent<Module>();
+                        currentSelectablesScript[i].thisModSelectionIndex = i;
+                    }
+                }
+                if (selectedModIndex < 0)
+                {
+                    Debug.Log("hey, does this ever happen?");
+                    selectedModIndex = 0;
+                }
+                if (selectedModIndex > 0)
+                    selectedModIndex--;
+                SetSelectedModule(selectedModIndex);
+            }
+
+        }
+    }
+
+    private void AutoSpawn()
+    {
+        if (autoSpawnTimer > 0)
+        {
+            autoSpawnTimer += Time.deltaTime;
+            if (autoSpawnTimer > 1 / spawnRate)
+            {
+                PrepareModuleThenSpawn();
+                autoSpawnTimer = 0;
+            }
+        }
+    }
+
+    private void InputMethodsForTesting()
+    {
+        //change speed test
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+                //star power parameters
+            SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SetSpeed(gameSpeed, starPowDeacc, spawnRate, rotationSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PrepareModuleThenSpawn();
+        }
+    }
+
+    public void SelectNextModule()
+    {
+        selectedModIndex++;
+        if (selectedModIndex > numberOfSelectableMods - 1)
+        {
+            selectedModIndex = numberOfSelectableMods - 1;
+        }
+        else
+            audioManager.SelectNextModule(selectedModIndex);
+        SetSelectedModule(selectedModIndex);
+    }
+
+    public void SelectPreviousModule()
+    {
+        selectedModIndex--;
+        if (selectedModIndex < 0)
+            selectedModIndex = 0;
+        else
+            audioManager.SelectPrevMod(selectedModIndex);
+        SetSelectedModule(selectedModIndex);
+    }
+
+    public void RotateSelectedModuleCounterclockwise()
+    {
+        if (selectedModule)
+        {
+            audioManager.RotationCue(false, false);
+            selectedModule.Rotate(false, selectedModIndex);
+            CheckForLineup();
+        }
+    }
+
+    public void RotateSelectedModuleClockwise()
+    {
+        if (selectedModule)
+        {
+            audioManager.RotationCue(false, true);
+            selectedModule.Rotate(true, selectedModIndex);
+            CheckForLineup();
+        }
+    }
+
+    private void SetSelectedModule(int index)
+    {
+        if(currentSelectables[index] != null)
+        {
+//            selectedModule = currentSelectables[index].GetComponent<Module>();
+            selectedModule = currentSelectablesScript[index];
+            selectedModule.SelectThisModule();
+            for (int i = 0; i < numberOfSelectableMods; i++)
+            {
+                if (i != index && currentSelectablesScript[i] != null)
+                    currentSelectablesScript[i].UnselectThisModule();
+            }
+        }
     }
 
     /*

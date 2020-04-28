@@ -185,7 +185,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.262877, y: -2.6622639, z: -2.456581}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1885499343}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -484,6 +485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1733198756}
   - component: {fileID: 1733198755}
+  - component: {fileID: 1733198757}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -518,6 +520,92 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1733198757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733198754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d49507858b72a479d1515ddb9c1bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &1805706613
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 409055533}
+    m_Modifications:
+    - target: {fileID: 917336270113284380, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioMuter
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.262877
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.6622639
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.456581
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284383, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: activateGlobalMuteSetting
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3ec56375139b4c742bb6c3cff8141c21, type: 3}
 --- !u!1 &1823340747
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,6 +639,7 @@ MonoBehaviour:
   modSpawnProbabilities: 
   seqSpawnProbabilities: 
   currentSelectables: []
+  currentSelectablesScript: []
   spawnedMods: []
   spawnQueue: []
   selectedModule: {fileID: 0}
@@ -640,3 +729,9 @@ MonoBehaviour:
     - {x: 2, y: 0}
     divApplication: 
     initialRotation: []
+--- !u!4 &1885499343 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
+    type: 3}
+  m_PrefabInstance: {fileID: 1805706613}
+  m_PrefabAsset: {fileID: 0}
