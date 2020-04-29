@@ -219,8 +219,8 @@ public class Module : MonoBehaviour
 
         if (frames[division] != null)
             myFrame = Instantiate(frames[division - 3], this.transform);
-        else
-            print("du har glemt at sætte et prefab til frames");
+        //else
+           // print("du har glemt at sætte et prefab til frames");
 
         this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
 

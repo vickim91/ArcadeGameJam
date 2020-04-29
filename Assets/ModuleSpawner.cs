@@ -58,6 +58,7 @@ public class ModuleSpawner : MonoBehaviour
     public float starPowDeacc;
     public int punyModsPerStarPower;
     public int deaccelerationPoint;
+    public int preDeaccelerationPoint;
     private int punyModsCounter;
 
     void Start()
@@ -303,11 +304,11 @@ public class ModuleSpawner : MonoBehaviour
         moduleNumber++;
         //starpower count down
         punyModsCounter--;
-        ////trigger deaccelleration if relevant
-        //if (punyModsCounter == deAccellerationStartPoint)
-        //{
-
-        //}
+        ////trigger PRE deaccelleration if relevant
+        if (punyModsCounter == preDeaccelerationPoint)
+        {
+            starPowerPreDeacceletation();
+        }
 
         //ryk køen
         for (int i = 0; i < spawnQueue.Length - 1; i++)
@@ -569,6 +570,11 @@ public class ModuleSpawner : MonoBehaviour
     public void ConcludeStarPower()
     {
         
+    }
+    public void starPowerPreDeacceletation()
+    {
+        print("pre deacceleration event");
+        SetSpeed(initialGameSpeed, starPowDeacc, 0, initialRotationSpeed);
     }
 
     public void StarPowerDeacceleration()

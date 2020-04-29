@@ -831,6 +831,7 @@ MonoBehaviour:
   starPowDeacc: 0.8
   punyModsPerStarPower: 8
   deaccelerationPoint: 2
+  preDeaccelerationPoint: 5
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0
