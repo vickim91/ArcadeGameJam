@@ -27,7 +27,7 @@ public class ModuleSpawner : MonoBehaviour
     public int queueLength; // note: set this to the length of the longest sequence at start
     public int numberOfSelectableMods;
     public int maxNumOfModsInGame;
-    public int lightSpeedCounter;
+    private int lightSpeedCounter;
     public int initialLightSpeedCounter;
     public int deAccellerationStartPoint;
     
@@ -522,14 +522,13 @@ public class ModuleSpawner : MonoBehaviour
                         if(lineUpCount ==2)
                         {
                             lineUp = true;
-                            TriggerStarPower(currentIndex);
+                            ThreeAligned(currentIndex);
                             break;
                         }
                         // hvis det kun er 2 der liner op
                         else if (lineUpCount == 1)
                         {
-                            //set as secondInAllignment
-                            TwoAlligned(currentIndex);
+                            TwoAligned(currentIndex);
                         }
                      
                     }
@@ -537,7 +536,7 @@ public class ModuleSpawner : MonoBehaviour
                     {
                         lineUpCount = 0;
                         //clear previous allignment state
-                        NotAlligned(currentIndex);
+                        NotAligned(currentIndex);
                     }
                 }
                 lastType = m.type;
@@ -548,44 +547,40 @@ public class ModuleSpawner : MonoBehaviour
         }
         return lineUp;
     }
-    public void NotAlligned(int index)
+    public void NotAligned(int index)
     {
-        //currentModule[index]
         Module thisModule = currentSelectables[index].GetComponent<Module>();
         thisModule.clearAlignmentStatuses();
-
     }
-    public void TwoAlligned(int indexForSecondModuleInAllignment)
+    public void TwoAligned(int indexForSecondModuleInAlignment)
     {
-        // second module in allignment
-        Module secondModule = currentSelectables[indexForSecondModuleInAllignment].GetComponent<Module>();
+        Module secondModule = currentSelectablesScript[indexForSecondModuleInAlignment];
         if (!secondModule.isSecondAlignment)
         {
             secondModule.SetAsSecondAllignment();
-            //do stuff
         }
     }
-    public void TriggerStarPower(int indexForThirdModuleInAlligment)
+    public void ThreeAligned(int indexForThirdModuleInAligment)
     {
-        lightSpeedCounter = initialLightSpeedCounter;
-        Module thirdModule = currentSelectables[indexForThirdModuleInAlligment].GetComponent<Module>();
-        if(!thirdModule.isThirdAlignment)
+        Module thirdModule = currentSelectablesScript[indexForThirdModuleInAligment];
+        if (!thirdModule.isThirdAlignment)
         {
-            //set as third in allignment
             thirdModule.SetAsThirdAlligment();
-            //do stuff
         }
+    }
+
+    public void TriggerStarPower()
+    {
+        audioManager.StarPower();
+        lightSpeedCounter = initialLightSpeedCounter;
         foreach(GameObject g  in spawnedMods)
         {
-            if (g)
+            if (g && lightSpeedCounter > 0)
             {
                 Module m = g.GetComponent<Module>();
                 m.SetPuny(true);
-                
+                lightSpeedCounter--;
             }
-            
         }
-       // SetSpeed(2, 1, 2, 200);
-
     }
 }

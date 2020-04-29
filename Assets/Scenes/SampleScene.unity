@@ -508,8 +508,7 @@ MonoBehaviour:
   queueLength: 6
   numberOfSelectableMods: 5
   maxNumOfModsInGame: 50
-  lightSpeedCounter: 0
-  initialLightSpeedCounter: 0
+  initialLightSpeedCounter: 8
   deAccellerationStartPoint: 0
   playerPosition: 8
   acceleration: 0.1
@@ -519,7 +518,7 @@ MonoBehaviour:
   divisionStep: 4
   starPowGameSpeed: 2
   starPowSpawnrate: 2
-  starPowRotSpeed: 200
+  starPowRotSpeed: 50
   starPowAcc: 0.8
   starPowDeacc: 0.2
   gameSpeedCalc: 0

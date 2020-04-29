@@ -11,6 +11,7 @@ public class Module : MonoBehaviour
     public bool isPuny;
     Vector3 targetRotationEuler;
     AudioManager audioManager;
+    ModuleSpawner moduleSpawner;
 
     private bool isSelected;
     public bool isThirdAlignment; // controlled by modulespawner (tbc)
@@ -107,6 +108,12 @@ public class Module : MonoBehaviour
 
                 rotationStop = true;
                 rotationVelocityChange = true;
+                if (isThirdAlignment)
+                {
+                    moduleSpawner = FindObjectOfType<ModuleSpawner>();
+                    moduleSpawner.TriggerStarPower();
+                }
+                    
             }
             else // otherwise, rotate the amount necessary and subtract that from the counter
             {
@@ -174,6 +181,8 @@ public class Module : MonoBehaviour
 
     public void HasReachedPlayer()
     {
+        if (isPuny)
+            audioManager.ObliteratePunyModule();
         hasReachedPlayer = true;
         GetComponent<Renderer>().material.SetColor("_Color", Color.white);
         //audioManager.Rotation(true, thisModSelectionIndex, false);

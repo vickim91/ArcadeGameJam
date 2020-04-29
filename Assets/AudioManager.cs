@@ -355,10 +355,6 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(snapToBeat);
     }
 
-    public void PressMenuButton()
-    {
-        clickSound.TriggerAudioEvent();
-    }
 
     public void MenuToggle(bool enterOrExitMenu)
     {
@@ -367,6 +363,10 @@ public class AudioManager : MonoBehaviour
             menuMix.TransitionTo(menuFadeSlope);
         else
             gameMix.TransitionTo(menuFadeSlope);
+    }
+    public void PressMenuButton()
+    {
+        clickSound.TriggerAudioEvent();
     }
 
     public void GameRestart()
@@ -393,5 +393,25 @@ public class AudioManager : MonoBehaviour
         musicStinger.TriggerAudioEvent();
         fadeMusic = CrossfadeMusic(music1, musicFadeSlope, musicFadeDelay, music2, musicFadeSlope);
         StartCoroutine(fadeMusic);
+    }
+
+    public void MusicThirdPhase()
+    {
+
+    }
+
+    public void StarPower()
+    {
+        print("starpower");
+    }
+
+    public void ObliteratePunyModule()
+    {
+        death.TriggerAudioEvent();
+    }
+
+    public void DeactivateStarPower()
+    {
+
     }
 }
