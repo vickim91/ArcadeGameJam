@@ -195,12 +195,12 @@ public class Module : MonoBehaviour
     public void SelectThisModule()
     {
         isSelected = true;
-        GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.red);
     }
     public void UnselectThisModule()
     {
         isSelected = false;
-        GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+        GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.blue);
     }
 
     public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )

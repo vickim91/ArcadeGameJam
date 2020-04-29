@@ -27,7 +27,8 @@ public class ModuleSpawner : MonoBehaviour
     public int numberOfSelectableMods;
     public int maxNumOfModsInGame;
 
-    public int playerPosition; // replace with real player object, maybe?
+    //public int playerPosition; // replace with real player object, maybe?
+    public Transform playerPosition;
     //speed variables
     public float acceleration;
     private float gameSpeedRemaining;
@@ -343,7 +344,7 @@ public class ModuleSpawner : MonoBehaviour
         if (currentSelectables[0] != null)
         {
             float positionOfClosestModule = currentSelectables[0].transform.position.z;
-            if (positionOfClosestModule > playerPosition)
+            if (positionOfClosestModule > playerPosition.position.z)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
