@@ -257,6 +257,7 @@ GameObject:
   - component: {fileID: 490850495}
   - component: {fileID: 490850494}
   - component: {fileID: 490850493}
+  - component: {fileID: 490850498}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -338,6 +339,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &490850498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490850492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5898620f08573f249a2d0907fe6887df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  scoreModifier: 0
 --- !u!4 &1733198756
 Transform:
   m_ObjectHideFlags: 0
@@ -829,9 +843,9 @@ MonoBehaviour:
   starPowRotSpeed: 1000
   starPowAcc: 0.8
   starPowDeacc: 0.8
-  punyModsPerStarPower: 8
-  deaccelerationPoint: 2
-  preDeaccelerationPoint: 5
+  punyModsPerStarPower: 20
+  deaccelerationPoint: 1
+  preDeaccelerationPoint: 1
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0
