@@ -515,7 +515,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091280385}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.06, y: 0.38, z: 10.04}
+  m_LocalPosition: {x: 0.06, y: 0.38, z: 18.21}
   m_LocalScale: {x: 2.2729, y: 2.2729, z: 2.2729}
   m_Children: []
   m_Father: {fileID: 0}
@@ -718,6 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnedMods: []
   modules:
   - {fileID: 3270407459084361614, guid: 99b93d48884cfab4bbdab98189b017f5, type: 3}
   - {fileID: 3270407459084361614, guid: 99b93d48884cfab4bbdab98189b017f5, type: 3}
@@ -727,13 +728,13 @@ MonoBehaviour:
   maxNumOfModsInGame: 50
   playerPosition: {fileID: 490850496}
   acceleration: 0.1
-  initialGameSpeed: 10
-  initialSpawnRate: 1
-  initialRotationSpeed: 100
+  initialGameSpeed: 5
+  initialSpawnRate: 0.8
+  initialRotationSpeed: 200
   divisionStep: 4
-  starPowGameSpeed: 2
+  starPowGameSpeed: 10
   starPowSpawnrate: 2
-  starPowRotSpeed: 400
+  starPowRotSpeed: 1000
   starPowAcc: 0.8
   starPowDeacc: 0.8
   punyModsPerStarPower: 8

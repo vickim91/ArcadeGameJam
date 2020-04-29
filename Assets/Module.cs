@@ -12,6 +12,7 @@ public class Module : MonoBehaviour
     Vector3 targetRotationEuler;
     AudioManager audioManager;
     ModuleSpawner moduleSpawner;
+    public GameObject[] frames;
 
     private bool isSelected;
     public bool isThirdAlignment; // controlled by modulespawner (tbc)
@@ -214,6 +215,9 @@ public class Module : MonoBehaviour
         float fixedAngle = (360 / division) * step;
         if (fixedAngle > 360)
             fixedAngle = fixedAngle % 360;
+
+       // if(frames[division] != null)
+        Instantiate(frames[division-3], this.transform);
 
         this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
 
