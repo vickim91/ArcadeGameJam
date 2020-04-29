@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 917336270113284382}
   - component: {fileID: 917336270113284383}
   m_Layer: 0
-  m_Name: AudioGlobal
+  m_Name: AudioMuter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6542719d01c3c254781601fef45c41f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateGlobalMuteSetting: 0
+  activateGlobalMuteSetting: 1
   mute: 0
   noMute: {fileID: 24500006, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
   muteAll: {fileID: 7999960736248240968, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}

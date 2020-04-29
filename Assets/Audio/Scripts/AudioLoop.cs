@@ -25,7 +25,7 @@ public class AudioLoop : MonoBehaviour
     public bool fadeOutWhenStopped;
     [Range(0.0001f, 0.1f)]
     public float fadeOutSlopeWhenStopped;
-    [MinMaxRange(0, 0.1f)]
+    [MinMaxRange(0, 10)]
     public RangedFloat pitchFadeOutSlope;
     private float pitchFadeOutSlopeCalc;
     [HideInInspector]
@@ -33,6 +33,7 @@ public class AudioLoop : MonoBehaviour
     private bool fading;
     private float fadeVolDestination;
     private float fadeVolSlope;
+    public float fadeInTime;
 
     private void Start()
     {
@@ -44,6 +45,13 @@ public class AudioLoop : MonoBehaviour
         if (playOnStart && firstLoad)
         {
             StartAudioLoop();
+            if (fadeInTime > 0)
+            {
+                volume = 0;
+                fadeVolDestination = initialVolume;
+                fadeVolSlope = 1 / (160 * fadeInTime);
+                fading = true;
+            }
         }
         if (dontDestroyOnLoad)
         {
@@ -57,7 +65,7 @@ public class AudioLoop : MonoBehaviour
 
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         //if(Input.GetKeyDown(KeyCode.Space))
         //{
@@ -109,6 +117,8 @@ public class AudioLoop : MonoBehaviour
                     volume += fadeVolSlope;
                 else
                     fading = false;
+                if (volume < fadeVolDestination)
+                    volume = fadeVolDestination;
             }
             else if (fadeVolSlope > 0)
             {
@@ -116,7 +126,10 @@ public class AudioLoop : MonoBehaviour
                     volume += fadeVolSlope;
                 else
                     fading = false;
+                if (volume > fadeVolDestination)
+                    volume = fadeVolDestination;
             }
+            audioSource.volume = volume;
         }
     }
 
@@ -145,13 +158,14 @@ public class AudioLoop : MonoBehaviour
         audioSource.outputAudioMixerGroup = output;
         audioSource.clip = soundFile;
         audioSource.Play();
+        
     }
 
 
 
     public void StopAudioLoop()
     {
-        pitchFadeOutSlopeCalc = UnityEngine.Random.Range(pitchFadeOutSlope.minValue, pitchFadeOutSlope.maxValue);
+        pitchFadeOutSlopeCalc = UnityEngine.Random.Range(pitchFadeOutSlope.minValue * 0.001f, pitchFadeOutSlope.maxValue * 0.001f);
         isStopping = true;
     }
 

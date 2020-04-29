@@ -44,7 +44,7 @@ public class Module : MonoBehaviour
             {
                 clearable = true;
                 this.isClearable = true;
-                print(this.gameObject.name + " is clearable");
+//                print(this.gameObject.name + " is clearable");
                 break;
             }
          
@@ -144,7 +144,6 @@ public class Module : MonoBehaviour
     {
         if (hasReachedPlayer)
         {
-            print("sup");
         }
         else if (rotationVelocityChange)
         {

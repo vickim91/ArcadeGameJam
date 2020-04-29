@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class AudioManager : MonoBehaviour
     public AudioEvent selectPrevMod;
     public AudioEvent rotCueRight;
     public AudioEvent rotCueLeft;
+    public AudioEvent death;
+    public AudioEvent clickSound;
     
     private AudioLoop[] rotationV;
     private AudioEvent[] rotStopV;
@@ -30,6 +33,10 @@ public class AudioManager : MonoBehaviour
     public float rotCuePitching;
     public float rotPitchingCounterclockwise;
 
+    public AudioMixerSnapshot gameMix;
+    public AudioMixerSnapshot menuMix;
+    public float menuFadeSlope;
+
     int selectedModule;
 
     // Start is called before the first frame update
@@ -37,6 +44,7 @@ public class AudioManager : MonoBehaviour
     {
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
         numOfSelectables = moduleSpawner.numberOfSelectableMods;
+        totalCueLengths = new int[numOfSelectables];
         InstantiateAudioEventVariantsWithPitching(ref rotationStop, ref rotStopV, true);
         InstantiateAudioEventVariantsWithPitching(ref rotStopClearable, ref rotStopClearableV, true);
         InstantiateAudioLoopVariants(ref rotation, ref rotationV);
@@ -47,11 +55,15 @@ public class AudioManager : MonoBehaviour
         InstantiateAudioEvent(ref selectPrevMod);
         InstantiateAudioEvent(ref rotCueRight);
         InstantiateAudioEvent(ref rotCueLeft);
+        InstantiateAudioEvent(ref death);
+        InstantiateAudioEvent(ref clickSound);
     }
 
     void Update()
     {
-//        InputMethodsForTesting();
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+        }
     }
 
     private void InstantiateAudioEvent(ref AudioEvent audioEvent)
@@ -101,61 +113,16 @@ public class AudioManager : MonoBehaviour
             variants[i].name = audioLoop.name + i;
         }
     }
-
     int rotCueLengthClockwise;
     int rotCueLengthCounterclockwise;
 
-    private void InputMethodsForTesting()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            selectedModule++;
-            SelectNextModule(selectedModule);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            selectedModule--;
-            SelectPrevMod(selectedModule);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            RotationCue(false, true);
-            Rotation(selectedModule, true);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            RotationCue(false, false);
-            Rotation(selectedModule, false);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            RotationStop(selectedModule);
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            RotationStop(selectedModule);
-            RotationStopClearable(selectedModule);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            TwoAligned();
-            RotationStop(selectedModule);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ThreeAligned();
-            RotationStop(selectedModule);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            ShiftRotationLoopVoices();
-        }
-    }
-
     public void RotationStop(int selMod)
     {
+        SetRotStopCueLengthPitchingAndVolNudge(selMod);
         rotStopV[selMod].TriggerAudioEvent();
         rotationV[selMod].StopAudioLoop();
+        RotationCue(true, false, selMod);
+        totalCueLengths[selMod] = 0;
     }
 
     public void RotationStopClearable(int selMod)
@@ -204,12 +171,29 @@ public class AudioManager : MonoBehaviour
         float initVol = rotStopV[moduleIndex].sound[0].initialVolume;
         float distSlope = varDistVolSlopeRotStop * moduleIndex;
         if (isSelected)
-            rotStopV[moduleIndex].sound[0].volume = initVol - distSlope;
+            rotStopV[moduleIndex].sound[0].volume = initVol - distSlope * 0.5f;
         else
             rotStopV[moduleIndex].sound[0].volume = initVol - distSlope;
     }
 
-    public void ShiftRotationLoopVoices()
+    public int rotStopCueLenMax;
+    public float rotStopCueLenPitching;
+    public float rotStopCueLenVol;
+    public void SetRotStopCueLengthPitchingAndVolNudge(int moduleIndex)
+    {
+        if (totalCueLengths[moduleIndex] > rotStopCueLenMax)
+            totalCueLengths[moduleIndex] = rotStopCueLenMax;
+        float pitchingMax = rotStopCueLenMax * rotStopCueLenPitching;
+        float pitching = totalCueLengths[moduleIndex] * rotStopCueLenPitching;
+        RangedFloat initPitch = rotStopV[moduleIndex].sound[0].initialPitch;
+        rotStopV[moduleIndex].sound[0].pitch.minValue = initPitch.minValue + pitchingMax - pitching;
+        rotStopV[moduleIndex].sound[0].pitch.maxValue = initPitch.maxValue + pitchingMax - pitching;
+        float volNudgeMax = rotStopCueLenMax * rotStopCueLenVol;
+        float volNudge = totalCueLengths[moduleIndex] * rotStopCueLenVol;
+        rotStopV[moduleIndex].sound[0].volume += (volNudge - volNudgeMax);
+    }
+
+    public void ShiftRotationVoices()
     {
         if (rotationV[0].IsPlaying())
         {
@@ -221,6 +205,13 @@ public class AudioManager : MonoBehaviour
             rotationV[i] = rotationV[i + 1];
         }
         rotationV[4] = rotVZero;
+
+
+        for (int i = 0; i < 4; i++)
+        {
+            totalCueLengths[i] = totalCueLengths[i + 1];
+        }
+        totalCueLengths[4] = 0;
     }
 
     public void TwoAligned()
@@ -238,7 +229,7 @@ public class AudioManager : MonoBehaviour
         selectNextMod.sound[0].pitch.minValue = initPitch.minValue + pitching;
         selectNextMod.sound[0].pitch.maxValue = initPitch.maxValue + pitching;
         selectNextMod.TriggerAudioEvent();
-        RotationCue(true, false);
+        RotationCue(true, false, resultingModuleSelection - 1);
     }
     public void SelectPrevMod(int resultingModuleSelection)
     {
@@ -247,10 +238,11 @@ public class AudioManager : MonoBehaviour
         selectPrevMod.sound[0].pitch.minValue = initPitch.minValue + pitching;
         selectPrevMod.sound[0].pitch.maxValue = initPitch.maxValue + pitching;
         selectPrevMod.TriggerAudioEvent();
-        RotationCue(true, false);
+        RotationCue(true, false, resultingModuleSelection + 1);
     }
 
-    public void RotationCue(bool resetCueLength, bool clockwise) // cueLength is not the sum of clockwise and counterclockwise. It is the sum of cues made since the last switch in cue-direction or the last rotationStop.
+    int[] totalCueLengths;
+    public void RotationCue(bool resetCueLength, bool clockwise, int selMod) // cueLength is not the sum of clockwise and counterclockwise. It is the sum of cues made since the last switch in cue-direction or the last rotationStop.
     {
         if (resetCueLength)
         {
@@ -259,6 +251,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+            totalCueLengths[selMod]++;
             if (clockwise)
             {
                 RangedFloat initPitch = rotCueLeft.sound[0].initialPitch;
@@ -280,5 +273,29 @@ public class AudioManager : MonoBehaviour
                 rotCueLengthCounterclockwise++;
             }
         }
+    }
+
+    public void Death()
+    {
+        death.TriggerAudioEvent();
+    }
+
+    public void RetryGame()
+    {
+        clickSound.TriggerAudioEvent();
+    }
+
+    public void PressMenuButton()
+    {
+        clickSound.TriggerAudioEvent();
+    }
+
+    public void MenuToggle(bool enterOrExitMenu)
+    {
+        clickSound.TriggerAudioEvent();
+        if (enterOrExitMenu)
+            menuMix.TransitionTo(menuFadeSlope);
+        else
+            gameMix.TransitionTo(menuFadeSlope);
     }
 }

@@ -43,9 +43,6 @@ public class ModuleSpawner : MonoBehaviour
 
     // level design tools:
     public int divisionStep;
-    public float gameSpeed;
-    public float spawnRate;
-    public float rotationSpeed;
 
     private int div;
     private int divFree = 360;
@@ -53,17 +50,23 @@ public class ModuleSpawner : MonoBehaviour
     private int moduleNumber;
     private string spawnNameModOrSeq;
 
+    private float gameSpeed;
+    private float spawnRate;
+    private float rotationSpeed;
+
     /*
      * naming convention: a mod(module) is not the same as a modSpawn(moduleSpawn)
          * a mod exists in the game, deriving from a modSpawn or seqSpawn.
          * a modSpawn is an instruction, that does not apply for sequences.
          * a seqSpawn is an instruction, that hosts an array of sequence elements
          * a seqElem is an instruction similar to modSpawn
-         * so, what is a sequence? maybe a sequence could be a memory bank, that keeps track of the seqSpawn...
      */
 
     void Start()
     {
+        gameSpeed = initialGameSpeed;
+        spawnRate = initialSpawnRate;
+        rotationSpeed = initialRotationSpeed;
         levelDesigner = GetComponent<LevelDesigner>();
         gameManager = FindObjectOfType<GameManager>();
         audioManager = FindObjectOfType<AudioManager>();
@@ -349,7 +352,7 @@ public class ModuleSpawner : MonoBehaviour
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
                 currentSelectablesScript[0].HasReachedPlayer();
-                audioManager.ShiftRotationLoopVoices();
+                audioManager.ShiftRotationVoices();
                 
                 for (int i = 0; i < maxNumOfModsInGame - 1; i++)
                 {
@@ -377,7 +380,6 @@ public class ModuleSpawner : MonoBehaviour
                     selectedModIndex--;
                 SetSelectedModule(selectedModIndex);
             }
-
         }
     }
 
@@ -440,7 +442,7 @@ public class ModuleSpawner : MonoBehaviour
         if (selectedModule)
         {
             audioManager.UpdateLoopVolumeDuckingAppliance(selectedModIndex);
-            audioManager.RotationCue(false, false);
+            audioManager.RotationCue(false, false, selectedModIndex);
             selectedModule.Rotate(false, selectedModIndex);
             CheckForLineup();
         }
@@ -451,7 +453,7 @@ public class ModuleSpawner : MonoBehaviour
         if (selectedModule)
         {
             audioManager.UpdateLoopVolumeDuckingAppliance(selectedModIndex);
-            audioManager.RotationCue(false, true);
+            audioManager.RotationCue(false, true, selectedModIndex);
             selectedModule.Rotate(true, selectedModIndex);
             CheckForLineup();
         }
@@ -459,7 +461,6 @@ public class ModuleSpawner : MonoBehaviour
 
     private void SetSelectedModule(int index)
     {
-        print(index + "index");
         if(currentSelectables[index] != null)
         {
 //            selectedModule = currentSelectables[index].GetComponent<Module>();
