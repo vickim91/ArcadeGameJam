@@ -348,7 +348,8 @@ public class ModuleSpawner : MonoBehaviour
             if (positionOfClosestModule > playerPosition.position.z)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
-                gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
+                //er flyttet til modules
+               // gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
                 currentSelectablesScript[0].HasReachedPlayer();
                 audioManager.ShiftRotationVoices();
                 

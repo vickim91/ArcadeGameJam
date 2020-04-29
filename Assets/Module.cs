@@ -14,7 +14,7 @@ public class Module : MonoBehaviour
     ModuleSpawner moduleSpawner;
     public GameObject[] frames;
     GameObject myFrame;
-
+    GameManager gameManager;
     private bool isSelected;
     public bool isThirdAlignment; // controlled by modulespawner (tbc)
     public bool isSecondAlignment; // controlled by modulespawner (tbc)
@@ -55,6 +55,10 @@ public class Module : MonoBehaviour
         }
         return clearable;
     }
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
     public bool SetAsSecondAllignment()
     {
         bool didSet = false;
@@ -83,7 +87,7 @@ public class Module : MonoBehaviour
         isThirdAlignment = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         transform.position = transform.position + Vector3.forward * speed * Time.deltaTime;
 
@@ -190,27 +194,32 @@ public class Module : MonoBehaviour
             if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)
                 moduleSpawner.StarPowerDeacceleration();
         }
-        else if (isClearable)
-        {
-            audioManager.ModuleCleared();
-        }
         else
         {
-            // death sound
+            if (isClearable)
+            {
+                //skal nok ændres 
+                gameManager.addToScore(100);
+            }
+            else
+            {
+                gameManager.Death();
+            }
         }
+       
         hasReachedPlayer = true;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.white);
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0, 1,0.2f,0.1f));
         //audioManager.Rotation(true, thisModSelectionIndex, false);
     }
     public void SelectThisModule()
     {
         isSelected = true;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.blue);
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
     }
     public void UnselectThisModule()
     {
         isSelected = false;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.red);
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 0f,0f,0.5f));
     }
 
     public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )
