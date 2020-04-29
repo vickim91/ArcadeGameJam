@@ -93,7 +93,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7500857944436210608}
-  - {fileID: 1074663539921312564}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -116,9 +115,9 @@ MonoBehaviour:
   isPuny: 0
   frames:
   - {fileID: 3210929756750240493, guid: 6a7a09fb53c6f094db2b3a145886d102, type: 3}
-  - {fileID: -927199367670048503, guid: 4422bbaca206a0d4ca4efd960c3ea0b9, type: 3}
-  - {fileID: -927199367670048503, guid: 76b7c1f0b07a6954985891d3ddf630c6, type: 3}
-  - {fileID: -927199367670048503, guid: 101788ef7a2245846bd155a8821923d3, type: 3}
+  - {fileID: 3210929756750240493, guid: 18ee159635da5a04bbf70e5051c7447f, type: 3}
+  - {fileID: 3210929756750240493, guid: e373902adff878e4c99922182f5fb406, type: 3}
+  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
