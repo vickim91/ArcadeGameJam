@@ -190,6 +190,14 @@ public class Module : MonoBehaviour
             if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)
                 moduleSpawner.StarPowerDeacceleration();
         }
+        else if (isClearable)
+        {
+            audioManager.ModuleCleared();
+        }
+        else
+        {
+            // death sound
+        }
         hasReachedPlayer = true;
         GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.white);
         //audioManager.Rotation(true, thisModSelectionIndex, false);

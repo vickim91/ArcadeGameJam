@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
     public AudioEvent rotCueLeft;
     public AudioEvent death;
     public AudioEvent clickSound;
+    public AudioEvent moduleCleared;
     
     private AudioLoop[] rotationV;
     private AudioEvent[] rotStopV;
@@ -90,6 +91,7 @@ public class AudioManager : MonoBehaviour
         InstantiateAudioEvent(ref rotCueLeft);
         InstantiateAudioEvent(ref death);
         InstantiateAudioEvent(ref clickSound);
+        InstantiateAudioEvent(ref moduleCleared);
 
         if (firstLoad)
         {
@@ -413,5 +415,10 @@ public class AudioManager : MonoBehaviour
     public void DeactivateStarPower()
     {
         MusicFirstPhase();
+    }
+
+    public void ModuleCleared()
+    {
+        moduleCleared.TriggerAudioEvent();
     }
 }
