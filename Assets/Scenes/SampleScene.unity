@@ -493,14 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modSpawnProbabilities: 
-  seqSpawnProbabilities: 
-  currentSelectables: []
-  currentSelectablesScript: []
-  spawnedMods: []
-  spawnQueue: []
-  selectedModule: {fileID: 0}
-  positionOfClosestModule: 0
   modules:
   - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
   - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
@@ -508,22 +500,19 @@ MonoBehaviour:
   queueLength: 6
   numberOfSelectableMods: 5
   maxNumOfModsInGame: 50
-  initialLightSpeedCounter: 8
-  deAccellerationStartPoint: 0
   playerPosition: 8
   acceleration: 0.1
   initialGameSpeed: 0.5
   initialSpawnRate: 1
-  initialRotationSpeed: 200
+  initialRotationSpeed: 100
   divisionStep: 4
   starPowGameSpeed: 2
   starPowSpawnrate: 2
-  starPowRotSpeed: 50
+  starPowRotSpeed: 400
   starPowAcc: 0.8
-  starPowDeacc: 0.2
-  gameSpeedCalc: 0
-  spawnRateCalc: 0
-  rotSpeedCalc: 0
+  starPowDeacc: 0.8
+  punyModsPerStarPower: 8
+  deaccelerationPoint: 2
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0

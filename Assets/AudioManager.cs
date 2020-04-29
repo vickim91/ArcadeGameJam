@@ -402,7 +402,7 @@ public class AudioManager : MonoBehaviour
 
     public void StarPower()
     {
-        print("starpower");
+        MusicSecondPhase();
     }
 
     public void ObliteratePunyModule()
@@ -412,6 +412,6 @@ public class AudioManager : MonoBehaviour
 
     public void DeactivateStarPower()
     {
-
+        MusicFirstPhase();
     }
 }

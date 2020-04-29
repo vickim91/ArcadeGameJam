@@ -10,32 +10,28 @@ public class ModuleSpawner : MonoBehaviour
     LevelDesigner.ModuleSpawn[] modSpawnParams;
     LevelDesigner.SequenceSpawn[] seqSpawnParams;
     
-    public int[] modSpawnProbabilities; // read
-    public int[] seqSpawnProbabilities; // read
+    private int[] modSpawnProbabilities; 
+    private int[] seqSpawnProbabilities; 
 
-    public GameObject[] currentSelectables; // read
-    public Module[] currentSelectablesScript; // read
-    public GameObject[] spawnedMods; // read // this does not include modules that have reached the player
-    public Vector2[] spawnQueue; // read
+    private GameObject[] currentSelectables; 
+    private Module[] currentSelectablesScript; 
+    private GameObject[] spawnedMods; // this does not include modules that have reached the player
+    private Vector2[] spawnQueue; 
     private int spawnedModsIndex;
-    public static int selectedModIndex; // read
-    public Module selectedModule; // read
-    public float positionOfClosestModule; // read
+    public static int selectedModIndex; 
+    private Module selectedModule; 
 
     // behavior parameters
     public GameObject[] modules; 
     public int queueLength; // note: set this to the length of the longest sequence at start
     public int numberOfSelectableMods;
     public int maxNumOfModsInGame;
-    private int lightSpeedCounter;
-    public int initialLightSpeedCounter;
-    public int deAccellerationStartPoint;
-    
-    public int playerPosition;
+
+    public int playerPosition; // replace with real player object, maybe?
     //speed variables
     public float acceleration;
     private float gameSpeedRemaining;
-    private float spawnSpeedRemaining;
+    private float spawnRateRemaining;
     private float rotationSpeedRemaining;
     public float initialGameSpeed;
     public float initialSpawnRate;
@@ -54,13 +50,14 @@ public class ModuleSpawner : MonoBehaviour
     private float spawnRate;
     private float rotationSpeed;
 
-    /*
-     * naming convention: a mod(module) is not the same as a modSpawn(moduleSpawn)
-         * a mod exists in the game, deriving from a modSpawn or seqSpawn.
-         * a modSpawn is an instruction, that does not apply for sequences.
-         * a seqSpawn is an instruction, that hosts an array of sequence elements
-         * a seqElem is an instruction similar to modSpawn
-     */
+    public float starPowGameSpeed;
+    public float starPowSpawnrate;
+    public float starPowRotSpeed;
+    public float starPowAcc;
+    public float starPowDeacc;
+    public int punyModsPerStarPower;
+    public int deaccelerationPoint;
+    private int punyModsCounter;
 
     void Start()
     {
@@ -127,27 +124,27 @@ public class ModuleSpawner : MonoBehaviour
             }
         }
         //spawn speed
-        if (Mathf.Abs(spawnSpeedRemaining) > 0f)
+        if (Mathf.Abs(spawnRateRemaining) > 0f)
         {
             float spawnRateChangeThisFrame = acceleration * Time.deltaTime;
-            if (spawnRateChangeThisFrame >= Mathf.Abs(spawnSpeedRemaining)){
-                spawnRate += spawnSpeedRemaining;
-                spawnSpeedRemaining = 0f;
+            if (spawnRateChangeThisFrame >= Mathf.Abs(spawnRateRemaining)){
+                spawnRate += spawnRateRemaining;
+                spawnRateRemaining = 0f;
               
             }
             else
             {
                 //positive accel
-                if(spawnSpeedRemaining > 0f)
+                if(spawnRateRemaining > 0f)
                 {
                     spawnRate += spawnRateChangeThisFrame;
-                    spawnSpeedRemaining -= spawnRateChangeThisFrame;
+                    spawnRateRemaining -= spawnRateChangeThisFrame;
                 }
                 //negative accel
-                else if(spawnSpeedRemaining < 0f)
+                else if(spawnRateRemaining < 0f)
                 {
                     spawnRate -= spawnRateChangeThisFrame;
-                    spawnSpeedRemaining += spawnRateChangeThisFrame;
+                    spawnRateRemaining += spawnRateChangeThisFrame;
                 }
             }
         }
@@ -179,7 +176,6 @@ public class ModuleSpawner : MonoBehaviour
                 {
                     Module m = g.GetComponent<Module>();
                     m.degreesPerSecond = rotationSpeed;
-
                 }
             }
         }
@@ -294,7 +290,7 @@ public class ModuleSpawner : MonoBehaviour
 
         //Starpower
         bool spawnAsPuny = false;
-        if (lightSpeedCounter > 0)
+        if (punyModsCounter > 0)
             spawnAsPuny = true;
 
         int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
@@ -305,12 +301,12 @@ public class ModuleSpawner : MonoBehaviour
         spawnedMods[spawnedModsIndex].name = spawnNameModOrSeq + spawnedMods[spawnedModsIndex].name + moduleNumber.ToString();
         moduleNumber++;
         //starpower count down
-        lightSpeedCounter--;
-        //trigger deaccelleration if relevant
-        if (lightSpeedCounter == deAccellerationStartPoint)
-        {
+        punyModsCounter--;
+        ////trigger deaccelleration if relevant
+        //if (punyModsCounter == deAccellerationStartPoint)
+        //{
 
-        }
+        //}
 
         //ryk køen
         for (int i = 0; i < spawnQueue.Length - 1; i++)
@@ -346,8 +342,8 @@ public class ModuleSpawner : MonoBehaviour
     {
         if (currentSelectables[0] != null)
         {
-            positionOfClosestModule = currentSelectables[0].transform.position.z;
-            if (currentSelectables[0].transform.position.z > playerPosition)
+            float positionOfClosestModule = currentSelectables[0].transform.position.z;
+            if (positionOfClosestModule > playerPosition)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
@@ -474,29 +470,12 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
-    /*
-    public float gameSpeed;
-    public float spawnRate;
-    public float rotationSpeed;
-    */
-    //star power parameters
-    public float starPowGameSpeed;
-    public float starPowSpawnrate;
-    public float starPowRotSpeed;
-    public float starPowAcc;
-    public float starPowDeacc;
-
-    //star power calculation variables
-    public float gameSpeedCalc; // Read
-    public float spawnRateCalc; // Read
-    public float rotSpeedCalc; // Read
-
     //brug til acceleration /deAcceleration
     public void SetSpeed(float targetGameSpeed, float acceleration, float targetSpawnRate, float targetRotationSpeed)
     {
        
         gameSpeedRemaining = targetGameSpeed - this.gameSpeed;
-        spawnSpeedRemaining = targetSpawnRate - this.spawnRate;
+        spawnRateRemaining = targetSpawnRate - this.spawnRate;
         rotationSpeedRemaining = targetRotationSpeed - this.rotationSpeed;
         this.acceleration = acceleration;
 
@@ -571,16 +550,29 @@ public class ModuleSpawner : MonoBehaviour
 
     public void TriggerStarPower()
     {
+        SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
         audioManager.StarPower();
-        lightSpeedCounter = initialLightSpeedCounter;
+        punyModsCounter = punyModsPerStarPower;
+        Module.starPowerEndCountdown = punyModsPerStarPower;
         foreach(GameObject g  in spawnedMods)
         {
-            if (g && lightSpeedCounter > 0)
+            if (g && punyModsCounter > 0)
             {
                 Module m = g.GetComponent<Module>();
                 m.SetPuny(true);
-                lightSpeedCounter--;
+                punyModsCounter--;
             }
         }
+    }
+
+    public void ConcludeStarPower()
+    {
+        
+    }
+
+    public void StarPowerDeacceleration()
+    {
+        SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate, initialRotationSpeed);
+        audioManager.DeactivateStarPower();
     }
 }

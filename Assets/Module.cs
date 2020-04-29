@@ -25,10 +25,11 @@ public class Module : MonoBehaviour
     public int thisModSelectionIndex = -1; // controlled by modulespawner
     public float clearableWindowSize;
     public float[] clearableAngles;
-
+    public static int starPowerEndCountdown;
 
     private void Start()
     {
+        moduleSpawner = FindObjectOfType<ModuleSpawner>();
         audioManager = FindObjectOfType<AudioManager>();
     }
     public bool CheckIfClearable()
@@ -110,7 +111,6 @@ public class Module : MonoBehaviour
                 rotationVelocityChange = true;
                 if (isThirdAlignment)
                 {
-                    moduleSpawner = FindObjectOfType<ModuleSpawner>();
                     moduleSpawner.TriggerStarPower();
                 }
                     
@@ -182,7 +182,12 @@ public class Module : MonoBehaviour
     public void HasReachedPlayer()
     {
         if (isPuny)
+        {
+            starPowerEndCountdown--;
             audioManager.ObliteratePunyModule();
+            if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)
+                moduleSpawner.StarPowerDeacceleration();
+        }
         hasReachedPlayer = true;
         GetComponent<Renderer>().material.SetColor("_Color", Color.white);
         //audioManager.Rotation(true, thisModSelectionIndex, false);
