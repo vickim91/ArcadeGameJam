@@ -80,7 +80,7 @@ public class AudioEvent : MonoBehaviour
         voicePlayer = new VoicePlayer[voiceMax];
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (stopping)
         {

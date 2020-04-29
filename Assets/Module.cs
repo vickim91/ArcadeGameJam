@@ -153,9 +153,9 @@ public class Module : MonoBehaviour
                 audioManager.UpdateEventVolumeDuckingAppliance(thisModSelectionIndex, isSelected);
                 audioManager.RotationStop(thisModSelectionIndex);
                 if (isThirdAlignment)
-                    audioManager.ThreeAligned();
+                    audioManager.RotationStopThreeAligned();
                 else if (isSecondAlignment)
-                    audioManager.TwoAligned();
+                    audioManager.RotationStopTwoAligned();
                 else if (isClearable)
                     audioManager.RotationStopClearable(thisModSelectionIndex);
             }

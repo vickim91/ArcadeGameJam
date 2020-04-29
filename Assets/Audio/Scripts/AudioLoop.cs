@@ -137,7 +137,10 @@ public class AudioLoop : MonoBehaviour
     {
         fading = true;
         fadeVolDestination = volDestination;
-        fadeVolSlope = volSlope;
+        if (fadeVolDestination > volume)
+            fadeVolSlope = volSlope;
+        else if (fadeVolDestination < volume)
+            fadeVolSlope = -volSlope;
     }
 
     private void SnapToMinOrMaxVolume()

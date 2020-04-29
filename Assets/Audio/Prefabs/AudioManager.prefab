@@ -29,7 +29,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9052873010291671636}
-  - {fileID: 8997456432668521205}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,7 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06016f682b7e394197d21d0ada7ded1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  music1: {fileID: 991968979538657404, guid: b6f2b1062b112c2428c2e652e0b0b55d, type: 3}
+  music2: {fileID: 1089266680804485283, guid: 4cbc72d0f532f2841b494355b794143c, type: 3}
+  musicStinger: {fileID: 7946617795736352428, guid: 087dffaebb704e14e883592bb699afaf,
+    type: 3}
+  musicFadeSlope: 0.005
+  musicFadeDelay: 0.5
+  beatDelay: 0.05
+  beatSnapTolerance: 0.05
   rotation: {fileID: 5903827950238681526, guid: 926ab8f6b8508494c976ef3171405af5,
+    type: 3}
+  rotStopPre: {fileID: 5118944357575168463, guid: 96726979eeb0abc43b111149b018da86,
     type: 3}
   rotationStop: {fileID: 7768872319237251835, guid: 51b7b7e26517faa4c801707514d8d8b1,
     type: 3}
@@ -81,81 +90,7 @@ MonoBehaviour:
   rotStopCueLenMax: 5
   rotStopCueLenPitching: 0.05
   rotStopCueLenVol: 0.05
---- !u!1001 &8149629059838079627
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 8149629060247877394}
-    m_Modifications:
-    - target: {fileID: 991968979538657405, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_Name
-      value: MusicLoop
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b6f2b1062b112c2428c2e652e0b0b55d, type: 3}
---- !u!4 &8997456432668521205 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 991968979538657406, guid: b6f2b1062b112c2428c2e652e0b0b55d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8149629059838079627}
-  m_PrefabAsset: {fileID: 0}
+  timeUntilNextBeat: 0
 --- !u!1001 &8149629061007090506
 PrefabInstance:
   m_ObjectHideFlags: 0

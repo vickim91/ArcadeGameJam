@@ -515,7 +515,7 @@ MonoBehaviour:
   acceleration: 0.1
   initialGameSpeed: 0.5
   initialSpawnRate: 1
-  initialRotationSpeed: 100
+  initialRotationSpeed: 200
   divisionStep: 4
   starPowGameSpeed: 2
   starPowSpawnrate: 2
@@ -648,10 +648,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8149629060247877395, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
+        type: 3}
+      propertyPath: delayBeat
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8149629060247877395, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
+        type: 3}
+      propertyPath: snapTolerance
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 8149629060247877396, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
         type: 3}
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8997456432668521206, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
+        type: 3}
+      propertyPath: m_Name
+      value: MusicLoop2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997456432668521207, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
+        type: 3}
+      propertyPath: soundFile
+      value: 
+      objectReference: {fileID: 8300000, guid: 3fbc31eb8cc7bc7498b62cacffcdb1f3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54645f73f9eb62e4b835f5ef75ea3ef0, type: 3}
