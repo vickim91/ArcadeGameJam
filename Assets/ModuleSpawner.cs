@@ -574,11 +574,12 @@ public class ModuleSpawner : MonoBehaviour
     public void starPowerPreDeacceletation()
     {
         print("pre deacceleration event");
-        SetSpeed(initialGameSpeed, starPowDeacc, 0, initialRotationSpeed);
+        SetSpeed(starPowGameSpeed, starPowAcc, 0.5f, starPowRotSpeed);
     }
 
     public void StarPowerDeacceleration()
     {
+        print("deacceleration event");
         SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate, initialRotationSpeed);
         audioManager.DeactivateStarPower();
     }
