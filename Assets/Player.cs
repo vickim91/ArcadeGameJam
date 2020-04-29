@@ -16,18 +16,5 @@ public class Player : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        print("collision");
-        Module m = collision.gameObject.GetComponentInParent<Module>();
-        if (m != null)
-        {
-            if (!m.isPuny)
-            {
-                gameManager.Death();
-            }
-        }
-        else
-            print("collision fuck");
-    }
+ 
 }

@@ -64,20 +64,6 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
---- !u!64 &6076905074377034851
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6792342309244471715}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5689065679114948658, guid: f330eeb5a5b28164ea0c12b91e3e42ad, type: 3}
 --- !u!1 &3270407459084361614
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,10 +127,24 @@ MonoBehaviour:
   isSecondAlignment: 0
   isClearable: 0
   thisModSelectionIndex: -1
-  clearableWindowSize: 0
+  clearableWindowSize: 5
   clearableAngles:
   - 0
   degreesPerSecond: 100
+--- !u!64 &6076905074377034851
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792342309244471715}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5689065679114948658, guid: f330eeb5a5b28164ea0c12b91e3e42ad, type: 3}
 --- !u!1001 &3270407458879754410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232,6 +232,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 18c3396814133ff4e8704971f1fd3515, type: 2}
+    - target: {fileID: -1504981713932161579, guid: f330eeb5a5b28164ea0c12b91e3e42ad,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: f330eeb5a5b28164ea0c12b91e3e42ad,
         type: 3}
       propertyPath: m_Name

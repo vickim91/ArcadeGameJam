@@ -7,13 +7,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public int score;
+    public float scoreModifier;
     void Start()
     {
         
     }
     public void addToScore(int score)
     {
-        this.score += score;
+        this.score += Mathf.RoundToInt( score*scoreModifier);
     }
 
     // Update is called once per frame
