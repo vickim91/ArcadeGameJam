@@ -191,18 +191,18 @@ public class Module : MonoBehaviour
                 moduleSpawner.StarPowerDeacceleration();
         }
         hasReachedPlayer = true;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.white);
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0, 1,0.2f,0.1f));
         //audioManager.Rotation(true, thisModSelectionIndex, false);
     }
     public void SelectThisModule()
     {
         isSelected = true;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.blue);
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
     }
     public void UnselectThisModule()
     {
         isSelected = false;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.red);
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 0f,0f,0.5f));
     }
 
     public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )
