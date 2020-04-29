@@ -15,7 +15,7 @@ public class ModuleSpawner : MonoBehaviour
 
     private GameObject[] currentSelectables; 
     private Module[] currentSelectablesScript; 
-    private GameObject[] spawnedMods; // this does not include modules that have reached the player
+    public GameObject[] spawnedMods; // this does not include modules that have reached the player
     private Vector2[] spawnQueue; 
     private int spawnedModsIndex;
     public static int selectedModIndex; 

@@ -336,7 +336,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091280385}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -500,7 +500,7 @@ MonoBehaviour:
   queueLength: 6
   numberOfSelectableMods: 5
   maxNumOfModsInGame: 50
-  playerPosition: 8
+  playerPosition: {fileID: 0}
   acceleration: 0.1
   initialGameSpeed: 0.5
   initialSpawnRate: 1
