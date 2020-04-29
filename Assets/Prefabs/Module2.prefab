@@ -64,20 +64,6 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
---- !u!64 &6076905074377034851
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6792342309244471715}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5689065679114948658, guid: f330eeb5a5b28164ea0c12b91e3e42ad, type: 3}
 --- !u!1 &3270407459084361614
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +75,7 @@ GameObject:
   - component: {fileID: 3270407459084361615}
   - component: {fileID: 2770497981082086826}
   m_Layer: 0
-  m_Name: Module1
+  m_Name: Module2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,15 +114,6 @@ MonoBehaviour:
   type: 0
   step: 0
   isPuny: 0
-  frames:
-  - {fileID: 3210929756750240493, guid: 6a7a09fb53c6f094db2b3a145886d102, type: 3}
-  - {fileID: -927199367670048503, guid: 4422bbaca206a0d4ca4efd960c3ea0b9, type: 3}
-  - {fileID: -927199367670048503, guid: 76b7c1f0b07a6954985891d3ddf630c6, type: 3}
-  - {fileID: -927199367670048503, guid: 101788ef7a2245846bd155a8821923d3, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   isThirdAlignment: 0
   isSecondAlignment: 0
   isClearable: 0
@@ -145,6 +122,20 @@ MonoBehaviour:
   clearableAngles:
   - 0
   degreesPerSecond: 100
+--- !u!64 &6786752543581520526
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792342309244471715}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -472783396282139608, guid: 34b16ca946bfe9c44982e8f6add89f1d, type: 3}
 --- !u!1001 &3270407458879754410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,6 +143,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3270407459084361615}
     m_Modifications:
+    - target: {fileID: -5178661895559278292, guid: f330eeb5a5b28164ea0c12b91e3e42ad,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -472783396282139608, guid: 34b16ca946bfe9c44982e8f6add89f1d,
+        type: 3}
     - target: {fileID: -4216859302048453862, guid: f330eeb5a5b28164ea0c12b91e3e42ad,
         type: 3}
       propertyPath: m_LocalPosition.x
