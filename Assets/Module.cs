@@ -13,6 +13,7 @@ public class Module : MonoBehaviour
     AudioManager audioManager;
     ModuleSpawner moduleSpawner;
     public GameObject[] frames;
+    GameObject myFrame;
 
     private bool isSelected;
     public bool isThirdAlignment; // controlled by modulespawner (tbc)
@@ -217,7 +218,7 @@ public class Module : MonoBehaviour
             fixedAngle = fixedAngle % 360;
 
        // if(frames[division] != null)
-        Instantiate(frames[division-3], this.transform);
+       myFrame= Instantiate(frames[division-3], this.transform);
 
         this.transform.eulerAngles = new Vector3(0f, 0f, fixedAngle);
 
