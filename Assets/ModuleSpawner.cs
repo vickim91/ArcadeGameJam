@@ -395,8 +395,8 @@ public class ModuleSpawner : MonoBehaviour
                 {
                     // SetSpeed(initialGameSpeed, 400, initialSpawnRate, initialRotationSpeed);
                     IncreaseDifficulty();
-                    print("normalize");
                     godModeStart = false;
+                    SetSelectedModule(0);
                 }
             }
             if (positionOfClosestModule > playerPosition.position.z)
