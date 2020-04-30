@@ -61,7 +61,7 @@ public class ModuleSpawner : MonoBehaviour
     public int deaccelerationPoint;
     public int preDeaccelerationPoint;
     private int punyModsCounter;
-
+    public int difficultyLevel;
     public float debugSpawnPositioning;
 
     // level design tools:
@@ -375,10 +375,12 @@ public class ModuleSpawner : MonoBehaviour
   //next div og speed increases?
     public void IncreaseDifficulty()
     {
+        difficultyLevel++;
         SetSpeed(initialGameSpeed + speedAccumulator, 400, initialSpawnRate + spawnRateAccumulator, initialRotationSpeed);
-        speedAccumulator += speedAccumulator;
-        spawnRateAccumulator += spawnRateAccumulator;
-        debugSpawnPositioning = gameSpeed * -4;
+        speedAccumulator = speedAccumulator * difficultyLevel;
+        spawnRateAccumulator = 0.2f * difficultyLevel;
+        debugSpawnPositioning -= difficultyLevel;
+        
     }
 
     private bool godModeStart = true;
