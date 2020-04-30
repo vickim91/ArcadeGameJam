@@ -395,7 +395,8 @@ public class ModuleSpawner : MonoBehaviour
 
     public void Death()
     {
-        SetSpeed(0, 1000, 0, 0);
+        if (!gameManager.godMode)
+            SetSpeed(0, 1000, 0, 0);
     }
 
     void CheckForDivisionChange()

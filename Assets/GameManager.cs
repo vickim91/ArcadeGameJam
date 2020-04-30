@@ -21,11 +21,11 @@ public class GameManager : MonoBehaviour
     {
         
         this.score += Mathf.RoundToInt( score*scoreModifier);
-        print("add to score" + this.score);
+        //print("add to score" + this.score);
     }
     public void setDifficultyMultiplier(float multiplier)
     {
-        print("multiplier " + multiplier);
+        //print("multiplier " + multiplier);
         this.difficultyModifier = multiplier;
     }
     // Update is called once per frame

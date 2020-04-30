@@ -105,6 +105,7 @@ public class Module : MonoBehaviour
             // how much the object should rotate this frame
             // degrees = degrees per second * seconds, and Time.deltaTime is a fraction of a second
             float rotationThisFrame = degreesPerSecond * Time.deltaTime;
+            print("rotationThisFrame:" + rotationThisFrame);
 
             // if object would finish rotating this frame, finish rotating
             if (rotationThisFrame >= Mathf.Abs(degreesRemaining))
@@ -133,6 +134,22 @@ public class Module : MonoBehaviour
             {
                 if (degreesRemaining > 0)
                 {
+                    if (degreesRemaining < 9 && degreesRemaining > 1)
+                    {
+                        //float degreesPerBeatTime = Mathf.Clamp(degreesRemaining / audioManager.timeUntilNextBeat, 1, degreesRemaining);
+                        float degreesPerBeatTime;
+                        if (audioManager.timeUntilNextBeat > 0.1)
+                        {
+                            degreesPerBeatTime = degreesPerSecond * audioManager.timeUntilNextBeat;
+                            rotationThisFrame = Mathf.Abs(degreesPerBeatTime) * Time.deltaTime;
+                        }
+                        print("degreesRemaining:" + degreesRemaining);
+                        print("rotationThisFrameBEEAT:" + rotationThisFrame);
+                            // 0 - 0.6
+                            // rotationThisFrame v. 0.6: langsom
+                            // rotationThisFrame v. 0: hurtig / normal
+                    }
+
                     this.transform.Rotate(new Vector3(0F, 0F, rotationThisFrame));
                     this.degreesRemaining -= rotationThisFrame;
                     if (rotationStop)
@@ -145,6 +162,22 @@ public class Module : MonoBehaviour
                 }
                 else
                 {
+                    if (degreesRemaining > -9 && degreesRemaining < -1)
+                    {
+                        //                        float degreesPerBeatTime = Mathf.Clamp(degreesRemaining / audioManager.timeUntilNextBeat, degreesRemaining, -1);
+                        float degreesPerBeatTime;
+                        if (audioManager.timeUntilNextBeat > 0.1)
+                        {
+                            degreesPerBeatTime = degreesPerSecond * audioManager.timeUntilNextBeat;
+                            rotationThisFrame = Mathf.Abs(degreesPerBeatTime) * Time.deltaTime;
+                        }
+                        print("degreesRemaining:" + degreesRemaining);
+                        print("rotationThisFrameBEEAT:" + rotationThisFrame);
+                        // 0 - 0.6
+                        // rotationThisFrame v. 0.6: langsom
+                        // rotationThisFrame v. 0: hurtig / normal
+                    }
+
                     this.transform.Rotate(new Vector3(0F, 0F, -rotationThisFrame));
                     this.degreesRemaining += rotationThisFrame;
                     if (rotationStop)
@@ -220,7 +253,8 @@ public class Module : MonoBehaviour
             {
                 gameManager.Death();
                 moduleSpawner.Death();
-                this.speed = 0;
+                if (!gameManager.godMode)
+                    this.speed = 0;
                 GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.red * 0.5f);
             }
         }

@@ -73,6 +73,12 @@ public class AudioManager : MonoBehaviour
             return false;
     }
 
+    //public bool RightBeforeBeat()
+    //{
+    //    return false;
+    //}
+
+
     void Start()
     {
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
@@ -203,7 +209,7 @@ public class AudioManager : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSecondsRealtime(0);
+        //yield return new WaitForSecondsRealtime(0);
         audioEvent.TriggerAudioEvent();
         rotStopPre.StopSoundAllVoices();
     }
