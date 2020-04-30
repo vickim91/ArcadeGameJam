@@ -217,6 +217,8 @@ public class Module : MonoBehaviour
             else
             {
                 gameManager.Death();
+                moduleSpawner.Death();
+                this.speed = 0;
             }
         }
        

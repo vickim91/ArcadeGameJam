@@ -393,14 +393,17 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
+    public void Death()
+    {
+        SetSpeed(0, 1000, 0, 0);
+    }
+
     void CheckForDivisionChange()
     {
         if (readyForDivisionStepChange && cueIsEmpty)
         {
-            print("ready & empty");
             if (starPower == false)
             {
-                print("star");
                 DivisionStepChange();
                 divisionStepChangeCountdown = divisionStepInterval;
                 readyForDivisionStepChange = false;
