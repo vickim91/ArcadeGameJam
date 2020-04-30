@@ -195,6 +195,8 @@ public class Module : MonoBehaviour
 
     public void HasReachedPlayer()
     {
+        hasReachedPlayer = true;
+        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0, 1, 0.2f, 0.1f));
         if (isPuny)
         {
             starPowerEndCountdown--;
@@ -218,11 +220,9 @@ public class Module : MonoBehaviour
                 gameManager.Death();
                 moduleSpawner.Death();
                 this.speed = 0;
+                GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.red * 0.5f);
             }
         }
-       
-        hasReachedPlayer = true;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0, 1,0.2f,0.1f));
         //audioManager.Rotation(true, thisModSelectionIndex, false);
     }
     public void SelectThisModule()

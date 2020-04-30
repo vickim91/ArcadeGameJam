@@ -488,23 +488,23 @@ public class ModuleSpawner : MonoBehaviour
     private void InputMethodsForTesting()
     {
         //change speed test
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-                //star power parameters
-            SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
-            TriggerStarPower();
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate, initialRotationSpeed);
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //        //star power parameters
+        //    SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+        //    TriggerStarPower();
+        //}
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate, initialRotationSpeed);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PrepareModuleThenSpawn();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            DivisionStepChange();
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    PrepareModuleThenSpawn();
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //    DivisionStepChange();
     }
 
     private void DivisionStepChange()
@@ -514,6 +514,8 @@ public class ModuleSpawner : MonoBehaviour
             divisionStep = 3; // we don't go below three!! that's forbidden!
         if (divisionStep == 7)
             divisionStep = 8; // and btw, 7 is also forbidden...
+        if (divisionStep > 10)
+            divisionStep = 10;
         SetProbabilities();
     }
 

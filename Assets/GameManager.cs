@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static int scoreBest;
     public int score;
     public float scoreModifier;
     public bool godMode;
@@ -24,20 +25,45 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ExitGame();
+            GoToMenu();
         }
         if (death)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                StartGame();
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartGame();
             }
         }
+    }
+
+    private static void StartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+    }
+
+    bool setButtonEventHere;
+    public void GoToMenu()
+    {
+        if (setButtonEventHere)
+            StartGame();
+        if (setButtonEventHere)
+            HowToPlay();
+        if (setButtonEventHere)
+            ExitGame();
     }
     public void ExitGame()
     {
         Application.Quit();
     }
+    public void HowToPlay()
+    {
+
+    }
+
     bool death;
     public void Death()
     {        
@@ -46,6 +72,10 @@ public class GameManager : MonoBehaviour
             death = true;
             //hvis vi gerne vil fortælle spilleren score inden reset
             int yourScore = this.score;
+            if (scoreBest < yourScore)
+                scoreBest = yourScore;
+
+            //show yourScore and scoreBest with big numbers in middle of screen!!
         }
     }
 }
