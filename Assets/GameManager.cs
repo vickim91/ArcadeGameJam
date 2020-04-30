@@ -26,18 +26,26 @@ public class GameManager : MonoBehaviour
         {
             ExitGame();
         }
+        if (death)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            }
+        }
     }
     public void ExitGame()
     {
         Application.Quit();
     }
+    bool death;
     public void Death()
-    {
+    {        
         if (godMode == false)
         {
+            death = true;
             //hvis vi gerne vil fortælle spilleren score inden reset
             int yourScore = this.score;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
         }
     }
 }
