@@ -227,12 +227,22 @@ public class Module : MonoBehaviour
     public void SelectThisModule()
     {
         isSelected = true;
-        GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
+        if (!isPuny)
+            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
+        else
+        {
+            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 1f, 0f, 0.1f));
+        }
     }
     public void UnselectThisModule()
     {
         isSelected = false;
+        if(!isPuny)
         GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 0f,0f,0.5f));
+        else
+        {
+            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 1f, 0f, 0.1f));
+        }
     }
 
     public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )

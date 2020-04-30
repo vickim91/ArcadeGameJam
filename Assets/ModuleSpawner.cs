@@ -46,7 +46,7 @@ public class ModuleSpawner : MonoBehaviour
     private int moduleNumber;
     private string spawnNameModOrSeq;
 
-    private float gameSpeed;
+    public float gameSpeed;
     private float spawnRate;
     private float rotationSpeed;
 
@@ -376,10 +376,10 @@ public class ModuleSpawner : MonoBehaviour
     public void IncreaseDifficulty()
     {
         difficultyLevel++;
-        SetSpeed(initialGameSpeed + speedAccumulator, 400, initialSpawnRate + spawnRateAccumulator, initialRotationSpeed);
-        speedAccumulator = speedAccumulator * difficultyLevel;
-        spawnRateAccumulator = 0.2f * difficultyLevel;
-        debugSpawnPositioning -= difficultyLevel;
+        SetSpeed(initialGameSpeed + speedAccumulator *difficultyLevel, 400, initialSpawnRate + spawnRateAccumulator*difficultyLevel, initialRotationSpeed);
+
+       
+        debugSpawnPositioning -= difficultyLevel/4;
         
     }
 
@@ -663,9 +663,8 @@ public class ModuleSpawner : MonoBehaviour
     {
         print("deacceleration event");
 
-        SetSpeed(initialGameSpeed+speedAccumulator, starPowDeacc, initialSpawnRate + spawnRateAccumulator, initialRotationSpeed);
-        speedAccumulator += speedAccumulator;
-        spawnRateAccumulator += spawnRateAccumulator;
+        //SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate , initialRotationSpeed);
+    
         audioManager.DeactivateStarPower();
         godModeStart = true;
         starPower = false;
