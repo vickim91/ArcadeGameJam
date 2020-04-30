@@ -960,7 +960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreModifier: 1
-  godMode: 1
+  godMode: 0
   difficultyModifier: 0
   starPowerMultiplier: 1
 --- !u!4 &1733198756
@@ -1059,11 +1059,11 @@ MonoBehaviour:
   speedAccumulator: 0.25
   spawnRateAccumulator: 0.05
   starPowGameSpeed: 50
-  starPowSpawnrate: 5
+  starPowSpawnrate: 4
   starPowRotSpeed: 1000
   starPowAcc: 100
   starPowDeacc: 200
-  punyModsPerStarPower: 16
+  punyModsPerStarPower: 10
   deaccelerationPoint: 2
   preDeaccelerationPoint: 3
   difficultyLevel: 0
