@@ -134,7 +134,7 @@ public class Module : MonoBehaviour
             {
                 if (degreesRemaining > 0)
                 {
-                    if (degreesRemaining < 9 && degreesRemaining > 1)
+                    if (degreesRemaining < 9 && degreesRemaining > 2)
                     {
                         float degreesPerBeatTime;
                         if (audioManager.timeUntilNextBeat > 0.1)
@@ -142,6 +142,10 @@ public class Module : MonoBehaviour
                             degreesPerBeatTime = degreesPerSecond * audioManager.timeUntilNextBeat;
                             rotationThisFrame = Mathf.Abs(degreesPerBeatTime) * Time.deltaTime;
                         }
+                    }
+                    else if (degreesRemaining < 2)
+                    {
+                        rotationThisFrame = rotationThisFrame / Mathf.Abs(degreesRemaining) * Time.deltaTime;
                     }
 
                     this.transform.Rotate(new Vector3(0F, 0F, rotationThisFrame));
@@ -156,7 +160,7 @@ public class Module : MonoBehaviour
                 }
                 else
                 {
-                    if (degreesRemaining > -9 && degreesRemaining < -1)
+                    if (degreesRemaining > -9 && degreesRemaining < -2)
                     {
                         float degreesPerBeatTime;
                         if (audioManager.timeUntilNextBeat > 0.1)
@@ -164,6 +168,10 @@ public class Module : MonoBehaviour
                             degreesPerBeatTime = degreesPerSecond * audioManager.timeUntilNextBeat;
                             rotationThisFrame = Mathf.Abs(degreesPerBeatTime) * Time.deltaTime;
                         }
+                    }
+                    else if (degreesRemaining > -2)
+                    {
+                        rotationThisFrame = rotationThisFrame / Mathf.Abs(degreesRemaining) * Time.deltaTime;
                     }
 
                     this.transform.Rotate(new Vector3(0F, 0F, -rotationThisFrame));
