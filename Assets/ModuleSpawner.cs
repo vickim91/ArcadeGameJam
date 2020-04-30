@@ -10,8 +10,8 @@ public class ModuleSpawner : MonoBehaviour
     LevelDesigner.ModuleSpawn[] modSpawnParams;
     LevelDesigner.SequenceSpawn[] seqSpawnParams;
     
-    private int[] modSpawnProbabilities; 
-    private int[] seqSpawnProbabilities; 
+    private int[] modSpawnPossibilities; 
+    private int[] seqSpawnPossibilities; 
 
     private GameObject[] currentSelectables; 
     private Module[] currentSelectablesScript; 
@@ -19,10 +19,12 @@ public class ModuleSpawner : MonoBehaviour
     private Vector2[] spawnQueue; 
     private int spawnedModsIndex;
     public static int selectedModIndex; 
-    private Module selectedModule; 
+    private Module selectedModule;
 
     // behavior parameters
-    public GameObject[] modules; 
+    public GameObject[] frames;
+    public GameObject[] modules;
+    [HideInInspector]
     public int queueLength; // note: set this to the length of the longest sequence at start
     public int numberOfSelectableMods;
     public int maxNumOfModsInGame;
@@ -37,9 +39,6 @@ public class ModuleSpawner : MonoBehaviour
     public float initialGameSpeed;
     public float initialSpawnRate;
     public float initialRotationSpeed;
-
-    // level design tools:
-    public int divisionStep;
 
     private int div;
     private int divFree = 360;
@@ -61,8 +60,17 @@ public class ModuleSpawner : MonoBehaviour
     public int preDeaccelerationPoint;
     private int punyModsCounter;
 
+    public float debugSpawnPositioning;
+
+    // level design tools:
+    public int divisionStep;
+
     void Start()
     {
+        if (divisionStep < 3)
+            divisionStep = 3; // we don't go below three!! that's forbidden!
+        if (divisionStep == 7)
+            divisionStep = 8; // and btw, 7 is also forbidden...
         gameSpeed = initialGameSpeed;
         spawnRate = initialSpawnRate;
         rotationSpeed = initialRotationSpeed;
@@ -74,12 +82,18 @@ public class ModuleSpawner : MonoBehaviour
         spawnedMods = new GameObject[maxNumOfModsInGame]; // these does not include spawned modules that have reached the player
         spawnedModsIndex = -1;
         selectedModIndex = 0;
+        queueLength = levelDesigner.queueLength;
         spawnQueue = new Vector2[queueLength];
         for (int i = 0; i < spawnQueue.Length; i++)
         {
             spawnQueue[i] = new Vector2(-1, -1);
         }
         SetProbabilities();
+
+        if (gameManager.godMode)
+        {
+            SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
+        }
     }
 
     void Update()
@@ -183,72 +197,88 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
-    public void SetProbabilities()
+    public void SetProbabilities() // run this, when divisionStep changes!!
     {
-        int totalModSpawnProbs = 0;
+        int totalModSpawnProbabilities = 0;
         modSpawnParams = levelDesigner.moduleSpawn;
         foreach (LevelDesigner.ModuleSpawn sM in modSpawnParams)
         {
-            if (sM.divApplication[divisionStep])
+            for (int i = 0; i < sM.theREALDivApplication.Length; i++)
             {
-                float modSpawnProb = sM.modTypeRotProb.z;
-                totalModSpawnProbs += Mathf.RoundToInt(modSpawnProb);
+                if (sM.theREALDivApplication[i] == divisionStep)
+                {
+                    float modSpawnProbability = sM.modTypeRotProb.z;
+                    totalModSpawnProbabilities += Mathf.RoundToInt(modSpawnProbability);
+                }
             }
         }
-        int totalSeqSpawnProbs = 0;
+        int totalSeqSpawnProbabilities = 0;
         seqSpawnParams = levelDesigner.sequenceSpawn;
         foreach (LevelDesigner.SequenceSpawn sE in seqSpawnParams)
         {
-            if (sE.divApplication[divisionStep])
+            for (int i = 0; i < sE.theREALDivApplication.Length; i++)
             {
-                float seqSpawnProb = sE.probality;
-                totalSeqSpawnProbs += Mathf.RoundToInt(seqSpawnProb);
+                if (sE.theREALDivApplication[i] == divisionStep)
+                {
+                    float seqSpawnProbability = sE.probality;
+                    totalSeqSpawnProbabilities += Mathf.RoundToInt(seqSpawnProbability);
+                }
             }
         }
-        modSpawnProbabilities = new int[totalModSpawnProbs];  // this number represents the spawn module ID (not its type). its size represents the pool of possibilities
-        seqSpawnProbabilities = new int[totalSeqSpawnProbs];
+        // possibilities: this array includes the spawnID's for all spawns included by the divisionStep
+        // its length is the sum of each spawnID's probability
+        // spawnID is not the same as a modType
+        // the spawnIndex is the index for the spawnID's probability, used to populate the possibilites with spawnID's
+        modSpawnPossibilities = new int[totalModSpawnProbabilities];
+        seqSpawnPossibilities = new int[totalSeqSpawnProbabilities];
 
         int modSpawnID = 0;
         int firstModSpawnIndex = 0;
         int lastModSpawnIndex = 0;
         foreach (LevelDesigner.ModuleSpawn sM in modSpawnParams)
         {
-            if (sM.divApplication[divisionStep])
+            for (int e = 0; e < sM.theREALDivApplication.Length; e++)
             {
-                float thisModSpawnProbability = sM.modTypeRotProb.z;
-                lastModSpawnIndex += Mathf.RoundToInt(thisModSpawnProbability);
-
-                for (int i = firstModSpawnIndex; i < lastModSpawnIndex; i++)
+                if (sM.theREALDivApplication[e] == divisionStep)
                 {
-                    modSpawnProbabilities[i] = modSpawnID;
+                    float thisModSpawnProbability = sM.modTypeRotProb.z;
+                    lastModSpawnIndex += Mathf.RoundToInt(thisModSpawnProbability);
+
+                    for (int i = firstModSpawnIndex; i < lastModSpawnIndex; i++)
+                    {
+                        modSpawnPossibilities[i] = modSpawnID;
+                    }
+                    firstModSpawnIndex = lastModSpawnIndex;
                 }
-                modSpawnID++;
-                firstModSpawnIndex = lastModSpawnIndex;
             }
+            modSpawnID++;
         }
         int seqSpawnID = 0;
         int firstSeqSpawnIndex = 0;
         int lastSeqSpawnIndex = 0;
         foreach (LevelDesigner.SequenceSpawn sE in seqSpawnParams)
         {
-            if (sE.divApplication[divisionStep])
+            for (int e = 0; e < sE.theREALDivApplication.Length; e++)
             {
-                float thisSeqSpawnProbability = sE.probality;
-                lastSeqSpawnIndex += Mathf.RoundToInt(thisSeqSpawnProbability);
-
-                for (int i = firstSeqSpawnIndex; i < lastSeqSpawnIndex; i++)
+                if (sE.theREALDivApplication[e] == divisionStep)
                 {
-                    seqSpawnProbabilities[i] = seqSpawnID;
+                    float thisSeqSpawnProbability = sE.probality;
+                    lastSeqSpawnIndex += Mathf.RoundToInt(thisSeqSpawnProbability);
+
+                    for (int i = firstSeqSpawnIndex; i < lastSeqSpawnIndex; i++)
+                    {
+                        seqSpawnPossibilities[i] = seqSpawnID;
+                    }
+                    firstSeqSpawnIndex = lastSeqSpawnIndex;
                 }
-                seqSpawnID++;
-                firstSeqSpawnIndex = lastSeqSpawnIndex;
             }
+            seqSpawnID++;
         }
     }
 
     private void PrepareModuleThenSpawn()
     {
-        div = levelDesigner.divisionStepSequence[divisionStep];
+        div = divisionStep;
         if (levelDesigner.snapToDiv == false)
             div = divFree;
 
@@ -256,36 +286,37 @@ public class ModuleSpawner : MonoBehaviour
         if (spawnQueue[0].x == -1)
         {
             int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
-            if (rollSeqSpawnVsModSpawn <= levelDesigner.chanceForSequence)
+            if (rollSeqSpawnVsModSpawn < levelDesigner.chanceForSequence)
             {
-                int rollSeqSpawnID = Random.Range(0, seqSpawnProbabilities.Length);
-                int seqSpawnID = seqSpawnProbabilities[rollSeqSpawnID];
+                int rollSeqSpawnID = Random.Range(0, seqSpawnPossibilities.Length);
+                int seqSpawnID = seqSpawnPossibilities[rollSeqSpawnID];
                 LevelDesigner.SequenceSpawn thisSeqSpawn = seqSpawnParams[seqSpawnID];
                 //thisSequnce.seqTypeRot.Length må ikke være over queueLength
-                for (int seqSpawnElem = 0; seqSpawnElem < thisSeqSpawn.seqTypeRot.Length; seqSpawnElem++)
+                for (int seqSpawnElemID = 0; seqSpawnElemID < thisSeqSpawn.seqTypeRot.Length; seqSpawnElemID++)
                 {
-                    int seqSpawnElemID = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].x);
+                    int seqSpawnElemModType = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElemID].x);
                     if (levelDesigner.CheckIfSpawnRotationIsZero(true, seqSpawnID, seqSpawnElemID))
                     {
-                        thisSeqSpawn.seqTypeRot[seqSpawnElem].y = Random.Range(0, 360);
+                        thisSeqSpawn.seqTypeRot[seqSpawnElemID].y = Random.Range(0, 360);
                     }
-                    int seqSpawnElemRotation = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElem].y / (360 / div));
+                    int seqSpawnElemRotation = Mathf.RoundToInt(thisSeqSpawn.seqTypeRot[seqSpawnElemID].y / (360 / div));
 
-                    spawnQueue[seqSpawnElem] = new Vector2(seqSpawnElemID, seqSpawnElemRotation); //here
+                    spawnQueue[seqSpawnElemID] = new Vector2(seqSpawnElemModType, seqSpawnElemRotation); //here
                     spawnNameModOrSeq = "S" + seqSpawnID + " ";
                 }
             }
             else
             {
-                int rollModSpawnID = Random.Range(0, modSpawnProbabilities.Length);
-                int modSpawnID = modSpawnProbabilities[rollModSpawnID];
+                int rollModSpawnID = Random.Range(0, modSpawnPossibilities.Length);
+                int modSpawnID = modSpawnPossibilities[rollModSpawnID];
+                int modSpawnModType = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.x);
                 if (levelDesigner.CheckIfSpawnRotationIsZero(false, -1, modSpawnID))
                 {
                     modSpawnParams[modSpawnID].modTypeRotProb.y = Random.Range(0, 360);
                 }
                 int modSpawnRotation = Mathf.RoundToInt(modSpawnParams[modSpawnID].modTypeRotProb.y / (360 / div));
 
-                spawnQueue[0] = new Vector2(modSpawnID, modSpawnRotation); //here
+                spawnQueue[0] = new Vector2(modSpawnModType, modSpawnRotation); //here
                 spawnNameModOrSeq = "M" + modSpawnID + " ";
             }
         }
@@ -307,7 +338,7 @@ public class ModuleSpawner : MonoBehaviour
         ////trigger PRE deaccelleration if relevant
         if (punyModsCounter == preDeaccelerationPoint)
         {
-            starPowerPreDeacceletation();
+            starPowerPreDeacceleration();
         }
 
         //ryk køen
@@ -340,11 +371,21 @@ public class ModuleSpawner : MonoBehaviour
         return gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
     }
 
+    private bool godModeStart = true;
     private void CheckIfModuleHasReachedThePlayer()
     {
         if (currentSelectables[0] != null)
         {
             float positionOfClosestModule = currentSelectables[0].transform.position.z;
+            if (gameManager.godMode && godModeStart)
+            {
+                if (positionOfClosestModule > debugSpawnPositioning)
+                {
+                    SetSpeed(initialGameSpeed, 400, initialSpawnRate, initialRotationSpeed);
+                    print("normalize");
+                    godModeStart = false;
+                }
+            }
             if (positionOfClosestModule > playerPosition.position.z)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
@@ -412,6 +453,28 @@ public class ModuleSpawner : MonoBehaviour
         {
             PrepareModuleThenSpawn();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            DivisionStepChange(3);
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+            DivisionStepChange(4);
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            DivisionStepChange(5);
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+            DivisionStepChange(6);
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+            DivisionStepChange(8);
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+            DivisionStepChange(8);
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+            DivisionStepChange(9);
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            DivisionStepChange(10);
+    }
+
+    private void DivisionStepChange(int newDivStep)
+    {
+        divisionStep = newDivStep;
+        SetProbabilities();
     }
 
     public void SelectNextModule()
@@ -553,26 +616,26 @@ public class ModuleSpawner : MonoBehaviour
 
     public void TriggerStarPower()
     {
-        SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
-        audioManager.StarPower();
-        punyModsCounter = punyModsPerStarPower;
-        Module.starPowerEndCountdown = punyModsPerStarPower;
-        foreach(GameObject g  in spawnedMods)
-        {
-            if (g && punyModsCounter > 0)
-            {
-                Module m = g.GetComponent<Module>();
-                m.SetPuny(true);
-                punyModsCounter--;
-            }
-        }
+        //SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+        //audioManager.StarPower();
+        //punyModsCounter = punyModsPerStarPower;
+        //Module.starPowerEndCountdown = punyModsPerStarPower;
+        //foreach(GameObject g  in spawnedMods)
+        //{
+        //    if (g && punyModsCounter > 0)
+        //    {
+        //        Module m = g.GetComponent<Module>();
+        //        m.SetPuny(true);
+        //        punyModsCounter--;
+        //    }
+        //}
     }
 
     public void ConcludeStarPower()
     {
         
     }
-    public void starPowerPreDeacceletation()
+    public void starPowerPreDeacceleration()
     {
         print("pre deacceleration event");
         SetSpeed(starPowGameSpeed, starPowAcc, 0.5f, starPowRotSpeed);

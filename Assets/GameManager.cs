@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public int score;
     public float scoreModifier;
+    public bool godMode;
+
     void Start()
     {
         
@@ -24,10 +26,11 @@ public class GameManager : MonoBehaviour
     }
     public void Death()
     {
-        //hvis vi gerne vil fortælle spilleren score inden reset
-        int yourScore = this.score;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-        
-
+        if (godMode == false)
+        {
+            //hvis vi gerne vil fortælle spilleren score inden reset
+            int yourScore = this.score;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+        }
     }
 }

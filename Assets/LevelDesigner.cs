@@ -4,13 +4,13 @@ public class LevelDesigner : MonoBehaviour
 {
     public bool snapToDiv;
     public int chanceForSequence;
-    public int[] divisionStepSequence;
+    public int divisionStepMax = 10;
 
     [System.Serializable]
     public class ModuleSpawn
     {
         public Vector3 modTypeRotProb;
-        public bool[] divApplication;
+        public int[] theREALDivApplication;
         [HideInInspector]
         public float initialRotation;
 
@@ -22,62 +22,102 @@ public class LevelDesigner : MonoBehaviour
     {
         public int probality;
         public Vector2[] seqTypeRot;
-        public bool[] divApplication;
+        public int[] theREALDivApplication;
         [HideInInspector]
         public float[] initialRotation;
     }
     public SequenceSpawn[] sequenceSpawn;
 
+    [HideInInspector]
+    public int queueLength;
+
     // Start is called before the first frame update
     void Awake()
     {
+        FillOutMissingDivisionApplicationsAndSetQueueLength();
         SetInitialRotations();
-        FillOutMissingBoolsInDivisionApplicationArrays();
+        SetSpawnQueueLength();
     }
 
-    private void FillOutMissingBoolsInDivisionApplicationArrays()
+    void SetSpawnQueueLength()
     {
-        int lSteps = divisionStepSequence.Length;
+
+    }
+
+    //private void FillOutMissingBoolsInDivisionApplicationArrays()
+    //{
+    //    int lSteps = divisionStepMax + 1;
+    //    for (int i = 0; i < moduleSpawn.Length; i++)
+    //    {
+    //        int lThis = moduleSpawn[i].divApplication.Length;
+    //        if (lThis < lSteps)
+    //        {
+    //            bool[] divAppFiller = new bool[lSteps];
+    //            for (int divApps = 0; divApps < lThis; divApps++)
+    //            {
+    //                divAppFiller[divApps] = moduleSpawn[i].divApplication[divApps];
+    //            }
+    //            if (lThis == 0)
+    //            {
+    //                for (int divApps = 0; divApps < lSteps; divApps++)
+    //                {
+    //                    divAppFiller[divApps] = true;
+    //                }
+    //            }
+    //            moduleSpawn[i].divApplication = divAppFiller;
+    //        }
+    //    }
+    //    for (int i = 0; i < sequenceSpawn.Length; i++)
+    //    {
+    //        int lThis = sequenceSpawn[i].divApplication.Length;
+
+    //        if (lThis < lSteps)
+    //        {
+    //            bool[] divAppFiller = new bool[lSteps];
+    //            for (int divApps = 0; divApps < lThis; divApps++)
+    //            {
+    //                divAppFiller[divApps] = sequenceSpawn[i].divApplication[divApps];
+    //                divAppFiller[divApps] = true;
+    //            }
+    //            if (lThis == 0)
+    //            {
+    //                for (int divApps = 0; divApps < lSteps; divApps++)
+    //                {
+    //                    divAppFiller[divApps] = true;
+    //                }
+    //            }
+    //            sequenceSpawn[i].divApplication = divAppFiller;
+    //        }
+    //    }
+    //}
+    
+    private void FillOutMissingDivisionApplicationsAndSetQueueLength()
+    {
+
         for (int i = 0; i < moduleSpawn.Length; i++)
         {
-            int lThis = moduleSpawn[i].divApplication.Length;
-            if (lThis < lSteps)
+            int lThis = moduleSpawn[i].theREALDivApplication.Length;
+            if (lThis == 0) // if no divApplication, then apply to all divisionSteps
             {
-                bool[] divAppFiller = new bool[lSteps];
-                for (int divApps = 0; divApps < lThis; divApps++)
+                moduleSpawn[i].theREALDivApplication = new int[divisionStepMax + 1];
+                for (int divStep = 0; divStep < divisionStepMax + 1; divStep++)
                 {
-                    divAppFiller[divApps] = moduleSpawn[i].divApplication[divApps];
+                    moduleSpawn[i].theREALDivApplication[divStep] = divStep;
                 }
-                if (lThis == 0)
-                {
-                    for (int divApps = 0; divApps < lSteps; divApps++)
-                    {
-                        divAppFiller[divApps] = true;
-                    }
-                }
-                moduleSpawn[i].divApplication = divAppFiller;
             }
         }
         for (int i = 0; i < sequenceSpawn.Length; i++)
         {
-            int lThis = sequenceSpawn[i].divApplication.Length;
-            
-            if (lThis < lSteps)
+            if (sequenceSpawn[i].seqTypeRot.Length > queueLength)
+                queueLength = sequenceSpawn[i].seqTypeRot.Length;
+            int lThis = sequenceSpawn[i].theREALDivApplication.Length;
+            if (lThis == 0)
             {
-                bool[] divAppFiller = new bool[lSteps];
-                for (int divApps = 0; divApps < lThis; divApps++)
+                sequenceSpawn[i].theREALDivApplication = new int[divisionStepMax + 1];
+                for (int divStep = 0; divStep < divisionStepMax + 1; divStep++)
                 {
-                    divAppFiller[divApps] = sequenceSpawn[i].divApplication[divApps];
-                    divAppFiller[divApps] = true;
+                    sequenceSpawn[i].theREALDivApplication[divStep] = divStep;
                 }
-                if (lThis == 0)
-                {
-                    for (int divApps = 0; divApps < lSteps; divApps++)
-                    {
-                        divAppFiller[divApps] = true;
-                    }
-                }
-                sequenceSpawn[i].divApplication = divAppFiller;
             }
         }
     }
@@ -136,15 +176,13 @@ public class LevelDesigner : MonoBehaviour
         for (int modSpawnID = 0; modSpawnID < moduleSpawn.Length; modSpawnID++)
         {
             moduleSpawn[modSpawnID].initialRotation = moduleSpawn[modSpawnID].modTypeRotProb.y;
-//            Debug.Log("initMod" + modSpawnID + " " + moduleSpawn[modSpawnID].initialRotation);
         }
         for (int seqSpawnID = 0; seqSpawnID < sequenceSpawn.Length; seqSpawnID++)
         {
-            sequenceSpawn[seqSpawnID].initialRotation = new float[sequenceSpawn.Length];
+            sequenceSpawn[seqSpawnID].initialRotation = new float[sequenceSpawn[seqSpawnID].seqTypeRot.Length];
             for (int seqSpawnElemID = 0; seqSpawnElemID < sequenceSpawn[seqSpawnID].seqTypeRot.Length; seqSpawnElemID++)
             {
                 sequenceSpawn[seqSpawnID].initialRotation[seqSpawnElemID] = sequenceSpawn[seqSpawnID].seqTypeRot[seqSpawnElemID].y;
-//                Debug.Log("initSeq" + seqSpawnID + " " + sequenceSpawn[seqSpawnID].initialRotation[seqSpawnElemID]);
             }
         }
     }

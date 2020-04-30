@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3270407459084361615}
   - component: {fileID: 2770497981082086826}
   m_Layer: 0
-  m_Name: Module4A
+  m_Name: Module1B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,26 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  division: 0
   type: 0
   step: 0
-  isPuny: 0
-  frames:
-  - {fileID: 3210929756750240493, guid: 6a7a09fb53c6f094db2b3a145886d102, type: 3}
-  - {fileID: 3210929756750240493, guid: 18ee159635da5a04bbf70e5051c7447f, type: 3}
-  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
-  - {fileID: 3210929756750240493, guid: e373902adff878e4c99922182f5fb406, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   isThirdAlignment: 0
   isSecondAlignment: 0
-  isClearable: 0
   thisModSelectionIndex: -1
-  clearableWindowSize: 0
+  clearableWindowSize: 18
   clearableAngles:
   - 0
+  - 36
+  - 72
+  - 108
+  - 0
+  - 0
+  - 0
+  - 252
+  - 288
+  - 324
   degreesPerSecond: 100
 --- !u!64 &7363257251724770515
 MeshCollider:
@@ -79,7 +76,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8962117367345424250, guid: a8464dffec6da2e4782c27aef109ce25, type: 3}
+  m_Mesh: {fileID: -4217975002183071845, guid: eac8d20064f753b4cabdd984c40720e2, type: 3}
 --- !u!1001 &4201159583024073665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,12 +84,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3270407459084361615}
     m_Modifications:
-    - target: {fileID: -5178661895559278292, guid: eac8d20064f753b4cabdd984c40720e2,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 8962117367345424250, guid: a8464dffec6da2e4782c27aef109ce25,
-        type: 3}
     - target: {fileID: -4216859302048453862, guid: eac8d20064f753b4cabdd984c40720e2,
         type: 3}
       propertyPath: m_LocalPosition.x

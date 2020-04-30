@@ -4,35 +4,44 @@ using UnityEngine;
 
 public class Module : MonoBehaviour
 {
+    [HideInInspector]
     public float speed;
-    public int division;
+    private int division;
+    [HideInInspector]
     public int type;
+    [HideInInspector]
     public int step;
-    public bool isPuny;
-    Vector3 targetRotationEuler;
+    private bool isPuny;
     AudioManager audioManager;
     ModuleSpawner moduleSpawner;
-    public GameObject[] frames;
+    private GameObject[] frames;
     GameObject myFrame;
     GameManager gameManager;
     private bool isSelected;
-    public bool isThirdAlignment; // controlled by modulespawner (tbc)
-    public bool isSecondAlignment; // controlled by modulespawner (tbc)
-    public bool isClearable; // controlled by modulespawner (tbc)
+    [HideInInspector]
+    public bool isThirdAlignment; 
+    [HideInInspector]
+    public bool isSecondAlignment; 
+    private bool isClearable; 
     private bool hasReachedPlayer;
-    bool rotatingClockwise = true;
-    bool rotatingCounterclockwise = true;
-    bool rotationStop = true;
-    bool rotationVelocityChange;
-    public int thisModSelectionIndex = -1; // controlled by modulespawner
+    private bool rotatingClockwise = true;
+    private bool rotatingCounterclockwise = true;
+    private bool rotationStop = true;
+    private bool rotationVelocityChange;
+    [HideInInspector]
+    public int thisModSelectionIndex = -1; 
     public float clearableWindowSize;
     public float[] clearableAngles;
     public static int starPowerEndCountdown;
+    protected float degreesRemaining = 0F;
+    [HideInInspector]
+    public float degreesPerSecond = 100F;
 
     private void Start()
     {
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
         audioManager = FindObjectOfType<AudioManager>();
+        frames = moduleSpawner.frames;
     }
     public bool CheckIfClearable()
     {
@@ -224,6 +233,7 @@ public class Module : MonoBehaviour
 
     public void Init(float speed, float rotationSpeed, int division, int initialRotationSteps, bool isPuny )
     {
+        Start();
         this.speed = speed;
         this.degreesPerSecond = rotationSpeed;
         this.division = division;
@@ -234,7 +244,7 @@ public class Module : MonoBehaviour
         if (fixedAngle > 360)
             fixedAngle = fixedAngle % 360;
 
-        if (frames[division] != null)
+        if (frames[division - 3] != null)
             myFrame = Instantiate(frames[division - 3], this.transform);
         //else
            // print("du har glemt at sætte et prefab til frames");
@@ -290,9 +300,6 @@ public class Module : MonoBehaviour
            
      
     }
-    protected float degreesRemaining = 0F;
-
-    public  float degreesPerSecond = 100F;
 
     public void AddRotation(float degrees)
     {

@@ -118,14 +118,14 @@ public class AudioManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GameRestart();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            MusicSecondPhase();
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    GameRestart();
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    MusicSecondPhase();
+        //}
     }
 
     private void InstantiateAudioEvent(ref AudioEvent audioEvent)
