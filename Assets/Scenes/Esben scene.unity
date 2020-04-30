@@ -768,7 +768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreModifier: 0
-  godMode: 0
+  godMode: 1
 --- !u!4 &1733198756
 Transform:
   m_ObjectHideFlags: 0
@@ -874,6 +874,7 @@ MonoBehaviour:
   difficultyLevel: 0
   debugSpawnPositioning: -20
   divisionStep: 3
+  divisionStepInterval: 20
   backgroundLight: {fileID: 1284047142}
   intensity: 100
 --- !u!4 &1823340749
