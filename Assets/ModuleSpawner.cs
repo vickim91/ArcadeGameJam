@@ -338,7 +338,7 @@ public class ModuleSpawner : MonoBehaviour
         ////trigger PRE deaccelleration if relevant
         if (punyModsCounter == preDeaccelerationPoint)
         {
-            starPowerPreDeacceleration();
+            StarPowerPreDeacceleration();
         }
 
         //ryk køen
@@ -443,6 +443,7 @@ public class ModuleSpawner : MonoBehaviour
         {
                 //star power parameters
             SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+            TriggerStarPower();
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
@@ -614,28 +615,32 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
+    public Light backgroundLight;
+    public float intensity;
     public void TriggerStarPower()
     {
-        //SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
-        //audioManager.StarPower();
-        //punyModsCounter = punyModsPerStarPower;
-        //Module.starPowerEndCountdown = punyModsPerStarPower;
-        //foreach(GameObject g  in spawnedMods)
-        //{
-        //    if (g && punyModsCounter > 0)
-        //    {
-        //        Module m = g.GetComponent<Module>();
-        //        m.SetPuny(true);
-        //        punyModsCounter--;
-        //    }
-        //}
+        backgroundLight.intensity = intensity;
+        print("starpower");
+        SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+        audioManager.StarPower();
+        punyModsCounter = punyModsPerStarPower;
+        Module.starPowerEndCountdown = punyModsPerStarPower;
+        foreach (GameObject g in spawnedMods)
+        {
+            if (g && punyModsCounter > 0)
+            {
+                Module m = g.GetComponent<Module>();
+                m.SetPuny(true);
+                punyModsCounter--;
+            }
+        }
     }
 
     public void ConcludeStarPower()
     {
         
     }
-    public void starPowerPreDeacceleration()
+    public void StarPowerPreDeacceleration()
     {
         print("pre deacceleration event");
         SetSpeed(starPowGameSpeed, starPowAcc, 0.5f, starPowRotSpeed);

@@ -128,7 +128,6 @@ public class Module : MonoBehaviour
                 {
                     moduleSpawner.TriggerStarPower();
                 }
-                    
             }
             else // otherwise, rotate the amount necessary and subtract that from the counter
             {
