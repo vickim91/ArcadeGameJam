@@ -426,7 +426,7 @@ public class ModuleSpawner : MonoBehaviour
 
        
         debugSpawnPositioning -= difficultyLevel/4;
-        
+        setMultiplier();
     }
 
     private bool godModeStart = true;
@@ -524,16 +524,13 @@ public class ModuleSpawner : MonoBehaviour
             divisionStep = 3; // we don't go below three!! that's forbidden!
         if (divisionStep == 7)
             divisionStep = 8; // and btw, 7 is also forbidden...
-        //score multiplier
+                              //score multiplier
         setMultiplier();
         SetProbabilities();
     }
     public void setMultiplier()
     {
-        gameManager.setDifficultyMultiplier((divisionStep-2) +( gameSpeed-initialGameSpeed));
-        print("divisionStep " + (divisionStep-2));
-        print("gameSpeed " + (gameSpeed - (initialGameSpeed - 1)));
-        print("fnial modifier" + ((divisionStep - 2) * (gameSpeed - (initialGameSpeed - 1))));
+        gameManager.setDifficultyMultiplier(difficultyLevel);
     }
 
     public void SelectNextModule()
@@ -718,5 +715,6 @@ public class ModuleSpawner : MonoBehaviour
         godModeStart = true;
         starPower = false;
         SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
+        
     }
 }

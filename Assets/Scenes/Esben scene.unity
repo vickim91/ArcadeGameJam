@@ -1058,14 +1058,14 @@ MonoBehaviour:
   gameSpeed: 0
   speedAccumulator: 0.25
   spawnRateAccumulator: 0.05
-  starPowGameSpeed: 20
-  starPowSpawnrate: 2
+  starPowGameSpeed: 50
+  starPowSpawnrate: 5
   starPowRotSpeed: 1000
   starPowAcc: 100
   starPowDeacc: 200
-  punyModsPerStarPower: 18
-  deaccelerationPoint: 1
-  preDeaccelerationPoint: 1
+  punyModsPerStarPower: 10
+  deaccelerationPoint: 2
+  preDeaccelerationPoint: 3
   difficultyLevel: 0
   debugSpawnPositioning: -20
   divisionStep: 3

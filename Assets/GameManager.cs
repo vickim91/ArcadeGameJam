@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     }
     public void setDifficultyMultiplier(float multiplier)
     {
+        print("multiplier " + multiplier);
         this.difficultyModifier = multiplier;
     }
     // Update is called once per frame
