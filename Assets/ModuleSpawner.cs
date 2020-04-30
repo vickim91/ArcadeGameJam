@@ -50,6 +50,8 @@ public class ModuleSpawner : MonoBehaviour
     private float spawnRate;
     private float rotationSpeed;
 
+    public float speedAccumulator;
+    public float spawnRateAccumulator;
     public float starPowGameSpeed;
     public float starPowSpawnrate;
     public float starPowRotSpeed;
@@ -59,12 +61,12 @@ public class ModuleSpawner : MonoBehaviour
     public int deaccelerationPoint;
     public int preDeaccelerationPoint;
     private int punyModsCounter;
-
+    public int difficultyLevel;
     public float debugSpawnPositioning;
 
     // level design tools:
     public int divisionStep;
-
+    private bool starPower;
     void Start()
     {
         if (divisionStep < 3)
@@ -90,10 +92,9 @@ public class ModuleSpawner : MonoBehaviour
         }
         SetProbabilities();
 
-        if (gameManager.godMode)
-        {
+                //initial boost
             SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
-        }
+        
     }
 
     void Update()
@@ -323,8 +324,9 @@ public class ModuleSpawner : MonoBehaviour
 
         //Starpower
         bool spawnAsPuny = false;
-        if (punyModsCounter > 0)
+        if (punyModsCounter > preDeaccelerationPoint)
             spawnAsPuny = true;
+        
 
         int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
         int moduleType = spawnID;
@@ -370,6 +372,16 @@ public class ModuleSpawner : MonoBehaviour
     {
         return gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
     }
+  //next div og speed increases?
+    public void IncreaseDifficulty()
+    {
+        difficultyLevel++;
+        SetSpeed(initialGameSpeed + speedAccumulator, 400, initialSpawnRate + spawnRateAccumulator, initialRotationSpeed);
+        speedAccumulator = speedAccumulator * difficultyLevel;
+        spawnRateAccumulator = 0.2f * difficultyLevel;
+        debugSpawnPositioning -= difficultyLevel;
+        
+    }
 
     private bool godModeStart = true;
     private void CheckIfModuleHasReachedThePlayer()
@@ -377,11 +389,12 @@ public class ModuleSpawner : MonoBehaviour
         if (currentSelectables[0] != null)
         {
             float positionOfClosestModule = currentSelectables[0].transform.position.z;
-            if (gameManager.godMode && godModeStart)
+            if ( godModeStart)
             {
                 if (positionOfClosestModule > debugSpawnPositioning)
                 {
-                    SetSpeed(initialGameSpeed, 400, initialSpawnRate, initialRotationSpeed);
+                    // SetSpeed(initialGameSpeed, 400, initialSpawnRate, initialRotationSpeed);
+                    IncreaseDifficulty();
                     print("normalize");
                     godModeStart = false;
                 }
@@ -619,21 +632,24 @@ public class ModuleSpawner : MonoBehaviour
     public float intensity;
     public void TriggerStarPower()
     {
-        backgroundLight.intensity = intensity;
-        print("starpower");
-        SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
-        audioManager.StarPower();
-        punyModsCounter = punyModsPerStarPower;
-        Module.starPowerEndCountdown = punyModsPerStarPower;
-        foreach (GameObject g in spawnedMods)
+        if (!starPower)
         {
-            if (g && punyModsCounter > 0)
+            SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+            audioManager.StarPower();
+            punyModsCounter = punyModsPerStarPower;
+            Module.starPowerEndCountdown = punyModsPerStarPower;
+            foreach (GameObject g in spawnedMods)
             {
-                Module m = g.GetComponent<Module>();
-                m.SetPuny(true);
-                punyModsCounter--;
+                if (g && punyModsCounter > 0)
+                {
+                    Module m = g.GetComponent<Module>();
+                    m.SetPuny(true);
+                    punyModsCounter--;
+                }
             }
+            starPower = true;
         }
+        backgroundLight.intensity = intensity;
     }
 
     public void ConcludeStarPower()
@@ -643,13 +659,20 @@ public class ModuleSpawner : MonoBehaviour
     public void StarPowerPreDeacceleration()
     {
         print("pre deacceleration event");
-        SetSpeed(starPowGameSpeed, starPowAcc, 0.5f, starPowRotSpeed);
+        SetSpeed(starPowGameSpeed, starPowAcc, 0, starPowRotSpeed);
+
     }
 
     public void StarPowerDeacceleration()
     {
         print("deacceleration event");
-        SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate, initialRotationSpeed);
+
+        SetSpeed(initialGameSpeed+speedAccumulator, starPowDeacc, initialSpawnRate + spawnRateAccumulator, initialRotationSpeed);
+        speedAccumulator += speedAccumulator;
+        spawnRateAccumulator += spawnRateAccumulator;
         audioManager.DeactivateStarPower();
+        godModeStart = true;
+        starPower = false;
+        SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
     }
 }

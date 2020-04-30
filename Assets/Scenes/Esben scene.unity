@@ -768,7 +768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreModifier: 0
-  godMode: 1
+  godMode: 0
 --- !u!4 &1733198756
 Transform:
   m_ObjectHideFlags: 0
@@ -866,9 +866,9 @@ MonoBehaviour:
   starPowRotSpeed: 1000
   starPowAcc: 100
   starPowDeacc: 200
-  punyModsPerStarPower: 5
+  punyModsPerStarPower: 20
   deaccelerationPoint: 1
-  preDeaccelerationPoint: 1
+  preDeaccelerationPoint: 2
   debugSpawnPositioning: -20
   divisionStep: 3
   backgroundLight: {fileID: 1284047142}
