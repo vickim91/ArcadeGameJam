@@ -871,6 +871,8 @@ MonoBehaviour:
   preDeaccelerationPoint: 1
   debugSpawnPositioning: -20
   divisionStep: 3
+  backgroundLight: {fileID: 1284047142}
+  intensity: 100
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0
@@ -1036,8 +1038,8 @@ MonoBehaviour:
   - probality: 1
     seqTypeRot:
     - {x: 0, y: 100}
-    - {x: 0, y: 120}
     - {x: 0, y: 140}
+    - {x: 0, y: 180}
     theREALDivApplication: 
     initialRotation: []
   - probality: 1
