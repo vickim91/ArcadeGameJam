@@ -197,6 +197,7 @@ public class Module : MonoBehaviour
     {
         if (isPuny)
         {
+            gameManager.addToScore(100);
             starPowerEndCountdown--;
             audioManager.ObliteratePunyModule();
             if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)
