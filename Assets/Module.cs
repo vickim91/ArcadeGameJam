@@ -136,18 +136,12 @@ public class Module : MonoBehaviour
                 {
                     if (degreesRemaining < 9 && degreesRemaining > 1)
                     {
-                        //float degreesPerBeatTime = Mathf.Clamp(degreesRemaining / audioManager.timeUntilNextBeat, 1, degreesRemaining);
                         float degreesPerBeatTime;
                         if (audioManager.timeUntilNextBeat > 0.1)
                         {
                             degreesPerBeatTime = degreesPerSecond * audioManager.timeUntilNextBeat;
                             rotationThisFrame = Mathf.Abs(degreesPerBeatTime) * Time.deltaTime;
                         }
-                        print("degreesRemaining:" + degreesRemaining);
-                        print("rotationThisFrameBEEAT:" + rotationThisFrame);
-                            // 0 - 0.6
-                            // rotationThisFrame v. 0.6: langsom
-                            // rotationThisFrame v. 0: hurtig / normal
                     }
 
                     this.transform.Rotate(new Vector3(0F, 0F, rotationThisFrame));
@@ -164,18 +158,12 @@ public class Module : MonoBehaviour
                 {
                     if (degreesRemaining > -9 && degreesRemaining < -1)
                     {
-                        //                        float degreesPerBeatTime = Mathf.Clamp(degreesRemaining / audioManager.timeUntilNextBeat, degreesRemaining, -1);
                         float degreesPerBeatTime;
                         if (audioManager.timeUntilNextBeat > 0.1)
                         {
                             degreesPerBeatTime = degreesPerSecond * audioManager.timeUntilNextBeat;
                             rotationThisFrame = Mathf.Abs(degreesPerBeatTime) * Time.deltaTime;
                         }
-                        print("degreesRemaining:" + degreesRemaining);
-                        print("rotationThisFrameBEEAT:" + rotationThisFrame);
-                        // 0 - 0.6
-                        // rotationThisFrame v. 0.6: langsom
-                        // rotationThisFrame v. 0: hurtig / normal
                     }
 
                     this.transform.Rotate(new Vector3(0F, 0F, -rotationThisFrame));
