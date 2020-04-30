@@ -65,13 +65,14 @@ public class ModuleSpawner : MonoBehaviour
     public float debugSpawnPositioning;
 
     // level design tools:
-    public int divisionStep = 3;
+    public int divisionStep = 4;
     private bool starPower;
 
     public int divisionStepInterval;
 
     void Start()
     {
+        divisionStepChangeCountdown = divisionStepInterval;
         gameSpeed = initialGameSpeed;
         spawnRate = initialSpawnRate;
         rotationSpeed = initialRotationSpeed;
@@ -281,10 +282,11 @@ public class ModuleSpawner : MonoBehaviour
         div = divisionStep;
         if (levelDesigner.snapToDiv == false)
             div = divFree;
-
-
+        UpdateDivisionChangeCountdown();
         if (spawnQueue[0].x == -1)
         {
+            cueIsEmpty = true;
+            CheckForDivisionChange();
             int rollSeqSpawnVsModSpawn = Random.Range(0, 100);
             if (rollSeqSpawnVsModSpawn < levelDesigner.chanceForSequence)
             {
@@ -320,12 +322,14 @@ public class ModuleSpawner : MonoBehaviour
                 spawnNameModOrSeq = "M" + modSpawnID + " ";
             }
         }
+        else
+            cueIsEmpty = false;
 
         //Starpower
         bool spawnAsPuny = false;
         if (punyModsCounter > preDeaccelerationPoint)
             spawnAsPuny = true;
-        
+
 
         int spawnID = Mathf.RoundToInt(spawnQueue[0].x);
         int moduleType = spawnID;
@@ -365,7 +369,10 @@ public class ModuleSpawner : MonoBehaviour
         {
             SetSelectedModule(spawnedModsIndex);
         }
+    }
 
+    private void UpdateDivisionChangeCountdown()
+    {
         if (divisionStepChangeCountdown > 0)
         {
             divisionStepChangeCountdown--;
@@ -374,20 +381,25 @@ public class ModuleSpawner : MonoBehaviour
         {
             readyForDivisionStepChange = true;
         }
-        if (readyForDivisionStepChange && noSequenceIsCuedUp)
+    }
+
+    void CheckForDivisionChange()
+    {
+        if (readyForDivisionStepChange && cueIsEmpty)
         {
+            print("ready & empty");
             if (starPower == false)
             {
+                print("star");
                 DivisionStepChange();
                 divisionStepChangeCountdown = divisionStepInterval;
                 readyForDivisionStepChange = false;
             }
         }
     }
-
     private int divisionStepChangeCountdown;
     private bool readyForDivisionStepChange;
-    private bool noSequenceIsCuedUp;
+    private bool cueIsEmpty;
 
     public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleType, bool spawnAsPuny)
     {

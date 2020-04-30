@@ -768,7 +768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreModifier: 0
-  godMode: 1
+  godMode: 0
 --- !u!4 &1733198756
 Transform:
   m_ObjectHideFlags: 0
@@ -858,11 +858,12 @@ MonoBehaviour:
   maxNumOfModsInGame: 50
   playerPosition: {fileID: 490850496}
   acceleration: 1
-  initialGameSpeed: 5
-  initialSpawnRate: 1
+  initialGameSpeed: 4
+  initialSpawnRate: 0.8
   initialRotationSpeed: 200
-  speedAccumulator: 0.5
-  spawnRateAccumulator: 0.1
+  gameSpeed: 0
+  speedAccumulator: 0.25
+  spawnRateAccumulator: 0.05
   starPowGameSpeed: 20
   starPowSpawnrate: 2
   starPowRotSpeed: 1000
@@ -874,7 +875,7 @@ MonoBehaviour:
   difficultyLevel: 0
   debugSpawnPositioning: -20
   divisionStep: 3
-  divisionStepInterval: 20
+  divisionStepInterval: 30
   backgroundLight: {fileID: 1284047142}
   intensity: 100
 --- !u!4 &1823340749
