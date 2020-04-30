@@ -201,7 +201,11 @@ public class Module : MonoBehaviour
             starPowerEndCountdown--;
             audioManager.ObliteratePunyModule();
             if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)
+            {
+
+                print("enter if");
                 moduleSpawner.StarPowerDeacceleration();
+            }
         }
         else
         {
