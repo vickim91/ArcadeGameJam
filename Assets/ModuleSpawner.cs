@@ -65,14 +65,13 @@ public class ModuleSpawner : MonoBehaviour
     public float debugSpawnPositioning;
 
     // level design tools:
-    public int divisionStep;
+    public int divisionStep = 3;
     private bool starPower;
+
+    public int divisionStepInterval;
+
     void Start()
     {
-        if (divisionStep < 3)
-            divisionStep = 3; // we don't go below three!! that's forbidden!
-        if (divisionStep == 7)
-            divisionStep = 8; // and btw, 7 is also forbidden...
         gameSpeed = initialGameSpeed;
         spawnRate = initialSpawnRate;
         rotationSpeed = initialRotationSpeed;
@@ -340,7 +339,7 @@ public class ModuleSpawner : MonoBehaviour
         ////trigger PRE deaccelleration if relevant
         if (punyModsCounter == preDeaccelerationPoint)
         {
-            starPowerPreDeacceleration();
+            StarPowerPreDeacceleration();
         }
 
         //ryk køen
@@ -366,7 +365,29 @@ public class ModuleSpawner : MonoBehaviour
         {
             SetSelectedModule(spawnedModsIndex);
         }
+
+        if (divisionStepChangeCountdown > 0)
+        {
+            divisionStepChangeCountdown--;
+        }
+        else if (divisionStepChangeCountdown == 0)
+        {
+            readyForDivisionStepChange = true;
+        }
+        if (readyForDivisionStepChange && noSequenceIsCuedUp)
+        {
+            if (starPower == false)
+            {
+                DivisionStepChange();
+                divisionStepChangeCountdown = divisionStepInterval;
+                readyForDivisionStepChange = false;
+            }
+        }
     }
+
+    private int divisionStepChangeCountdown;
+    private bool readyForDivisionStepChange;
+    private bool noSequenceIsCuedUp;
 
     public GameObject SpawnModule(float speed, float rotationSpeed, int division, int initialRotationSteps, int moduleType, bool spawnAsPuny)
     {
@@ -395,8 +416,8 @@ public class ModuleSpawner : MonoBehaviour
                 {
                     // SetSpeed(initialGameSpeed, 400, initialSpawnRate, initialRotationSpeed);
                     IncreaseDifficulty();
-                    print("normalize");
                     godModeStart = false;
+                    SetSelectedModule(0);
                 }
             }
             if (positionOfClosestModule > playerPosition.position.z)
@@ -456,6 +477,7 @@ public class ModuleSpawner : MonoBehaviour
         {
                 //star power parameters
             SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
+            TriggerStarPower();
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
@@ -467,26 +489,16 @@ public class ModuleSpawner : MonoBehaviour
             PrepareModuleThenSpawn();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
-            DivisionStepChange(3);
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            DivisionStepChange(4);
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            DivisionStepChange(5);
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-            DivisionStepChange(6);
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-            DivisionStepChange(8);
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-            DivisionStepChange(8);
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-            DivisionStepChange(9);
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-            DivisionStepChange(10);
+            DivisionStepChange();
     }
 
-    private void DivisionStepChange(int newDivStep)
+    private void DivisionStepChange()
     {
-        divisionStep = newDivStep;
+        divisionStep++;
+        if (divisionStep < 3)
+            divisionStep = 3; // we don't go below three!! that's forbidden!
+        if (divisionStep == 7)
+            divisionStep = 8; // and btw, 7 is also forbidden...
         SetProbabilities();
     }
 
@@ -627,6 +639,8 @@ public class ModuleSpawner : MonoBehaviour
         }
     }
 
+    public Light backgroundLight;
+    public float intensity;
     public void TriggerStarPower()
     {
         if (!starPower)
@@ -646,13 +660,14 @@ public class ModuleSpawner : MonoBehaviour
             }
             starPower = true;
         }
+        backgroundLight.intensity = intensity;
     }
 
     public void ConcludeStarPower()
     {
         
     }
-    public void starPowerPreDeacceleration()
+    public void StarPowerPreDeacceleration()
     {
         print("pre deacceleration event");
         SetSpeed(starPowGameSpeed, starPowAcc, 0, starPowRotSpeed);
