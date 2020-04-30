@@ -94,6 +94,8 @@ public class ModuleSpawner : MonoBehaviour
 
                 //initial boost
             SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
+
+        setMultiplier();
         
     }
 
@@ -103,6 +105,14 @@ public class ModuleSpawner : MonoBehaviour
         AutoSpawn();
         InputMethodsForTesting();
         UpdateSpeed();
+        if (starPower)
+        {
+            gameManager.starPowerMultiplier = 2;
+        }
+        else
+        {
+            gameManager.starPowerMultiplier = 1;
+        }
     }
     private void UpdateSpeed()
     {
@@ -516,7 +526,16 @@ public class ModuleSpawner : MonoBehaviour
             divisionStep = 8; // and btw, 7 is also forbidden...
         if (divisionStep > 10)
             divisionStep = 10;
+        //score multiplier
+        setMultiplier();
         SetProbabilities();
+    }
+    public void setMultiplier()
+    {
+        gameManager.setDifficultyMultiplier((divisionStep-2) +( gameSpeed-initialGameSpeed));
+        print("divisionStep " + (divisionStep-2));
+        print("gameSpeed " + (gameSpeed - (initialGameSpeed - 1)));
+        print("fnial modifier" + ((divisionStep - 2) * (gameSpeed - (initialGameSpeed - 1))));
     }
 
     public void SelectNextModule()

@@ -199,6 +199,7 @@ public class Module : MonoBehaviour
         GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0, 1, 0.2f, 0.1f));
         if (isPuny)
         {
+            gameManager.addToScore(100);
             starPowerEndCountdown--;
             audioManager.ObliteratePunyModule();
             if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)

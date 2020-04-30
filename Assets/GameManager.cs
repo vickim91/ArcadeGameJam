@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public int score;
     public float scoreModifier;
     public bool godMode;
+    public float difficultyModifier;
+    public float starPowerMultiplier;
 
     void Start()
     {
@@ -17,12 +19,18 @@ public class GameManager : MonoBehaviour
     }
     public void addToScore(int score)
     {
+        
         this.score += Mathf.RoundToInt( score*scoreModifier);
+        print("add to score" + this.score);
     }
-
+    public void setDifficultyMultiplier(float multiplier)
+    {
+        this.difficultyModifier = multiplier;
+    }
     // Update is called once per frame
     void Update()
     {
+        scoreModifier = difficultyModifier * starPowerMultiplier;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GoToMenu();
