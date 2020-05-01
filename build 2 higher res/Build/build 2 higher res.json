@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "Arcade game jam",
+"productVersion": "0.1",
+"dataUrl": "build 2 higher res.data.unityweb",
+"wasmCodeUrl": "build 2 higher res.wasm.code.unityweb",
+"wasmFrameworkUrl": "build 2 higher res.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.3.11f1"
+}

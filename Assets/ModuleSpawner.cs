@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class ModuleSpawner : MonoBehaviour
 {
+    public ScrollingTexture scroll1;
+    public ScrollingTexture scroll2;
     GameManager gameManager;
     AudioManager audioManager;
     LevelDesigner levelDesigner;
@@ -428,6 +430,7 @@ public class ModuleSpawner : MonoBehaviour
         postStarPosition -= difficultyLevel/4;
 //        debugSpawnPositioning -= difficultyLevel/4;
         setMultiplier();
+
     }
 
     private bool godModeStart = true;
@@ -675,10 +678,18 @@ public class ModuleSpawner : MonoBehaviour
 
     public Light backgroundLight;
     public float intensity;
+    public float defaultIntesity;
     public void TriggerStarPower()
     {
         if (!starPower)
         {
+            //hard codet for ikke at clogge inspector
+            scroll1.scrollSpeed = -0.003f;
+            scroll1.scrollSpeed = -0.003f;
+            scroll2.scrollSpeed = -0.02f;
+            scroll2.scrollSpeed2 = -0.02f;
+            scroll1.setTexture(1);
+            scroll2.setTexture(2);
             SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
             audioManager.StarPower();
             punyModsCounter = punyModsPerStarPower;
@@ -703,7 +714,7 @@ public class ModuleSpawner : MonoBehaviour
     }
     public void StarPowerPreDeacceleration()
     {
-        print("pre deacceleration event");
+       // print("pre deacceleration event");
         SetSpeed(starPowGameSpeed, starPowAcc, 0f, starPowRotSpeed);
 
     }
@@ -712,10 +723,19 @@ public class ModuleSpawner : MonoBehaviour
 
     public void StarPowerDeacceleration()
     {
-        print("deacceleration event");
+        //  print("deacceleration event");
 
         //SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate , initialRotationSpeed);
-    
+
+        //visuals
+        scroll1.scrollSpeed = -0.001f;
+        scroll1.scrollSpeed = -0.001f;
+        scroll2.scrollSpeed = -0.01f;
+        scroll2.scrollSpeed2 = -0.01f;
+        scroll1.setTexture(0);
+        scroll2.setTexture(0);
+        backgroundLight.intensity = defaultIntesity;
+
         audioManager.DeactivateStarPower();
         godModeStart = true;
         starPower = false;

@@ -105,7 +105,7 @@ public class Module : MonoBehaviour
             // how much the object should rotate this frame
             // degrees = degrees per second * seconds, and Time.deltaTime is a fraction of a second
             float rotationThisFrame = degreesPerSecond * Time.deltaTime;
-            print("rotationThisFrame:" + rotationThisFrame);
+         //   print("rotationThisFrame:" + rotationThisFrame);
 
             // if object would finish rotating this frame, finish rotating
             if (rotationThisFrame >= Mathf.Abs(degreesRemaining))
@@ -234,7 +234,7 @@ public class Module : MonoBehaviour
             if (moduleSpawner.deaccelerationPoint == starPowerEndCountdown)
             {
 
-                print("enter if");
+              
                 moduleSpawner.StarPowerDeacceleration();
             }
         }

@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 3270407459084361615}
   - component: {fileID: 2770497981082086826}
   m_Layer: 0
-  m_Name: Module1
+  m_Name: Module1A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,10 +112,8 @@ MonoBehaviour:
   speed: 0
   type: 0
   step: 0
-  frames: []
   isThirdAlignment: 0
   isSecondAlignment: 0
-  isClearable: 0
   thisModSelectionIndex: -1
   clearableWindowSize: 5
   clearableAngles:

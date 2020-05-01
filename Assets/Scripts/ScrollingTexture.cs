@@ -5,6 +5,8 @@ public class ScrollingTexture : MonoBehaviour
 {
 	public float scrollSpeed = 0.9f;
 	public float scrollSpeed2 = 0.9f;
+    public Texture[] textures;
+    
 
 	Renderer rend;
     Vector2 newOffset;
@@ -12,8 +14,14 @@ public class ScrollingTexture : MonoBehaviour
 	void Start()
 	{
 		rend = GetComponent<Renderer> ();
+   
 	}
 
+    public void setTexture(int index)
+    {
+        if(index < textures.Length)
+        rend.material.mainTexture = textures[index];
+    }
 	void FixedUpdate ()
 	{
 		float offset = Time.time * scrollSpeed;
