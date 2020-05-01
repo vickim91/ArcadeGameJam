@@ -267,6 +267,7 @@ public class Module : MonoBehaviour
             GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
         else
         {
+            GetComponentInChildren<Renderer>().materials[0].SetColor("_Color", new Color(0f, 0.5f, 1f, 0.5f));
             GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 1f, 0f, 0.1f));
         }
     }

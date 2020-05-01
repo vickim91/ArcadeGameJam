@@ -704,7 +704,7 @@ public class ModuleSpawner : MonoBehaviour
     public void StarPowerPreDeacceleration()
     {
         print("pre deacceleration event");
-        SetSpeed(starPowGameSpeed, starPowAcc, 0.5f, starPowRotSpeed);
+        SetSpeed(starPowGameSpeed, starPowAcc, 0f, starPowRotSpeed);
 
     }
 
