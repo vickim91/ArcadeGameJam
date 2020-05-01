@@ -53,6 +53,7 @@ MonoBehaviour:
   clearableWindowSize: 5
   clearableAngles:
   - 0
+  - 45
   - 90
   degreesPerSecond: 100
 --- !u!64 &7406775833778974613

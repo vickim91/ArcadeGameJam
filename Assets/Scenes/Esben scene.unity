@@ -1052,8 +1052,8 @@ MonoBehaviour:
   maxNumOfModsInGame: 50
   playerPosition: {fileID: 490850496}
   acceleration: 1
-  initialGameSpeed: 3
-  initialSpawnRate: 0.6
+  initialGameSpeed: 2
+  initialSpawnRate: 0.4
   initialRotationSpeed: 200
   gameSpeed: 0
   speedAccumulator: 0.25
@@ -1063,15 +1063,17 @@ MonoBehaviour:
   starPowRotSpeed: 1000
   starPowAcc: 100
   starPowDeacc: 200
-  punyModsPerStarPower: 10
-  deaccelerationPoint: 3
-  preDeaccelerationPoint: 4
+  punyModsPerStarPower: 16
+  deaccelerationPoint: 1
+  preDeaccelerationPoint: 1
   difficultyLevel: 0
   debugSpawnPositioning: -20
   divisionStep: 3
   divisionStepInterval: 30
+  postStarPosition: -5
   backgroundLight: {fileID: 1284047142}
   intensity: 100
+  postStarReset: 20
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0

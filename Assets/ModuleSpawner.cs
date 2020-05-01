@@ -419,14 +419,14 @@ public class ModuleSpawner : MonoBehaviour
     {
         return gameObject.Instantiate(modules[moduleType], transform.position, modules[moduleType].transform.rotation, transform, speed, rotationSpeed, division, initialRotationSteps, spawnAsPuny);
     }
-  //next div og speed increases?
+    //next div og speed increases?
+    public float postStarPosition;
     public void IncreaseDifficulty()
     {
         difficultyLevel++;
         SetSpeed(initialGameSpeed + speedAccumulator *difficultyLevel, 400, initialSpawnRate + spawnRateAccumulator*difficultyLevel, initialRotationSpeed);
-
-       
-        debugSpawnPositioning -= difficultyLevel/4;
+        postStarPosition -= difficultyLevel/4;
+//        debugSpawnPositioning -= difficultyLevel/4;
         setMultiplier();
     }
 
@@ -708,6 +708,8 @@ public class ModuleSpawner : MonoBehaviour
 
     }
 
+    public float postStarReset;
+
     public void StarPowerDeacceleration()
     {
         print("deacceleration event");
@@ -717,7 +719,6 @@ public class ModuleSpawner : MonoBehaviour
         audioManager.DeactivateStarPower();
         godModeStart = true;
         starPower = false;
-        SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
-        
+        SetSpeed(initialGameSpeed * postStarReset, 1000, initialSpawnRate * postStarReset, initialRotationSpeed);
     }
 }

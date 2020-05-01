@@ -54,6 +54,9 @@ MonoBehaviour:
   clearableAngles:
   - 0
   - 120
+  - 160
+  - 180
+  - 200
   - 240
   degreesPerSecond: 100
 --- !u!64 &7363257251724770515
