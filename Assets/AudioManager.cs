@@ -128,7 +128,7 @@ public class AudioManager : MonoBehaviour
     [HideInInspector]
     public float timeUntilNextBeat; 
     public int beatCounter;
-    public int barCounter = 8; // because loop starts at bar9
+    public int barCounter; 
     public int loopCounterLvl2;
     public enum MusicStates
     {

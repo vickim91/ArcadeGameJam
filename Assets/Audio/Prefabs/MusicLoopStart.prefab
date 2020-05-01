@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c67498db2421347b2f9ca5136e996b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundFile: {fileID: 8300000, guid: 247c93208f66b9e4a8b5036841980563, type: 3}
+  soundFile: {fileID: 8300000, guid: 5ee2c6de80f871d4aa637524b1c26820, type: 3}
   pitch: 1
   initialPitch: 1
   volume: 1
