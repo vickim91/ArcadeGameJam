@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
     public bool godMode;
     public float difficultyModifier;
     public float starPowerMultiplier;
+    AudioManager audioManager;
 
     void Start()
     {
-        
+        dead = false;
+        audioManager = FindObjectOfType<AudioManager>();
     }
     public void addToScore(int score)
     {
@@ -36,15 +38,17 @@ public class GameManager : MonoBehaviour
         {
             GoToMenu();
         }
-        if (death)
+        if (dead)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 StartGame();
+                audioManager.GameStart();
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 StartGame();
+                audioManager.GameStart();
             }
         }
     }
@@ -58,7 +62,10 @@ public class GameManager : MonoBehaviour
     public void GoToMenu()
     {
         if (setButtonEventHere)
+        {
             StartGame();
+            audioManager.GameStart();
+        }
         if (setButtonEventHere)
             HowToPlay();
         if (setButtonEventHere)
@@ -73,12 +80,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-    bool death;
+    public bool dead;
     public void Death()
     {        
         if (godMode == false)
         {
-            death = true;
+            dead = true;
             //hvis vi gerne vil fortælle spilleren score inden reset
             int yourScore = this.score;
             if (scoreBest < yourScore)

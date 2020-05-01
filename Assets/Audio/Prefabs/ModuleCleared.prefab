@@ -46,18 +46,18 @@ MonoBehaviour:
   sound:
   - soundFile: {fileID: 8300000, guid: a28d68335995a3d4f90850862703fa45, type: 3}
     pitch:
-      minValue: 1.0042373
-      maxValue: 1.0042373
+      minValue: 1.131356
+      maxValue: 1.1419492
     initialPitch:
       minValue: 0
       maxValue: 0
-    volume: 0.029
+    volume: 0.008
     initialVolume: 0
   pitchAndVolLogic: 0
   output: {fileID: -7288260760328263198, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
   voicePrefab: {fileID: 7037097917955545936, guid: b789f748b9a3c32468fe2b52fda7b33a,
     type: 3}
-  voiceMax: 2
+  voiceMax: 3
   kill: 0
   seq: 0
   fadeOutWhenStopped: 0

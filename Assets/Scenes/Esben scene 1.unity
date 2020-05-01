@@ -245,6 +245,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &392491390 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6355857835553871963, guid: 7b71af76870e74a41ab552824294e19a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6355857834498459784}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0765543243f6abc48bcc462e16159dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &490850492
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,6 +846,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!114 &1292494050 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6355857834498459784}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0765543243f6abc48bcc462e16159dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1683862780
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +987,7 @@ MonoBehaviour:
   godMode: 0
   difficultyModifier: 0
   starPowerMultiplier: 1
+  dead: 0
 --- !u!4 &1733198756
 Transform:
   m_ObjectHideFlags: 0
@@ -1019,6 +1044,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scroll1: {fileID: 392491390}
+  scroll2: {fileID: 1292494050}
   spawnedMods: []
   frames:
   - {fileID: 3210929756750240493, guid: 6a7a09fb53c6f094db2b3a145886d102, type: 3}
@@ -1052,8 +1079,8 @@ MonoBehaviour:
   maxNumOfModsInGame: 50
   playerPosition: {fileID: 490850496}
   acceleration: 1
-  initialGameSpeed: 2
-  initialSpawnRate: 0.4
+  initialGameSpeed: 3
+  initialSpawnRate: 0.6
   initialRotationSpeed: 200
   gameSpeed: 0
   speedAccumulator: 0.25
@@ -1063,17 +1090,18 @@ MonoBehaviour:
   starPowRotSpeed: 1000
   starPowAcc: 100
   starPowDeacc: 200
-  punyModsPerStarPower: 16
-  deaccelerationPoint: 1
-  preDeaccelerationPoint: 1
+  punyModsPerStarPower: 10
+  deaccelerationPoint: 3
+  preDeaccelerationPoint: 4
   difficultyLevel: 0
   debugSpawnPositioning: -20
   divisionStep: 3
   divisionStepInterval: 30
-  postStarPosition: -5
+  postStarPosition: 0
   backgroundLight: {fileID: 1284047142}
   intensity: 100
-  postStarReset: 20
+  defaultIntesity: 3
+  postStarReset: 0
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0
@@ -1534,6 +1562,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6355857835553871963, guid: 7b71af76870e74a41ab552824294e19a,
         type: 3}
+      propertyPath: textures.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355857835553871963, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
       propertyPath: scrollSpeed
       value: -0.002
       objectReference: {fileID: 0}
@@ -1542,6 +1575,21 @@ PrefabInstance:
       propertyPath: scrollSpeed2
       value: -0.002
       objectReference: {fileID: 0}
+    - target: {fileID: 6355857835553871963, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
+      propertyPath: textures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: 3b0683daf2f9e424c99ee5fa4cb034a9, type: 3}
+    - target: {fileID: 6355857835553871963, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
+      propertyPath: textures.Array.data[1]
+      value: 
+      objectReference: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+    - target: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
+      propertyPath: textures.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
         type: 3}
       propertyPath: scrollSpeed
@@ -1552,6 +1600,16 @@ PrefabInstance:
       propertyPath: scrollSpeed2
       value: -0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
+      propertyPath: textures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: 3b0683daf2f9e424c99ee5fa4cb034a9, type: 3}
+    - target: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
+      propertyPath: textures.Array.data[1]
+      value: 
+      objectReference: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b71af76870e74a41ab552824294e19a, type: 3}
 --- !u!1001 &8149629060648519231
@@ -1616,46 +1674,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8149629060247877395, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: delayBeat
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8149629060247877395, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: snapTolerance
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8149629060247877395, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: moduleCleared
-      value: 
-      objectReference: {fileID: 8183701857975754423, guid: feefbe4ca9c3e82438cb61243fa06f0a,
-        type: 3}
     - target: {fileID: 8149629060247877396, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
         type: 3}
       propertyPath: m_Name
       value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8997456432668521206, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: m_Name
-      value: MusicLoop2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8997456432668521207, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: soundFile
-      value: 
-      objectReference: {fileID: 8300000, guid: 3fbc31eb8cc7bc7498b62cacffcdb1f3, type: 3}
-    - target: {fileID: 9052873010291671637, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: mute
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9052873010291671638, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54645f73f9eb62e4b835f5ef75ea3ef0, type: 3}

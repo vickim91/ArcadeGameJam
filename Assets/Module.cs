@@ -249,6 +249,7 @@ public class Module : MonoBehaviour
             {
                 gameManager.Death();
                 moduleSpawner.Death();
+                audioManager.Death();
                 if (!gameManager.godMode)
                     this.speed = 0;
                 GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", Color.red * 0.5f);

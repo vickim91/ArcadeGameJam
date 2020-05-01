@@ -44,14 +44,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound:
-  - soundFile: {fileID: 8300000, guid: 1fd7403a064460a488a03d90dd573122, type: 3}
+  - soundFile: {fileID: 8300000, guid: dab36cc3d59ff554daba71d3387f4106, type: 3}
     pitch:
       minValue: 0.5
-      maxValue: 0.68008476
+      maxValue: 0.5
     initialPitch:
       minValue: 0
       maxValue: 0
-    volume: 0.416
+    volume: 0.275
     initialVolume: 0
   pitchAndVolLogic: 0
   output: {fileID: -7288260760328263198, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}

@@ -52,6 +52,7 @@ MonoBehaviour:
   thisModSelectionIndex: -1
   clearableWindowSize: 5
   clearableAngles:
+  - 0
   - 40
   - 60
   - 80

@@ -46,10 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music1: {fileID: 991968979538657404, guid: b6f2b1062b112c2428c2e652e0b0b55d, type: 3}
   music2: {fileID: 1089266680804485283, guid: 4cbc72d0f532f2841b494355b794143c, type: 3}
+  music3: {fileID: 7150621133098653718, guid: 85071dbdf632ef04bb6fe0f103644a89, type: 3}
   musicStinger: {fileID: 7946617795736352428, guid: 087dffaebb704e14e883592bb699afaf,
+    type: 3}
+  starPower: {fileID: 4756478031272291724, guid: 42c7bb7098b17954e99c02fdde2fa74e,
     type: 3}
   musicFadeSlope: 0.005
   musicFadeDelay: 0.5
+  starPowerFadeSlope: 0.008
   beatDelay: 0.05
   beatSnapTolerance: 0.05
   rotation: {fileID: 5903827950238681526, guid: 926ab8f6b8508494c976ef3171405af5,
@@ -75,6 +79,8 @@ MonoBehaviour:
   death: {fileID: 1254848090743148734, guid: 1c98f343f412bf341b46dd322ef73474, type: 3}
   clickSound: {fileID: 3422704092416443567, guid: d9217c459de25ef46964d6a0042c548e,
     type: 3}
+  moduleCleared: {fileID: 8183701857975754423, guid: feefbe4ca9c3e82438cb61243fa06f0a,
+    type: 3}
   varRotStopPitching: 0.02
   varRotPitching: 0.02
   varDistVolSlopeRot: 0.02
@@ -91,6 +97,21 @@ MonoBehaviour:
   rotStopCueLenPitching: 0.05
   rotStopCueLenVol: 0.05
   timeUntilNextBeat: 0
+  beatCounter: 0
+  barCounter: 0
+  loopCounterLvl2: 0
+  musicStates: 0
+  musicStartIsLooping: 0
+  musicStartIsPlaying: 0
+  musicTrackIsPlaying: 0
+  musicEndIsPlaying: 0
+  gameIsPlaying: 0
+  musicStartFadeSlope: 0.005
+  musicStartFadeDelay: 1.8
+  musicEndFadeSlope: 0.02
+  musicEndFadeDelay: 0
+  musicCutFadeSlope: 0.02
+  musicCutStopDelay: 2
 --- !u!1001 &8149629061007090506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,6 +177,11 @@ PrefabInstance:
     - target: {fileID: 917336270113284382, guid: 3ec56375139b4c742bb6c3cff8141c21,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917336270113284383, guid: 3ec56375139b4c742bb6c3cff8141c21,
+        type: 3}
+      propertyPath: activateGlobalMuteSetting
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -51,7 +51,7 @@ MonoBehaviour:
     initialPitch:
       minValue: 0
       maxValue: 0
-    volume: 0.5
+    volume: 0.4
     initialVolume: 0
   pitchAndVolLogic: 0
   output: {fileID: -7288260760328263198, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
