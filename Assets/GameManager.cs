@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static int scoreBest;
     public int score;
     public float scoreModifier;
+    public bool displayFPS;
     public bool godMode;
     public float difficultyModifier;
     public float starPowerMultiplier;
