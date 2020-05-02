@@ -212,12 +212,14 @@ public class Module : MonoBehaviour
             else if (rotatingClockwise)
             {
                 audioManager.Rotation(thisModSelectionIndex, true);
-                audioManager.UpdateLoopVolumeDuckingAppliance(thisModSelectionIndex);
+                audioManager.UpdateLoopVoicesWhenClearingAModule();
+                //audioManager.UpdateLoopVolumeDuckingAppliance(thisModSelectionIndex);
             }
             else if (rotatingCounterclockwise)
             {
                 audioManager.Rotation(thisModSelectionIndex, false);
-                audioManager.UpdateLoopVolumeDuckingAppliance(thisModSelectionIndex);
+                audioManager.UpdateLoopVoicesWhenClearingAModule();
+                //audioManager.UpdateLoopVolumeDuckingAppliance(thisModSelectionIndex);
             }
         }
     }

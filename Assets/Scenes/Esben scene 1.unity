@@ -984,7 +984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreModifier: 1
-  godMode: 1
+  godMode: 0
   difficultyModifier: 0
   starPowerMultiplier: 1
   dead: 0

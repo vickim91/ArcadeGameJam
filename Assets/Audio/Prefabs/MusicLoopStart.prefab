@@ -149,7 +149,7 @@ MonoBehaviour:
   seekPercent: 0
   playOnStart: 0
   dontDestroyOnLoad: 0
-  fadeOutWhenStopped: 1
+  fadeOutWhenStopped: 0
   fadeOutSlopeWhenStopped: 0.0004
   pitchFadeOutSlope:
     minValue: 0.29137576
