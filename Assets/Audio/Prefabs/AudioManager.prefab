@@ -90,8 +90,12 @@ MonoBehaviour:
   selectionPitching: 0.01
   rotCuePitching: 0.005
   rotPitchingCounterclockwise: 0.07
-  gameMix: {fileID: 6929793787282890673, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
-  menuMix: {fileID: 6999837545238327245, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
+  mixerSnapshots:
+  - {fileID: 6929793787282890673, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
+  - {fileID: 6999837545238327245, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
+  - {fileID: 2959441254877140916, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
+  - {fileID: 6925562726401063174, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
+  - {fileID: 7999960736248240968, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
   menuFadeSlope: 0.2
   rotStopCueLenMax: 5
   rotStopCueLenPitching: 0.05

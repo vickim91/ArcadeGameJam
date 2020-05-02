@@ -45,9 +45,11 @@ public class AudioManager : MonoBehaviour
     public float rotCuePitching;
     public float rotPitchingCounterclockwise;
 
-    public AudioMixerSnapshot gameMix;
-    public AudioMixerSnapshot menuMix;
+    public AudioMixerSnapshot [] mixerSnapshots;
     public float menuFadeSlope;
+    private bool inMenu;
+    private bool soundsMuted;
+    private bool musicMuted;
 
     public int rotStopCueLenMax;
     public float rotStopCueLenPitching;
@@ -71,12 +73,34 @@ public class AudioManager : MonoBehaviour
             return false;
     }
 
-    //public bool RightBeforeBeat()
-    //{
-    //    return false;
-    //}
+    private IEnumerator snapToBeat;
+    private IEnumerator fadeOutMusic;
+    private IEnumerator fadeInMusic;
+    private float secondsPerBeat = 60f / 100f / 2f;
+    [HideInInspector]
+    public float timeUntilNextBeat;
+    public int beatCounter;
+    public int barCounter;
+    public int loopCounterLvl2;
+    public enum MusicStates
+    {
+        level1,
+        level2,
+        level3
+    }
+    public MusicStates musicStates;
 
-
+    public bool musicStartIsLooping;
+    public bool musicStartIsPlaying;
+    public bool musicTrackIsPlaying;
+    public bool musicEndIsPlaying;
+    public bool gameIsPlaying;
+    public float musicStartFadeSlope;
+    public float musicStartFadeDelay;
+    public float musicEndFadeSlope;
+    public float musicEndFadeDelay;
+    public float musicCutFadeSlope;
+    public float musicCutStopDelay;
 
     private void Awake()
     {
@@ -117,38 +141,8 @@ public class AudioManager : MonoBehaviour
     {
         GameStart();
         gameManager = FindObjectOfType<GameManager>();
-        gameMix.TransitionTo(0f);
+        mixerSnapshots[0].TransitionTo(0);
     }
-
-    private IEnumerator snapToBeat;
-    private IEnumerator fadeMusic;
-    private IEnumerator fadeOutMusic;
-    private IEnumerator fadeInMusic;
-    private float secondsPerBeat = 60f / 100f / 2f;
-    [HideInInspector]
-    public float timeUntilNextBeat; 
-    public int beatCounter;
-    public int barCounter; 
-    public int loopCounterLvl2;
-    public enum MusicStates
-    {
-        level1,
-        level2,
-        level3
-    }
-    public MusicStates musicStates;
-
-    public bool musicStartIsLooping;
-    public bool musicStartIsPlaying;
-    public bool musicTrackIsPlaying;
-    public bool musicEndIsPlaying;
-    public bool gameIsPlaying;
-    public float musicStartFadeSlope;
-    public float musicStartFadeDelay;
-    public float musicEndFadeSlope;
-    public float musicEndFadeDelay;
-    public float musicCutFadeSlope;
-    public float musicCutStopDelay;
 
     void FixedUpdate()
     {
@@ -165,6 +159,18 @@ public class AudioManager : MonoBehaviour
                 barCounter = 1;
             MusicStateChanges();
         }
+    }
+
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    GameStart();
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    MusicSecondPhase();
+        //}
     }
 
     private void MusicStateChanges()
@@ -265,30 +271,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    IEnumerator FadeOutAndStopMusic(AudioLoop music, float fadeSlope, float stopDelay)
-    {
-        music.FadeAudioLoop(0, fadeSlope);
-        yield return new WaitForSeconds(stopDelay);
-        music.StopAudioLoop();
-    }
-    IEnumerator FadeMusic(AudioLoop music, float volDestination, float fadeSlope, float fadeDelay)
-    {
-        yield return new WaitForSeconds(fadeDelay);
-        music.FadeAudioLoop(volDestination, fadeSlope);
-    }
-
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    GameRestart();
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha2))
-        //{
-        //    MusicSecondPhase();
-        //}
-    }
-
     private void InstantiateAudioEvent(ref AudioEvent audioEvent)
     {
         audioEvent = Instantiate(audioEvent, transform);
@@ -369,12 +351,23 @@ public class AudioManager : MonoBehaviour
         rotStopPre.StopSoundAllVoices();
     }
 
-    IEnumerator CrossfadeMusic(AudioLoop loop1, float fadeOutSlope, float fadeOutDelay, AudioLoop loop2, float fadeInSlope)
+    IEnumerator FadeOutAndStopMusic(AudioLoop music, float fadeSlope, float stopDelay)
     {
-        loop2.FadeAudioLoop(loop1.initialVolume, fadeInSlope);
-        yield return new WaitForSeconds(fadeOutDelay);
-        loop1.FadeAudioLoop(0, fadeOutSlope);
+        music.FadeAudioLoop(0, fadeSlope);
+        yield return new WaitForSeconds(stopDelay);
+        music.StopAudioLoop();
     }
+    IEnumerator FadeMusic(AudioLoop music, float volDestination, float fadeSlope, float fadeDelay)
+    {
+        yield return new WaitForSeconds(fadeDelay);
+        music.FadeAudioLoop(volDestination, fadeSlope);
+    }
+    IEnumerator AudioEventDelayedStop(AudioEvent audioEvent, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        audioEvent.StopSoundAllVoices();
+    }
+    IEnumerator audioEventDelayedStop;
 
     public void UpdateLoopVolumeDuckingAppliance(int selectedModule)
     {
@@ -517,19 +510,57 @@ public class AudioManager : MonoBehaviour
         snapToBeat = SnapToBeat(rotStopThreeAligned);
         StartCoroutine(snapToBeat);
     }
-
-
-    public void MenuToggle(bool enterOrExitMenu)
+    public void ToggleMenu()
     {
-        clickSound.TriggerAudioEvent();
-        if (enterOrExitMenu)
-            menuMix.TransitionTo(menuFadeSlope);
-        else
-            gameMix.TransitionTo(menuFadeSlope);
+        if (inMenu)
+            inMenu = false;
+        else if (!inMenu)
+            inMenu = true;
+        UpdateMixerSnapshot();
+        PressMenuButton();
     }
     public void PressMenuButton() // this includes: start game, enter "how to play", exit "how to play"
     {
         clickSound.TriggerAudioEvent();
+    }
+    public void ToggleMuteSounds()
+    {
+        if (soundsMuted)
+            soundsMuted = false;
+        else if (!soundsMuted)
+            soundsMuted = true;
+        UpdateMixerSnapshot();
+        PressMenuButton();
+    }
+    public void ToggleMuteMusic()
+    {
+        if (musicMuted)
+            musicMuted = false;
+        else if (!musicMuted)
+            musicMuted = true;
+        UpdateMixerSnapshot();
+        PressMenuButton();
+    }
+    public void UpdateMixerSnapshot()
+    {
+        if (!musicMuted && !soundsMuted)
+        {
+            if (!inMenu)
+                mixerSnapshots[0].TransitionTo(menuFadeSlope); // gameMix 
+            else
+                mixerSnapshots[1].TransitionTo(menuFadeSlope); // menuMix
+        }
+        else if (!musicMuted && soundsMuted)
+            mixerSnapshots[2].TransitionTo(menuFadeSlope); // muteSfx
+        else if (musicMuted && !soundsMuted)
+            mixerSnapshots[3].TransitionTo(menuFadeSlope); // muteMusic
+        else if (musicMuted && soundsMuted)
+            mixerSnapshots[4].TransitionTo(menuFadeSlope); // muteAll
+    }
+    public void RestartFromMenu()
+    {
+        GameStart();
+        PressMenuButton();
     }
 
     public void GameStart() // trigger this when starting/restarting from menu, and when restarting after death
@@ -543,6 +574,11 @@ public class AudioManager : MonoBehaviour
         if (!gameManager.godMode)
         {
             gameIsPlaying = false;
+            if (musicStates == MusicStates.level1)
+            {
+                musicStinger.sound[0].volume = musicStinger.sound[0].initialVolume * 0.6f;
+                musicStinger.TriggerAudioEvent();
+            }
             musicStates = MusicStates.level1;
             death.TriggerAudioEvent();
             for (int i = 0; i < numOfSelectables; i++)
@@ -560,12 +596,6 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(audioEventDelayedStop);
         starPower.FadeAudioLoop(starPower.initialVolume, starPowerFadeSlope * 10);
     }
-    IEnumerator AudioEventDelayedStop(AudioEvent audioEvent, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        audioEvent.StopSoundAllVoices();
-    }
-    IEnumerator audioEventDelayedStop;
 
     public void ObliteratePunyModule()
     {
@@ -580,22 +610,5 @@ public class AudioManager : MonoBehaviour
     public void ModuleCleared()
     {
         //moduleCleared.TriggerAudioEvent();
-    }
-
-    private void MusicFirstPhase()
-    {
-        fadeMusic = CrossfadeMusic(music2, musicFadeSlope, musicFadeDelay, music1, musicFadeSlope);
-        StartCoroutine(fadeMusic);
-    }
-
-    public void MusicSecondPhase()
-    {
-        fadeMusic = CrossfadeMusic(music1, musicFadeSlope, musicFadeDelay, music2, musicFadeSlope);
-        StartCoroutine(fadeMusic);
-    }
-
-    public void MusicThirdPhase()
-    {
-
     }
 }
