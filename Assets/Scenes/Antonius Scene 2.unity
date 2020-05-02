@@ -1243,8 +1243,8 @@ MonoBehaviour:
   divisionStepInterval: 30
   postStarPosition: 0
   backgroundLight: {fileID: 1284047142}
-  intensity: 100
-  defaultIntesity: 3
+  intensity: 2
+  defaultIntesity: 1
   postStarReset: 0
 --- !u!4 &1823340749
 Transform:
@@ -1743,7 +1743,7 @@ PrefabInstance:
         type: 3}
       propertyPath: textures.Array.data[1]
       value: 
-      objectReference: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+      objectReference: {fileID: 2800000, guid: f3d9fe17c87670d4e855365631f04cb0, type: 3}
     - target: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
         type: 3}
       propertyPath: textures.Array.size
@@ -1768,7 +1768,7 @@ PrefabInstance:
         type: 3}
       propertyPath: textures.Array.data[1]
       value: 
-      objectReference: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+      objectReference: {fileID: 2800000, guid: f3d9fe17c87670d4e855365631f04cb0, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b71af76870e74a41ab552824294e19a, type: 3}
 --- !u!1001 &8149629060648519231

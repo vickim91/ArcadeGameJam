@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Module : MonoBehaviour
 {
+    public Material defaultFrameMaterial;
+    public Material selectedFrameMaterial;
+
     [HideInInspector]
     public float speed;
     private int division;
@@ -261,6 +264,8 @@ public class Module : MonoBehaviour
     }
     public void SelectThisModule()
     {
+        Renderer frameRend = myFrame.gameObject.GetComponentInChildren<Renderer>();
+        frameRend.material = selectedFrameMaterial;
         isSelected = true;
         if (!isPuny)
             GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
@@ -272,6 +277,8 @@ public class Module : MonoBehaviour
     }
     public void UnselectThisModule()
     {
+        Renderer frameRend = myFrame.gameObject.GetComponentInChildren<Renderer>();
+        frameRend.material = defaultFrameMaterial;
         isSelected = false;
         if(!isPuny)
         GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 0f,0f,0.5f));

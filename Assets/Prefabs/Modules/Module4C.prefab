@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!64 &8300158845135418978
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6661937090339330169}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4446684505629158764, guid: f860e0bacb8a1d942b4627a6f5965226, type: 3}
 --- !u!1 &4070496820357338431
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec16db727dbf3b449b62c92bc915748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultFrameMaterial: {fileID: 2100000, guid: dd04052d8b3b0b14eb7c44fa798ce374,
+    type: 2}
+  selectedFrameMaterial: {fileID: 2100000, guid: f4ab63c9765e3644689f2efffab23b4d,
+    type: 2}
   speed: 0
   type: 0
   step: 0
@@ -69,6 +59,20 @@ MonoBehaviour:
   - 0
   - 90
   degreesPerSecond: 100
+--- !u!64 &8300158845135418978
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6661937090339330169}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4446684505629158764, guid: f860e0bacb8a1d942b4627a6f5965226, type: 3}
 --- !u!1001 &3409815814547931504
 PrefabInstance:
   m_ObjectHideFlags: 0

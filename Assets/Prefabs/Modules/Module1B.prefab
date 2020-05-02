@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec16db727dbf3b449b62c92bc915748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultFrameMaterial: {fileID: 2100000, guid: dd04052d8b3b0b14eb7c44fa798ce374,
+    type: 2}
+  selectedFrameMaterial: {fileID: 2100000, guid: f4ab63c9765e3644689f2efffab23b4d,
+    type: 2}
   speed: 0
   type: 0
   step: 0

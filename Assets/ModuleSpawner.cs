@@ -6,6 +6,11 @@ public class ModuleSpawner : MonoBehaviour
 {
     public ScrollingTexture scroll1;
     public ScrollingTexture scroll2;
+    Renderer scrollRend1;
+    Renderer scrollRend2;
+    Color originalColor1;
+    Color originalColor2;
+
     GameManager gameManager;
     AudioManager audioManager;
     LevelDesigner levelDesigner;
@@ -689,7 +694,13 @@ public class ModuleSpawner : MonoBehaviour
             scroll2.scrollSpeed = -0.02f;
             scroll2.scrollSpeed2 = -0.02f;
             scroll1.setTexture(1);
-            scroll2.setTexture(2);
+            scroll2.setTexture(1);
+            scrollRend1 = scroll1.gameObject.GetComponent<Renderer>();
+            scrollRend2 = scroll2.gameObject.GetComponent<Renderer>();
+            originalColor1 = scrollRend1.material.color;
+            originalColor2 = scrollRend2.material.color;
+            scrollRend1.material.color = new Color(0.8f, 0.8f, 1f) ;
+            scrollRend2.material.color = new Color(0.8f, 0.8f, 1f);
             SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
             audioManager.StarPower();
             punyModsCounter = punyModsPerStarPower;
@@ -734,6 +745,8 @@ public class ModuleSpawner : MonoBehaviour
         scroll2.scrollSpeed2 = -0.01f;
         scroll1.setTexture(0);
         scroll2.setTexture(0);
+        scrollRend1.material.color = originalColor1;
+        scrollRend2.material.color = originalColor2;
         backgroundLight.intensity = defaultIntesity;
 
         audioManager.DeactivateStarPower();
