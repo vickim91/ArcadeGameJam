@@ -35,8 +35,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         scoreModifier = difficultyModifier * starPowerMultiplier;
-        if (Input.GetKeyDown(KeyCode.Escape))
-            GoToMenu();
         if (dead)
         {
             if (Input.GetKeyDown(KeyCode.Return))
@@ -44,66 +42,21 @@ public class GameManager : MonoBehaviour
                 StartGame();
                 audioManager.GameStart();
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                StartGame();
-                audioManager.GameStart();
-            }
         }
     }
 
-    private static void StartGame()
+    public static void StartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
-    bool setButtonEventHere;
-    public void GoToMenu()
-    {
-        audioManager.ToggleMenu();
-        if (Input.GetKeyDown(KeyCode.Escape))
-            GoBackToGame();
-        if (setButtonEventHere)
-            RestartFromMenu();
-        if (setButtonEventHere)
-            HowToPlay();
-        if (setButtonEventHere)
-            Settings();
-        if (setButtonEventHere)
-            ExitGame();
-    }
-
-    private void GoBackToGame()
-    {
-        audioManager.ToggleMenu();
-    }
-    private void RestartFromMenu()
-    {
-        StartGame();
-        audioManager.RestartFromMenu();
-    }
     public void HowToPlay()
     {
-        audioManager.PressMenuButton();
+        
     }
     public void ExitGame()
     {
         Application.Quit();
-    }
-    private void Settings()
-    {
-        if (setButtonEventHere)
-            MuteMusic();
-        if (setButtonEventHere)
-            MuteSounds();
-    }
-    private void MuteSounds()
-    {
-        audioManager.ToggleMuteSounds();
-    }
-    private void MuteMusic()
-    {
-        audioManager.ToggleMuteMusic();
     }
 
     public bool dead;

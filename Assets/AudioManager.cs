@@ -50,9 +50,9 @@ public class AudioManager : MonoBehaviour
 
     public AudioMixerSnapshot [] mixerSnapshots;
     public float menuFadeSlope;
-    private bool inMenu;
-    private bool soundsMuted;
-    private bool musicMuted;
+    public bool inMenu;
+    public bool soundsMuted;
+    public bool musicMuted;
 
     public int rotStopCueLenMax;
     public float rotStopCueLenPitching;
@@ -570,12 +570,9 @@ public class AudioManager : MonoBehaviour
         snapToBeat = SnapToBeat(rotStopThreeAligned);
         StartCoroutine(snapToBeat);
     }
-    public void ToggleMenu()
+    public void ToggleMenu(bool menu)
     {
-        if (inMenu)
-            inMenu = false;
-        else if (!inMenu)
-            inMenu = true;
+        inMenu = menu;
         UpdateMixerSnapshot();
         PressMenuButton();
     }
@@ -603,19 +600,24 @@ public class AudioManager : MonoBehaviour
     }
     public void UpdateMixerSnapshot()
     {
-        if (!musicMuted && !soundsMuted)
+        if (!inMenu)
         {
-            if (!inMenu)
-                mixerSnapshots[0].TransitionTo(menuFadeSlope); // gameMix 
-            else
-                mixerSnapshots[1].TransitionTo(menuFadeSlope); // menuMix
+            if (!musicMuted && !soundsMuted)
+                mixerSnapshots[0].TransitionTo(0); // gameMix
+            else if (!musicMuted && soundsMuted)
+                mixerSnapshots[2].TransitionTo(0); // muteSfx
         }
-        else if (!musicMuted && soundsMuted)
-            mixerSnapshots[2].TransitionTo(menuFadeSlope); // muteSfx
-        else if (musicMuted && !soundsMuted)
-            mixerSnapshots[3].TransitionTo(menuFadeSlope); // muteMusic
-        else if (musicMuted && soundsMuted)
-            mixerSnapshots[4].TransitionTo(menuFadeSlope); // muteAll
+        if (inMenu)
+        {
+            if (!musicMuted && !soundsMuted)
+                mixerSnapshots[1].TransitionTo(0); // menuMix
+            else if (musicMuted && soundsMuted)
+                mixerSnapshots[4].TransitionTo(0); // muteAll
+            else if (musicMuted && !soundsMuted)
+                mixerSnapshots[3].TransitionTo(0); // muteMusic
+            else if (!musicMuted && soundsMuted)
+                mixerSnapshots[1].TransitionTo(0); // menuMix
+        }
     }
     public void RestartFromMenu()
     {
