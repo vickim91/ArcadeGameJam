@@ -806,11 +806,11 @@ MonoBehaviour:
   playerPosition: {fileID: 490850496}
   acceleration: 1
   initialGameSpeed: 3
-  initialSpawnRate: 0.6
+  initialSpawnRate: 0.3
   initialRotationSpeed: 200
   gameSpeed: 0
-  speedAccumulator: 0.25
-  spawnRateAccumulator: 0.05
+  speedAccumulator: 0.125
+  spawnRateAccumulator: 0.025
   starPowGameSpeed: 50
   starPowSpawnrate: 5
   starPowRotSpeed: 1000
