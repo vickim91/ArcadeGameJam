@@ -195,20 +195,23 @@ public class AudioManager : MonoBehaviour
                 musicStinger.TriggerAudioEvent();
                 if (!musicStartIsPlaying)
                 {
-                    fadeInMusic = FadeMusic(music1, music1.initialVolume, musicCutFadeSlope, 0);
+                    fadeInMusic = FadeAndStop(music1, music1.initialVolume, 0.6f, 0, false);
+//                    fadeInMusic = FadeMusic(music1, music1.initialVolume, musicCutFadeSlope, 0);
                     StartCoroutine(fadeInMusic);
                     musicStartIsPlaying = true;
                 }
             }
             if (musicTrackIsPlaying)
             {
-                fadeOutMusic = FadeOutAndStopMusic(music2, musicCutFadeSlope, musicCutStopDelay);
+                fadeOutMusic = FadeAndStop(music2, 0, 0.6f, 0, true);
+//                fadeOutMusic = FadeOutAndStopMusic(music2, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
                 musicTrackIsPlaying = false;
             }
             else if (musicEndIsPlaying)
             {
-                fadeOutMusic = FadeOutAndStopMusic(music3, musicCutFadeSlope, musicCutStopDelay);
+                fadeOutMusic = FadeAndStop(music3, 0, 0.6f, 0, true);
+//                fadeOutMusic = FadeOutAndStopMusic(music3, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
                 musicEndIsPlaying = false;
             }
@@ -218,6 +221,7 @@ public class AudioManager : MonoBehaviour
                 starPower.volume = 0;
                 music1.StartAudioLoop();
                 music1.volume = 0;
+//                FadeAndStop(music1, music1.initialVolume, 2, 0, false);
                 music1.FadeAudioLoop(music1.initialVolume, 0.005f);
                 musicStartIsLooping = true;
             }
