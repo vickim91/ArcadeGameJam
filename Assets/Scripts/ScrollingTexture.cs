@@ -5,7 +5,7 @@ public class ScrollingTexture : MonoBehaviour
 {
 	public float scrollSpeed = 0.9f;
 	public float scrollSpeed2 = 0.9f;
-    public Texture[] textures;
+    public Texture2D[] textures;
     
 
 	Renderer rend;
