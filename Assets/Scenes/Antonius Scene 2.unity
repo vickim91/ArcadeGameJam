@@ -1475,7 +1475,7 @@ MonoBehaviour:
   - {fileID: 8817221476703416931, guid: 2983eff1ffb9800448f55bec234eeceb, type: 3}
   - {fileID: 4237822137715192921, guid: becb17abe3740414a8339959f5711759, type: 3}
   queueLength: 6
-  numberOfSelectableMods: 5
+  numberOfSelectableMods: 7
   maxNumOfModsInGame: 50
   playerPosition: {fileID: 490850496}
   acceleration: 1
