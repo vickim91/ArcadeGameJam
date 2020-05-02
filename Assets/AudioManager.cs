@@ -30,7 +30,10 @@ public class AudioManager : MonoBehaviour
     public AudioEvent death;
     public AudioEvent clickSound;
     public AudioEvent moduleCleared;
-    
+
+    public AudioLoop rotationAlternative;
+    private int previousSelectionAlt;
+
     private AudioLoop[] rotationV;
     private AudioEvent[] rotStopV;
     private AudioEvent[] rotStopClearableV;
@@ -61,7 +64,7 @@ public class AudioManager : MonoBehaviour
     private int[] totalCueLengths;
     private int rotCueLengthClockwise;
     private int rotCueLengthCounterclockwise;
-    private int previousSelection;
+    private int previousVariant;
 
     public bool Beat() // use this to trigger rhythmic visuals
     {
@@ -392,7 +395,7 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateLoopVolumeDuckingAppliance(int selectedModule)
     {
-        if (previousSelection != selectedModule)
+        if (previousVariant != selectedModule)
         {
             for (int i = 0; i < numOfSelectables; i++)
             {
@@ -408,8 +411,12 @@ public class AudioManager : MonoBehaviour
                     rotationV[i].StartAudioLoop();
                 }
             }
-            previousSelection = selectedModule;
+            previousVariant = selectedModule;
         }
+    }
+    public void UpdateLoopVoicesWhenClearingAModule()
+    {
+        previousVariant = -1;
     }
 
     public void UpdateEventVolumeDuckingAppliance(int moduleIndex, bool isSelected)
@@ -426,6 +433,12 @@ public class AudioManager : MonoBehaviour
     {
         if (rotationV[0].IsPlaying())
         {
+            //if (!rotationV[numOfSelectables - 1].IsPlaying())
+            //{
+            //    //rotationV[0].FadeAudioLoop(0, 0.01f);
+            //}
+            //if (rotationV[numOfSelectables - 1].IsPlaying())
+            //    rotationV[0].StopAudioLoop();
             rotationV[0].StopAudioLoop();
         }
         AudioLoop rotVZero = rotationV[0];
@@ -461,8 +474,12 @@ public class AudioManager : MonoBehaviour
         selectPrevMod.TriggerAudioEvent();
         RotationCue(true, false, resultingModuleSelection + 1);
     }
+
+    private bool isRotatingAlt;
     public void Rotation(int selectedModule, bool clockwise)
     {
+        //RotationAlternative(selectedModule, clockwise);
+
         float pitchClockwise = rotationV[selectedModule].initialPitch + varRotPitching * selectedModule;
         if (clockwise)
             rotationV[selectedModule].pitch = pitchClockwise;
@@ -473,6 +490,28 @@ public class AudioManager : MonoBehaviour
         if (rotationV[selectedModule].isStopping)
             rotationV[selectedModule].StartAudioLoop();
     }
+
+    private void RotationAlternative(int selectedModule, bool clockwise) // stupid idea...
+    {
+        if (previousSelectionAlt != selectedModule)
+        {
+            previousSelectionAlt = selectedModule;
+        }
+        if (!isRotatingAlt)
+        {
+            isRotatingAlt = true;
+        }
+        float pitchClockwise = rotationAlternative.initialPitch;
+        if (clockwise)
+        {
+            rotationAlternative.pitch = pitchClockwise;
+        }
+        else if (!clockwise)
+        {
+            rotationAlternative.pitch = pitchClockwise - rotPitchingCounterclockwise;
+        }
+    }
+
     public void RotationCue(bool resetCueLength, bool clockwise, int selMod) // cueLength is not the sum of clockwise and counterclockwise. It is the sum of cues made since the last switch in cue-direction or the last rotationStop.
     {
         if (resetCueLength)
