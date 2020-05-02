@@ -71,12 +71,16 @@ public class AudioLoop : MonoBehaviour
         //{
         //    SceneManager.LoadScene("SampleScene");
         //}
-
+        
         if (isStopping)
             FadeOutThenStop();
         else if (fading)
         {
             FadeVolume();
+        }
+        else if (timeFading)
+        {
+            TimeFading();
         }
         else
         {
@@ -84,6 +88,35 @@ public class AudioLoop : MonoBehaviour
             audioSource.volume = volume;
             SnapToMinOrMaxVolume();
         }
+    }
+
+    bool timeFading;
+    float fadeVolDestination2;
+    float fadeTimeDestination;
+    private void TimeFading()
+    {
+        float origin = audioSource.volume;
+        float path = fadeVolDestination2 - origin;
+        float fadeTimeRemaining = fadeTimeDestination - Time.time;
+        float fadeSlope = path * (Time.deltaTime / fadeTimeRemaining);
+        if (!isStopping && !fading)
+        {
+            if (Mathf.Abs(fadeSlope) > 0)
+            {
+                volume += fadeSlope;
+            }
+            else
+            {
+                timeFading = false;
+            }
+            audioSource.volume = volume;
+        }
+    }
+    public void TimeFadeAudioLoop(float volDestination, float fadingTime)
+    {
+        timeFading = true;
+        fadeTimeDestination = Time.time + fadingTime;
+        fadeVolDestination2 = volDestination;
     }
 
     private void FadeOutThenStop()

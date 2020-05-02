@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c67498db2421347b2f9ca5136e996b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundFile: {fileID: 8300000, guid: 485d8be2f7c92234a85377d456b72b85, type: 3}
+  soundFile: {fileID: 8300000, guid: 237d93652fe5f8c418eabe41d5b8f442, type: 3}
   pitch: 1
   initialPitch: 1
   volume: 1
@@ -149,10 +149,10 @@ MonoBehaviour:
   seekPercent: 0
   playOnStart: 0
   dontDestroyOnLoad: 0
-  fadeOutWhenStopped: 1
-  fadeOutSlopeWhenStopped: 0.0004
+  fadeOutWhenStopped: 0
+  fadeOutSlopeWhenStopped: 0.0001
   pitchFadeOutSlope:
-    minValue: 0.29137576
-    maxValue: 0.4428907
+    minValue: 0
+    maxValue: 0.15151483
   isStopping: 1
   fadeInTime: 0
