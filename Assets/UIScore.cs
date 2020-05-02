@@ -6,7 +6,8 @@ public class UIScore : MonoBehaviour
 {
     GameManager gameManager;
     TextMeshProUGUI tGUI;
-    
+    public int avgFrameRate;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,17 @@ public class UIScore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tGUI.text = "Score: " + gameManager.score.ToString() + "\n" + "Multiplier: " + gameManager.scoreModifier.ToString();
+        float current = 0;
+        current = Time.frameCount / Time.time;
+        avgFrameRate = (int)current;
+        tGUI.text =
+            "ScoreBest: " + GameManager.scoreBest.ToString() + "\n" +
+            "Score: " + gameManager.score.ToString() + "\n" +
+            "Multiplier: " + gameManager.scoreModifier.ToString();
+        if (gameManager.displayFPS)
+        {
+            tGUI.text = tGUI.text + "\n" +
+            "FPS: " + avgFrameRate.ToString();
+        }
     }
 }
