@@ -34,6 +34,7 @@ public class AudioLoop : MonoBehaviour
     private float fadeVolDestination;
     private float fadeVolSlope;
     public float fadeInTime;
+    public bool dontLoop;
 
     private void Start()
     {
@@ -41,6 +42,8 @@ public class AudioLoop : MonoBehaviour
         initialVolume = volume;
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
+        if (dontLoop)
+            audioSource.loop = false;
 
         if (playOnStart && firstLoad)
         {
