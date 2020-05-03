@@ -1136,6 +1136,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2130114555534555005, guid: 99a991f639284cf46a6ed963e22385b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2130114555789501805, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1164,7 +1169,7 @@ PrefabInstance:
     - target: {fileID: 2130114555868170821, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2130114555868170821, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
@@ -1174,17 +1179,22 @@ PrefabInstance:
     - target: {fileID: 2130114555868170821, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2130114555868170821, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2130114555868170821, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130114555868170821, guid: 99a991f639284cf46a6ed963e22385b5,
+        type: 3}
+      propertyPath: m_text
+      value: JOGGERNAUT
       objectReference: {fileID: 0}
     - target: {fileID: 2130114556488213899, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
@@ -1465,7 +1475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreModifier: 1
-  displayFPS: 1
+  displayFPS: 0
   godMode: 0
   difficultyModifier: 0
   starPowerMultiplier: 1
@@ -1898,22 +1908,22 @@ PrefabInstance:
     - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 300
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3168726800195714076, guid: 942d610c6cf2c7c4c9b7813f28325688,
         type: 3}
@@ -2307,7 +2317,7 @@ PrefabInstance:
     - target: {fileID: 4687959390836862413, guid: e135f55bbc062364a85ce79e8f514f86,
         type: 3}
       propertyPath: chanceForSequence
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
         type: 3}

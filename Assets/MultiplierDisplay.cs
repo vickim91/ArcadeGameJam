@@ -29,7 +29,7 @@ public class MultiplierDisplay : MonoBehaviour
     public void NoStarPower()// here
     {
         StopAllCoroutines();
-        tGUI.color = new Color(0.5f, 1, 1, 1);
+        tGUI.color = new Color(0, 0.5f, 1, 1);
     }
 
     float fontSizingSpeed = 2f;
