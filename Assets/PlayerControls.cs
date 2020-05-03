@@ -19,19 +19,19 @@ public class PlayerControls : MonoBehaviour
     {
         if (!gameManager.dead && !moduleSpawner.controlsDisabled && !pauseMenu.menu)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
                 moduleSpawner.SelectNextModule();
             }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow)|| Input.GetKeyDown(KeyCode.S))
             {
                 moduleSpawner.SelectPreviousModule();
             }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
                 moduleSpawner.RotateSelectedModuleCounterclockwise();
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
                 moduleSpawner.RotateSelectedModuleClockwise();
             }
