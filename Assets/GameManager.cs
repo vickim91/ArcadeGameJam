@@ -19,9 +19,11 @@ public class GameManager : MonoBehaviour
     ScoreDisplay scoreDisplay;
     GameObject scoreAdditionSpawnPosition;
     DeathScreen deathScreen;
+    PauseMenu pauseMenu;
 
     void Start()
     {
+        
         scoreAdditionSpawnPosition = scoreAddition;
         multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
         scoreDisplay = FindObjectOfType<ScoreDisplay>();
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         deathScreen = FindObjectOfType<DeathScreen>();
         deathScreen.ShowDeathScreen(false);
+        pauseMenu = FindObjectOfType<PauseMenu>();
     }
     public void Point(int point)
     {
@@ -54,8 +57,11 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                StartGame();
-                audioManager.GameStart();
+                if (!pauseMenu.menu)
+                {
+                    StartGame();
+                    audioManager.GameStart();
+                }
             }
         }
         if (Input.GetKeyDown(KeyCode.G))
