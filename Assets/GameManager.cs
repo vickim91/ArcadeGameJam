@@ -15,19 +15,26 @@ public class GameManager : MonoBehaviour
     public float starPowerMultiplier;
     AudioManager audioManager;
     public GameObject scoreAddition;
+    MultiplierDisplay multiplierDisplay;
+    GameObject scoreAdditionSpawnPosition;
 
     void Start()
     {
+        scoreAdditionSpawnPosition = scoreAddition;
+        multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
         dead = false;
         audioManager = FindObjectOfType<AudioManager>();
     }
-    public void addToScore(int score)
+    public void Point(int point)
     {
-        Instantiate(scoreAddition, transform);
-        this.score += Mathf.RoundToInt(score*scoreModifier);
-        //print("add to score" + this.score);
+        GameObject scoreObject = Instantiate(scoreAddition, scoreAdditionSpawnPosition.transform.position, scoreAdditionSpawnPosition.transform.rotation) as GameObject;
+        scoreObject.GetComponentInChildren<PointMovement>().thisPointAddition = Mathf.RoundToInt(point * scoreModifier);
     }
-    public void setDifficultyMultiplier(float multiplier)
+    public void AddPointToScore(int point)
+    {
+        this.score += Mathf.RoundToInt(point * scoreModifier);
+    }
+    public void SetDifficultyMultiplier(float multiplier)
     {
         //print("multiplier " + multiplier);
         this.difficultyModifier = multiplier;
@@ -35,11 +42,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Instantiate(scoreAddition, transform);
-        }
         scoreModifier = difficultyModifier * starPowerMultiplier;
+        multiplierDisplay.multiplier = Mathf.RoundToInt(scoreModifier);
         if (dead)
         {
             if (Input.GetKeyDown(KeyCode.Return))
@@ -47,6 +51,10 @@ public class GameManager : MonoBehaviour
                 StartGame();
                 audioManager.GameStart();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            //currentScoreAddition.GetComponentInChildren<PointMovement>().thisPointAddition = Mathf.RoundToInt(score * scoreModifier);
         }
     }
 

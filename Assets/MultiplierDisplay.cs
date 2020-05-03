@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreTop : MonoBehaviour
+public class MultiplierDisplay : MonoBehaviour
 {
     ModuleSpawner moduleSpawner;
-
-    GameManager gameManager;
     TextMeshProUGUI tGUI;
+    public int multiplier;
 
     // Start is called before the first frame update
     void Start()
     {
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
-        gameManager = FindObjectOfType<GameManager>();
         tGUI = GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        tGUI.text = multiplier.ToString();
         //if (moduleSpawner.starPower)
         //    else
-
-        tGUI.text = gameManager.score.ToString();
     }
 }

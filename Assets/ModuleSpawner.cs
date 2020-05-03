@@ -74,7 +74,7 @@ public class ModuleSpawner : MonoBehaviour
 
     // level design tools:
     public int divisionStep = 4;
-    private bool starPower;
+    public bool starPower;
 
     public int divisionStepInterval;
 
@@ -543,7 +543,7 @@ public class ModuleSpawner : MonoBehaviour
     }
     public void setMultiplier()
     {
-        gameManager.setDifficultyMultiplier(difficultyLevel);
+        gameManager.SetDifficultyMultiplier(difficultyLevel);
     }
 
     public void SelectNextModule()
