@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class ModuleSpawner : MonoBehaviour
 {
+    Animator playerAnim;
     public ScrollingTexture scroll1;
     public ScrollingTexture scroll2;
     Renderer scrollRend1;
@@ -79,6 +80,7 @@ public class ModuleSpawner : MonoBehaviour
 
     void Start()
     {
+        playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         divisionStepChangeCountdown = divisionStepInterval;
         gameSpeed = initialGameSpeed;
         spawnRate = initialSpawnRate;
@@ -689,18 +691,20 @@ public class ModuleSpawner : MonoBehaviour
         if (!starPower)
         {
             //hard codet for ikke at clogge inspector
-            scroll1.scrollSpeed = -0.003f;
-            scroll1.scrollSpeed = -0.003f;
-            scroll2.scrollSpeed = -0.02f;
-            scroll2.scrollSpeed2 = -0.02f;
-            scroll1.setTexture(1);
-            scroll2.setTexture(1);
-            scrollRend1 = scroll1.gameObject.GetComponent<Renderer>();
-            scrollRend2 = scroll2.gameObject.GetComponent<Renderer>();
-            originalColor1 = scrollRend1.material.color;
-            originalColor2 = scrollRend2.material.color;
-            scrollRend1.material.color = new Color(0.8f, 0.8f, 1f) ;
-            scrollRend2.material.color = new Color(0.8f, 0.8f, 1f);
+            playerAnim.SetTrigger("Starpower");
+
+            //scroll1.scrollSpeed = -0.003f;
+            //scroll1.scrollSpeed = -0.003f;
+            //scroll2.scrollSpeed = -0.02f;
+            //scroll2.scrollSpeed2 = -0.02f;
+            //scroll1.setTexture(1);
+            //scroll2.setTexture(1);
+            //scrollRend1 = scroll1.gameObject.GetComponent<Renderer>();
+            //scrollRend2 = scroll2.gameObject.GetComponent<Renderer>();
+            //originalColor1 = scrollRend1.material.color;
+            //originalColor2 = scrollRend2.material.color;
+            //scrollRend1.material.color = new Color(0.8f, 0.8f, 1f) ;
+            //scrollRend2.material.color = new Color(0.8f, 0.8f, 1f);
             SetSpeed(starPowGameSpeed, starPowAcc, starPowSpawnrate, starPowRotSpeed);
             audioManager.StarPower();
             punyModsCounter = punyModsPerStarPower;
@@ -727,6 +731,7 @@ public class ModuleSpawner : MonoBehaviour
     {
        // print("pre deacceleration event");
         SetSpeed(starPowGameSpeed, starPowAcc, 0f, starPowRotSpeed);
+        
 
     }
 
@@ -739,14 +744,15 @@ public class ModuleSpawner : MonoBehaviour
         //SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate , initialRotationSpeed);
 
         //visuals
-        scroll1.scrollSpeed = -0.001f;
-        scroll1.scrollSpeed = -0.001f;
-        scroll2.scrollSpeed = -0.01f;
-        scroll2.scrollSpeed2 = -0.01f;
-        scroll1.setTexture(0);
-        scroll2.setTexture(0);
-        scrollRend1.material.color = originalColor1;
-        scrollRend2.material.color = originalColor2;
+        playerAnim.SetTrigger("Deaccelerate");
+        //scroll1.scrollSpeed = -0.001f;
+        //scroll1.scrollSpeed = -0.001f;
+        //scroll2.scrollSpeed = -0.01f;
+        //scroll2.scrollSpeed2 = -0.01f;
+        //scroll1.setTexture(0);
+        //scroll2.setTexture(0);
+        //scrollRend1.material.color = originalColor1;
+        //scrollRend2.material.color = originalColor2;
         backgroundLight.intensity = defaultIntesity;
 
         audioManager.DeactivateStarPower();
