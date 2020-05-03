@@ -80,8 +80,11 @@ public class ModuleSpawner : MonoBehaviour
 
     public int divisionStepInterval;
 
+    public bool controlsDisabled;
+    public float initialNonControlTime;
     void Start()
     {
+
         scoreDisplay = FindObjectOfType<ScoreDisplay>();
         multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
         background = GameObject.FindObjectOfType<Background>();
@@ -107,12 +110,19 @@ public class ModuleSpawner : MonoBehaviour
         SetProbabilities();
 
                 //initial boost
-            SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
+        SetSpeed(initialGameSpeed * 10, 400, initialSpawnRate * 10, initialRotationSpeed);
 
         setMultiplier();
-        
+        //for at forhindre at man får en konflikt med flere setspeed kald hvis man får starpower imens spillet er ved at starte
+        StartCoroutine(DisableControls());
     }
+    IEnumerator DisableControls()
+    {
+        controlsDisabled = true;
+        yield return new WaitForSeconds(initialNonControlTime);
+        controlsDisabled = false;
 
+    }
     void Update()
     {
         CheckIfModuleHasReachedThePlayer();
@@ -582,8 +592,8 @@ public class ModuleSpawner : MonoBehaviour
             audioManager.UpdateLoopVolumeDuckingAppliance(selectedModIndex);
             audioManager.RotationCue(false, false, selectedModIndex);
             selectedModule.Rotate(false, selectedModIndex);
-            if (CheckForLineup())
-                TriggerStarPower();
+            CheckForLineup();
+              
         }
     }
 
@@ -594,8 +604,8 @@ public class ModuleSpawner : MonoBehaviour
             audioManager.UpdateLoopVolumeDuckingAppliance(selectedModIndex);
             audioManager.RotationCue(false, true, selectedModIndex);
             selectedModule.Rotate(true, selectedModIndex);
-            if (CheckForLineup())
-                TriggerStarPower();
+            CheckForLineup();
+               
         }
     }
 

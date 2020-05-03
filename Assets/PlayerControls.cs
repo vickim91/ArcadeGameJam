@@ -15,7 +15,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        if (!gameManager.dead)
+        if (!gameManager.dead && !moduleSpawner.controlsDisabled)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
