@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     ScoreDisplay scoreDisplay;
     GameObject scoreAdditionSpawnPosition;
     DeathScreen deathScreen;
-    ScoreTop scoreTop;
+    ScoreDisplay scoreDisplay;
 
     void Start()
     {
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
 
             //show yourScore and scoreBest with big numbers in middle of screen!!
             deathScreen.ShowDeathScreen(true);
-            scoreTop.gameObject.SetActive(false);
+            scoreDisplay.gameObject.SetActive(false);
             multiplierDisplay.gameObject.SetActive(false);
         }
     }

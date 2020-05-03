@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreTop : MonoBehaviour
+public class ScoreDisplay : MonoBehaviour
 {
     ModuleSpawner moduleSpawner;
 
