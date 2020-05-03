@@ -6,16 +6,18 @@ public class PlayerControls : MonoBehaviour
 {
     ModuleSpawner moduleSpawner;
     GameManager gameManager;
+    PauseMenu pauseMenu;
 
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
     }
 
     private void Update()
     {
-        if (!gameManager.dead && !moduleSpawner.controlsDisabled)
+        if (!gameManager.dead && !moduleSpawner.controlsDisabled && !pauseMenu.menu)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
