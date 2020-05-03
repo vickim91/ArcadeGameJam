@@ -546,7 +546,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 5, z: -75.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1068083803}
+  - {fileID: 629943757}
   - {fileID: 1683862781}
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -737,18 +737,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &392491390 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6355857835553871963, guid: 7b71af76870e74a41ab552824294e19a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6355857834498459784}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0765543243f6abc48bcc462e16159dbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &490850492
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,6 +865,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5898620f08573f249a2d0907fe6887df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &629943757 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6355857834890207955, guid: 7b71af76870e74a41ab552824294e19a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6355857834498459784}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &976127203
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,12 +980,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1068083803 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6355857834890207955, guid: 7b71af76870e74a41ab552824294e19a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6355857834498459784}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1091280385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,18 +1182,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
---- !u!114 &1292494050 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6355857835701025162, guid: 7b71af76870e74a41ab552824294e19a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6355857834498459784}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0765543243f6abc48bcc462e16159dbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1527352589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1779,8 +1755,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll1: {fileID: 392491390}
-  scroll2: {fileID: 1292494050}
   spawnedMods: []
   frames:
   - {fileID: 3210929756750240493, guid: 6a7a09fb53c6f094db2b3a145886d102, type: 3}
@@ -3075,6 +3049,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 9052873010291671637, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
+        type: 3}
+      propertyPath: mute
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9052873010291671637, guid: 54645f73f9eb62e4b835f5ef75ea3ef0,
+        type: 3}
+      propertyPath: activateGlobalMuteSetting
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54645f73f9eb62e4b835f5ef75ea3ef0, type: 3}

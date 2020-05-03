@@ -497,22 +497,24 @@ MonoBehaviour:
   - {fileID: 3827494188295901273, guid: c080401051101f64580469a0159ec892, type: 3}
   - {fileID: 115091168944032519, guid: 0315266142ae0cc459eff6fd467ee5db, type: 3}
   - {fileID: 8455573695533604115, guid: 8db93a251c85fd941a38b3e8d3a000e7, type: 3}
-  queueLength: 6
-  numberOfSelectableMods: 5
-  maxNumOfModsInGame: 50
-  playerPosition: {fileID: 0}
-  acceleration: 0.1
-  initialGameSpeed: 0.5
-  initialSpawnRate: 1
-  initialRotationSpeed: 100
-  divisionStep: 4
-  starPowGameSpeed: 2
-  starPowSpawnrate: 2
-  starPowRotSpeed: 400
-  starPowAcc: 0.8
-  starPowDeacc: 0.8
-  punyModsPerStarPower: 8
-  deaccelerationPoint: 2
+  probalities: 
+  chanceForSequence: 0
+  sequenceProbabilities: 
+  currentSelectables: []
+  upcomingModules: []
+  moduleQueue: []
+  queueLength: 5
+  numberOfSelectableModules: 5
+  numberOfModules: 20
+  selectedIndex: 0
+  selectedModule: {fileID: 0}
+  division: 3
+  playerPosition: 8
+  closestModulePositionRead: 0
+  autoSpawn: 1
+  autoSpawnSpeed: 0.5
+  gameSpeed: 0.5
+  rotationSpeed: 100
 --- !u!4 &1823340749
 Transform:
   m_ObjectHideFlags: 0
@@ -542,25 +544,23 @@ MonoBehaviour:
   snapToDiv: 1
   chanceForSequence: 100
   divisionStepSequence: 0200000003000000050000000600000007000000
-  moduleSpawn:
-  - modTypeRotProb: {x: 0, y: 0, z: 2}
-    divApplication: 
-    initialRotation: 0
-  - modTypeRotProb: {x: 0, y: 0, z: 1}
-    divApplication: 
-    initialRotation: 0
-  - modTypeRotProb: {x: 0, y: 0, z: 1}
-    divApplication: 
-    initialRotation: 0
-  sequenceSpawn:
-  - probality: 5
+  divisionApplication: 
+  divApplTest: 01000100
+  spawnModule:
+  - modTypeRotProb: {x: 0, y: 0, z: 33}
+    divisionApplication: 0101000100
+  - modTypeRotProb: {x: 1, y: 0, z: 33}
+    divisionApplication: 0001000000
+  - modTypeRotProb: {x: 2, y: 0, z: 33}
+    divisionApplication: 0100010101
+  spawnSequence:
+  - probality: 20
     seqTypeRot:
-    - {x: 0, y: 0}
-    - {x: 0, y: 0}
-    - {x: 0, y: 0}
-    divApplication: 
-    initialRotation: []
-  - probality: 5
+    - {x: 0, y: 90}
+    - {x: 0, y: 180}
+    - {x: 0, y: 270}
+    divisionApplication: 0001000000
+  - probality: 10
     seqTypeRot:
     - {x: 1, y: 0}
     - {x: 1, y: 0}
