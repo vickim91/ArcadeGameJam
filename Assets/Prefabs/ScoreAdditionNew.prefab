@@ -188,6 +188,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPointAddition: 0
+  threshold: 160
+  xPosMin: -120
+  xPosMax: 120
+  yPosMin: 10
+  yPosMax: 40
+  lerpSpeedMax: 0.1
+  lerpSpeedMin: 0
+  lerpAcceleration: 0.001
 --- !u!1 &3919312083950214249
 GameObject:
   m_ObjectHideFlags: 0

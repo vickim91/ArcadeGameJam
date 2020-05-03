@@ -9,26 +9,50 @@ public class PointMovement : MonoBehaviour
     GameManager gameManager;
     TextMeshProUGUI tGUI;
     Vector3 destination;
-    float threshold = 160;
+    [HideInInspector]
     public int thisPointAddition;
     GameObject panel;
+    // spawn parameters:
+    public float threshold; // ylocation of the score. Set this to a value that scales correctly with the aspect ratio 
+    public float xPosMin;
+    public float xPosMax;
+    public float yPosMin;
+    public float yPosMax;
+    public float lerpSpeedMax;
+    public float lerpSpeedMin;
+    public float lerpAcceleration;
+    float lerpSpeed;
+    public static bool prevXisPositive;
 
-    // Start is called before the first frame update
     void Awake()
     {
         panel = gameObject.transform.Find("Panel").gameObject;
         gameManager = FindObjectOfType<GameManager>();
         destination = new Vector3(0, threshold + 10, 0);
         tGUI = GetComponentInChildren<TextMeshProUGUI>();
-
-        float x = Random.Range(-150, 150);
-        float y = Random.Range(10, 40);
+        float x = Random.Range(xPosMin, xPosMax);
+        if (prevXisPositive)
+        {
+            x = -Mathf.Abs(x);
+            prevXisPositive = false;
+        }
+        else
+        {
+            x = Mathf.Abs(x);
+            prevXisPositive = true;
+        }
+            
+        float y = Random.Range(yPosMin, yPosMax);
         panel.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);
+        lerpSpeed = lerpSpeedMin;
     }
 
     void Update()
     {
-        panel.GetComponent<RectTransform>().localPosition = Vector3.Lerp(panel.GetComponent<RectTransform>().localPosition, destination, 0.05f);
+        lerpSpeed += lerpAcceleration;
+        if (lerpSpeed > lerpSpeedMax)
+            lerpSpeed = lerpSpeedMax;
+        panel.GetComponent<RectTransform>().localPosition = Vector3.Lerp(panel.GetComponent<RectTransform>().localPosition, destination, lerpSpeed);
         tGUI.text = thisPointAddition.ToString();
         if (panel.GetComponent<RectTransform>().localPosition.y > threshold)
         {
