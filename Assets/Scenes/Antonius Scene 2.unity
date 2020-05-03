@@ -1179,6 +1179,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2130114555789501805, guid: 99a991f639284cf46a6ed963e22385b5,
+        type: 3}
+      propertyPath: m_text
+      value: 'HELP THE JOGGER GET THROUGH THE TUNNEL BY CLEARING HIS PATH.
+
+        USE
+        THE ARROW KEYS OR WASD TO SELECT AND ROTATE THE INCOMING COILS.
+
+        ALIGN
+        COILS OF THE SAME TYPE TO GET A POWER BOOST.'
+      objectReference: {fileID: 0}
     - target: {fileID: 2130114556524445952, guid: 99a991f639284cf46a6ed963e22385b5,
         type: 3}
       propertyPath: m_LocalPosition.x
