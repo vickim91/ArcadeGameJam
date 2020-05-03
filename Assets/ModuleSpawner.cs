@@ -60,6 +60,8 @@ public class ModuleSpawner : MonoBehaviour
     private float spawnRate;
     private float rotationSpeed;
 
+    public float impatienceGameSpeedModifier;
+    private bool impatienceGameSpeedModifierActive;
     public float speedAccumulator;
     public float spawnRateAccumulator;
     public float starPowGameSpeed;
@@ -82,6 +84,8 @@ public class ModuleSpawner : MonoBehaviour
 
     public bool controlsDisabled;
     public float initialNonControlTime;
+
+
     void Start()
     {
 
@@ -593,7 +597,6 @@ public class ModuleSpawner : MonoBehaviour
             audioManager.RotationCue(false, false, selectedModIndex);
             selectedModule.Rotate(false, selectedModIndex);
             CheckForLineup();
-              
         }
     }
 
@@ -608,18 +611,37 @@ public class ModuleSpawner : MonoBehaviour
                
         }
     }
-
+    
     private void SetSelectedModule(int index)
     {
         if(currentSelectables[index] != null)
         {
-//            selectedModule = currentSelectables[index].GetComponent<Module>();
+            //            selectedModule = currentSelectables[index].GetComponent<Module>();
             selectedModule = currentSelectablesScript[index];
             selectedModule.SelectThisModule();
             for (int i = 0; i < numberOfSelectableMods; i++)
             {
                 if (i != index && currentSelectablesScript[i] != null)
                     currentSelectablesScript[i].UnselectThisModule();
+            }
+//            ImpatienceGameSpeedModification(index);
+        }
+    }
+
+    private void ImpatienceGameSpeedModification(int index) // doesn't work, because gamespeed is set via acceleration - so this is probably a bad idea
+    {
+        if (!starPower)
+        {
+            if (index == numberOfSelectableMods - 1 && !impatienceGameSpeedModifierActive)
+            {
+                impatienceGameSpeedModifierActive = true;
+                gameSpeed += impatienceGameSpeedModifier;
+            }
+            else if (index != numberOfSelectableMods - 1 && impatienceGameSpeedModifierActive)
+            {
+                impatienceGameSpeedModifierActive = false;
+                gameSpeed -= impatienceGameSpeedModifier;
+                print("gameSpeed2:" + gameSpeed);
             }
         }
     }

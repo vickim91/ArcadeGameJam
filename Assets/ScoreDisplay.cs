@@ -24,7 +24,7 @@ public class ScoreDisplay : MonoBehaviour
 
     public void AddPointToScore()// here
     {
-
+        
     }
     public void StarPower()// here
     {

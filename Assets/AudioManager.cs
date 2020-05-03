@@ -219,9 +219,9 @@ public class AudioManager : MonoBehaviour
             if (musicTrackIsPlaying || musicEndIsPlaying)
             {
                 if (sectionCounter > 4)
-                    musicStinger.sound[0].volume = musicStinger.sound[0].initialVolume + 0.1f;
+                    musicStinger.sound[0].volume = musicStinger.sound[0].initialVolume + 0.15f;
                 else 
-                    musicStinger.sound[0].volume = musicStinger.sound[0].initialVolume;
+                    musicStinger.sound[0].volume = musicStinger.sound[0].initialVolume + 0.1f;
                 musicStinger.TriggerAudioEvent();
                 if (!musicStartIsPlaying)
                 {

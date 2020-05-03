@@ -64,11 +64,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            scoreModifier = Random.Range(1, 5);
-            Point(100);
-        }
     }
 
     public static void StartGame()

@@ -51,11 +51,11 @@ public class PointMovement : MonoBehaviour
 
         if (moduleSpawner.starPower) // here
         {
-
+            tGUI.color = new Color(0.9f,0.9f,1,1);
         }
         else
         {
-
+            tGUI.color = new Color(0.5f, 0.5f, 1, 1);
         }
         switch(moduleSpawner.difficultyLevel) // here
         {
