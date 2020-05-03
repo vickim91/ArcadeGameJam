@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPointAddition: 0
-  threshold: 160
+  threshold: 380
   xPosMin: -120
   xPosMax: 120
   yPosMin: 10
