@@ -51,7 +51,10 @@ public class PointMovement : MonoBehaviour
 
         if (moduleSpawner.starPower) // here
         {
-            tGUI.color = new Color(0.9f,0.9f,1,1);
+            while (true)
+            {
+
+            }
         }
         else
         {
