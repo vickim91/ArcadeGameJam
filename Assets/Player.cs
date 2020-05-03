@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         anim.SetTrigger("Death");
         float randX = Random.Range(-1f, 1f);
         float randY = Random.Range(0f, 1f);
-        float randZ = Random.Range(-1f, 1f);
+        float randZ = Random.Range(0f, 1f);
         deathDestination = new Vector3(randX, randY, randZ);
         print(deathDestination);
     }
