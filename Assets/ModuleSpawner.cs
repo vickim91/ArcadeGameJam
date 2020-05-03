@@ -542,7 +542,6 @@ public class ModuleSpawner : MonoBehaviour
         //score multiplier
         setMultiplier();
         SetProbabilities();
-        background.ChangeBackground();
     }
     public void setMultiplier()
     {

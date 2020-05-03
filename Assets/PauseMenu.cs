@@ -39,7 +39,6 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1;
             menu = false;
             audioManager.ToggleMenu(menu);
-            print("test");
         }
         else
         {
@@ -48,9 +47,6 @@ public class PauseMenu : MonoBehaviour
             audioManager.ToggleMenu(menu);
         }
         panel.SetActive(menu);
-        //start.SetActive(menu);
-        //howToPlay.SetActive(menu);
-        //settings.SetActive(menu);
     }
 
     public void StartGame()

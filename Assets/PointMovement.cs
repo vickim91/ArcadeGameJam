@@ -33,7 +33,6 @@ public class PointMovement : MonoBehaviour
         if (panel.GetComponent<RectTransform>().localPosition.y > threshold)
         {
             gameManager.AddPointToScore(thisPointAddition);
-            print("kill");
             Destroy(this.gameObject);
         }
     }

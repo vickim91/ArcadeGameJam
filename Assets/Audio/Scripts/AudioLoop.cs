@@ -197,7 +197,14 @@ public class AudioLoop : MonoBehaviour
         
     }
 
-
+    public void PauseLoop()
+    {
+        audioSource.Pause();
+    }
+    public void UnpauseLoop()
+    {
+        audioSource.UnPause();
+    }
 
     public void StopAudioLoop()
     {

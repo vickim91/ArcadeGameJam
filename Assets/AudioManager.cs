@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    Background background;
     public AudioLoop music1;
     public AudioLoop music2;
     public AudioLoop music3;
@@ -142,6 +143,7 @@ public class AudioManager : MonoBehaviour
     }
     void Start()
     {
+        background = GameObject.FindObjectOfType<Background>();
         GameStart();
         gameManager = FindObjectOfType<GameManager>();
         mixerSnapshots[0].TransitionTo(0);
@@ -155,6 +157,7 @@ public class AudioManager : MonoBehaviour
             CountBeats();
             ResetMusic();
             ProgressMusic();
+            VisualBeats();
         }
     }
 
@@ -169,9 +172,33 @@ public class AudioManager : MonoBehaviour
             {
                 barCounter = 1;
                 sectionCounter++;
+
             }
         }
     }
+
+    private void VisualBeats()
+    {
+        if (beatCounter == 1)
+        {
+            if (barCounter % 8 == 1)
+            {
+                if (musicStates != MusicStates.level1)
+                {
+                    background.ChangeBackground();
+                }
+            }
+            if (musicStates == MusicStates.level2)
+            {
+                if (sectionCounter == 4)
+                {
+                    if (barCounter % 2 == 1)
+                        background.ChangeBackground();
+                }
+            }
+        }
+    }
+
 
     private void Update()
     {
@@ -206,6 +233,7 @@ public class AudioManager : MonoBehaviour
             }
             if (musicTrackIsPlaying)
             {
+                background.ChangeBackground();
                 fadeOutMusic = FadeAndStop(music2, 0, 0.6f, 0, true);
 //                fadeOutMusic = FadeOutAndStopMusic(music2, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
@@ -213,6 +241,7 @@ public class AudioManager : MonoBehaviour
             }
             else if (musicEndIsPlaying)
             {
+                background.ChangeBackground();
                 fadeOutMusic = FadeAndStop(music3, 0, 0.6f, 0, true);
 //                fadeOutMusic = FadeOutAndStopMusic(music3, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
@@ -573,9 +602,33 @@ public class AudioManager : MonoBehaviour
     public void ToggleMenu(bool menu)
     {
         inMenu = menu;
+        if (inMenu)
+        {
+            PauseMusic(musicStartIsLooping, music1, true);
+            PauseMusic(musicTrackIsPlaying, music2, true);
+            PauseMusic(musicEndIsPlaying, music3, true);
+        }
+        if (!inMenu)
+        {
+            PauseMusic(musicStartIsLooping, music1, false);
+            PauseMusic(musicTrackIsPlaying, music2, false);
+            PauseMusic(musicEndIsPlaying, music3, false);
+        }
         UpdateMixerSnapshot();
         PressMenuButton();
     }
+
+    private void PauseMusic(bool musicIsPlaying, AudioLoop music, bool pause)
+    {
+        if (musicIsPlaying)
+        {
+            if (pause)
+                music.PauseLoop();
+            else if (!pause)
+                music.UnpauseLoop();
+        }
+    }
+
     public void PressMenuButton() // this includes: start game, enter "how to play", exit "how to play"
     {
         clickSound.TriggerAudioEvent();
