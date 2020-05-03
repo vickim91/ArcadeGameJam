@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PointMovement : MonoBehaviour
 {
+    ModuleSpawner moduleSpawner;
     GameManager gameManager;
     TextMeshProUGUI tGUI;
     Vector3 destination;
@@ -28,6 +29,7 @@ public class PointMovement : MonoBehaviour
     {
         panel = gameObject.transform.Find("Panel").gameObject;
         gameManager = FindObjectOfType<GameManager>();
+        moduleSpawner = FindObjectOfType<ModuleSpawner>();
         destination = new Vector3(0, threshold + 10, 0);
         tGUI = GetComponentInChildren<TextMeshProUGUI>();
         float x = Random.Range(xPosMin, xPosMax);
@@ -45,6 +47,34 @@ public class PointMovement : MonoBehaviour
         float y = Random.Range(yPosMin, yPosMax);
         panel.GetComponent<RectTransform>().localPosition = new Vector3(x, y, 0);
         lerpSpeed = lerpSpeedMin;
+
+
+        if (moduleSpawner.starPower) // here
+        {
+
+        }
+        else
+        {
+
+        }
+        switch(moduleSpawner.difficultyLevel) // here
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2: 
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+                //....... (how high does number actually go?)
+        }
     }
 
     void Update()

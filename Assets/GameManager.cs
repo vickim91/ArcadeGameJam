@@ -16,12 +16,14 @@ public class GameManager : MonoBehaviour
     AudioManager audioManager;
     public GameObject scoreAddition;
     MultiplierDisplay multiplierDisplay;
+    ScoreDisplay scoreDisplay;
     GameObject scoreAdditionSpawnPosition;
 
     void Start()
     {
         scoreAdditionSpawnPosition = scoreAddition;
         multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
+        scoreDisplay = FindObjectOfType<ScoreDisplay>();
         dead = false;
         audioManager = FindObjectOfType<AudioManager>();
     }
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
     public void AddPointToScore(int point)
     {
         this.score += Mathf.RoundToInt(point * scoreModifier);
+        scoreDisplay.AddPointToScore();
     }
     public void SetDifficultyMultiplier(float multiplier)
     {

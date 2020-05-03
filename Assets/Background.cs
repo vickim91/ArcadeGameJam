@@ -5,10 +5,18 @@ using UnityEngine;
 public class Background : MonoBehaviour
 {
     public GameObject[] backgrounds;
+    public static bool firstLoad = true;
 
     private void Start()
     {
-        ChangeBackground();
+        if (!firstLoad)
+            Destroy(this.gameObject);
+        if (firstLoad)
+        {
+            DontDestroyOnLoad(this);
+            firstLoad = false;
+            ChangeBackground();
+        }
     }
 
     public void ChangeBackground()
