@@ -20,10 +20,10 @@ public class GameManager : MonoBehaviour
     GameObject scoreAdditionSpawnPosition;
     DeathScreen deathScreen;
     PauseMenu pauseMenu;
-
+    Player player;
     void Start()
     {
-        
+        player = FindObjectOfType<Player>();
         scoreAdditionSpawnPosition = scoreAddition;
         multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
         scoreDisplay = FindObjectOfType<ScoreDisplay>();
@@ -96,6 +96,9 @@ public class GameManager : MonoBehaviour
             deathScreen.ShowDeathScreen(true);
             scoreDisplay.gameObject.SetActive(false);
             multiplierDisplay.gameObject.SetActive(false);
+            player.TriggerDeathAnim();
+
         }
     }
+
 }

@@ -403,7 +403,6 @@ GameObject:
   - component: {fileID: 182669903}
   - component: {fileID: 182669902}
   - component: {fileID: 182669901}
-  - component: {fileID: 182669900}
   - component: {fileID: 182669899}
   m_Layer: 0
   m_Name: PlayerStarPower
@@ -446,18 +445,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &182669900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182669897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5898620f08573f249a2d0907fe6887df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &182669901
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -866,6 +853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5898620f08573f249a2d0907fe6887df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSpeed: 5
 --- !u!4 &629943757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6355857834890207955, guid: 7b71af76870e74a41ab552824294e19a,
@@ -2398,6 +2386,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ModuleSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862413, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: chanceForSequence
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
         type: 3}
