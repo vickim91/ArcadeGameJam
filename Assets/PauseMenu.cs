@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    private bool menu;
+    public bool menu;
     AudioManager audioManager;
     public GameObject panel;
     public GameObject start;
     public GameObject howToPlay;
     public GameObject settings;
     public static bool firstLoad = true;
+    DeathScreen deathScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -41,14 +42,17 @@ public class PauseMenu : MonoBehaviour
 
     public void ToggleMenu()
     {
+        deathScreen = FindObjectOfType<DeathScreen>();
         if (panel.activeInHierarchy)
         {
+            deathScreen.HideDeathScreenWhenMenu(true);
             Time.timeScale = 1;
             menu = false;
             audioManager.ToggleMenu(menu);
         }
         else
         {
+            deathScreen.HideDeathScreenWhenMenu(false);
             Time.timeScale = 0;
             menu = true;
             audioManager.ToggleMenu(menu);

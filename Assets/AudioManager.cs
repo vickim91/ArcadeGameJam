@@ -626,6 +626,14 @@ public class AudioManager : MonoBehaviour
             PauseMusic(musicStartIsLooping, music1, true);
             PauseMusic(musicTrackIsPlaying, music2, true);
             PauseMusic(musicEndIsPlaying, music3, true);
+            for (int i = 0; i < numOfSelectables; i++)
+            {
+                rotationV[i].StopAudioLoop();
+                rotationExtraV[i].StopAudioLoop();
+            }
+            footsteps.StopAudioLoop();
+            breathing.StopAudioLoop();
+            starPower.StopAudioLoop();
         }
         if (!inMenu)
         {
