@@ -1571,8 +1571,8 @@ MonoBehaviour:
   initialSpawnRate: 0.6
   initialRotationSpeed: 200
   gameSpeed: 0
-  speedAccumulator: 0.2
-  spawnRateAccumulator: 0.4
+  speedAccumulator: 0.25
+  spawnRateAccumulator: 0.05
   starPowGameSpeed: 50
   starPowSpawnrate: 5
   starPowRotSpeed: 1000
