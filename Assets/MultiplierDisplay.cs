@@ -18,7 +18,8 @@ public class MultiplierDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tGUI.text = multiplier.ToString();
+        tGUI.text = "X" + multiplier.ToString();
+        SizingMethod();
     }
 
     public void StarPower()// here
@@ -29,8 +30,42 @@ public class MultiplierDisplay : MonoBehaviour
     {
 
     }
+
+    float fontSizingSpeed = 2f;
+    float fontSizeMax = 50f;
+    float fontSizeNormal = 47f;
+    bool isSizing;
+    bool isShrinking;
     public void UpgradeDifficultyModifier(int difficultyLevel)// here (1,2,3...)
     {
-
+        if (!isSizing)
+        {
+            isSizing = true;
+        }
     }
+    private void SizingMethod()
+    {
+        if (isShrinking)
+        {
+            if (tGUI.fontSize > fontSizeNormal)
+            {
+                tGUI.fontSize -= fontSizingSpeed;
+            }
+            else
+            {
+                isSizing = false;
+                isShrinking = false;
+            }
+        }
+        else if (isSizing)
+        {
+            if (tGUI.fontSize < fontSizeMax)
+            {
+                tGUI.fontSize += fontSizingSpeed * 2;
+            }
+            else
+                isShrinking = true;
+        }
+    }
+
 }
