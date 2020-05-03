@@ -943,7 +943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &996804529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1753,6 +1753,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386952798486486703, guid: 942d610c6cf2c7c4c9b7813f28325688,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3168726800195714076, guid: 942d610c6cf2c7c4c9b7813f28325688,
         type: 3}
       propertyPath: m_Name
@@ -1912,6 +1932,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1456658006346223805, guid: 05794db75877ac14bad50bceec380268,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456658006346223805, guid: 05794db75877ac14bad50bceec380268,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456658006346223805, guid: 05794db75877ac14bad50bceec380268,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456658006346223805, guid: 05794db75877ac14bad50bceec380268,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1470430439917967151, guid: 05794db75877ac14bad50bceec380268,
         type: 3}
       propertyPath: m_UiScaleMode
