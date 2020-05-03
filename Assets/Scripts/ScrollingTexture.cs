@@ -6,14 +6,22 @@ public class ScrollingTexture : MonoBehaviour
 	public float scrollSpeed = 0.9f;
 	public float scrollSpeed2 = 0.9f;
     public Texture2D[] textures;
-    
+    public float scaleX;
+    public float scaleY;
+    public Color setColor;
 
-	Renderer rend;
+
+    Renderer rend;
     Vector2 newOffset;
 
 	void Start()
 	{
 		rend = GetComponent<Renderer> ();
+        rend.material.mainTextureScale = new Vector2(scaleX, scaleY);
+        rend.material.color = setColor;
+        
+
+
    
 	}
 

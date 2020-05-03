@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class ModuleSpawner : MonoBehaviour
 {
+    Background background;
     Animator playerAnim;
     public ScrollingTexture scroll1;
     public ScrollingTexture scroll2;
@@ -80,6 +81,7 @@ public class ModuleSpawner : MonoBehaviour
 
     void Start()
     {
+        background = GameObject.FindObjectOfType<Background>();
         playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         divisionStepChangeCountdown = divisionStepInterval;
         gameSpeed = initialGameSpeed;
@@ -540,6 +542,7 @@ public class ModuleSpawner : MonoBehaviour
         //score multiplier
         setMultiplier();
         SetProbabilities();
+        background.ChangeBackground();
     }
     public void setMultiplier()
     {
