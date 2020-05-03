@@ -583,7 +583,8 @@ public class ModuleSpawner : MonoBehaviour
             audioManager.UpdateLoopVolumeDuckingAppliance(selectedModIndex);
             audioManager.RotationCue(false, false, selectedModIndex);
             selectedModule.Rotate(false, selectedModIndex);
-            CheckForLineup();
+            if (CheckForLineup())
+                TriggerStarPower();
         }
     }
 
@@ -594,7 +595,8 @@ public class ModuleSpawner : MonoBehaviour
             audioManager.UpdateLoopVolumeDuckingAppliance(selectedModIndex);
             audioManager.RotationCue(false, true, selectedModIndex);
             selectedModule.Rotate(true, selectedModIndex);
-            CheckForLineup();
+            if (CheckForLineup())
+                TriggerStarPower();
         }
     }
 
