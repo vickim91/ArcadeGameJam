@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public float difficultyModifier;
     public float starPowerMultiplier;
     AudioManager audioManager;
+    public GameObject scoreAddition;
 
     void Start()
     {
@@ -22,8 +23,8 @@ public class GameManager : MonoBehaviour
     }
     public void addToScore(int score)
     {
-        
-        this.score += Mathf.RoundToInt( score*scoreModifier);
+        Instantiate(scoreAddition, transform);
+        this.score += Mathf.RoundToInt(score*scoreModifier);
         //print("add to score" + this.score);
     }
     public void setDifficultyMultiplier(float multiplier)
@@ -34,6 +35,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Instantiate(scoreAddition, transform);
+        }
         scoreModifier = difficultyModifier * starPowerMultiplier;
         if (dead)
         {

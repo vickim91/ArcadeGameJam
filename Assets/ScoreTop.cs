@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UIScoreCenter : MonoBehaviour
+public class ScoreTop : MonoBehaviour
 {
     GameManager gameManager;
     TextMeshProUGUI tGUI;
-    public int avgFrameRate;
 
     // Start is called before the first frame update
     void Start()
@@ -19,8 +18,6 @@ public class UIScoreCenter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tGUI.text =
-            "Sc: " + gameManager.score.ToString() + "\n" +
-            "Multi: " + gameManager.scoreModifier.ToString();
+        tGUI.text = gameManager.score.ToString();
     }
 }
