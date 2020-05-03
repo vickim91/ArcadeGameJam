@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class DebugText : MonoBehaviour
+public class Debugger : MonoBehaviour
 {
-    //GameManager gameManager;
+    GameManager gameManager;
     //TextMeshProUGUI tGUI;
     //public int avgFrameRate;
 
-    void start()
+
+    void Start()
     {
-        //gamemanager = findobjectoftype<gamemanager>();
+        gameManager = FindObjectOfType<GameManager>();
         //tgui = getcomponent<textmeshprougui>();
     }
 
@@ -19,19 +20,24 @@ public class DebugText : MonoBehaviour
 
     void Update()
     {
-//        float current = 0;
-//        current = Time.frameCount / Time.time;
-//        avgFrameRate = (int)current;
-//        //tGUI.text =
-//        //    "ScoreBest: " + GameManager.scoreBest.ToString() + "\n" 
-//            //+ "Score: " + gameManager.score.ToString() + "\n" 
-//            //+ "Multiplier: " + gameManager.scoreModifier.ToString();
-//        if (gameManager.displayFPS)
-//        {
-//            tGUI.text = 
-////                tGUI.text + "\n" +
-//            "FPS: " + avgFrameRate.ToString();
-//        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            gameManager.scoreModifier = Random.Range(1, 5);
+            gameManager.Point(100);
+        }
+        //        float current = 0;
+        //        current = Time.frameCount / Time.time;
+        //        avgFrameRate = (int)current;
+        //        //tGUI.text =
+        //        //    "ScoreBest: " + GameManager.scoreBest.ToString() + "\n" 
+        //            //+ "Score: " + gameManager.score.ToString() + "\n" 
+        //            //+ "Multiplier: " + gameManager.scoreModifier.ToString();
+        //        if (gameManager.displayFPS)
+        //        {
+        //            tGUI.text = 
+        ////                tGUI.text + "\n" +
+        //            "FPS: " + avgFrameRate.ToString();
+        //        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
