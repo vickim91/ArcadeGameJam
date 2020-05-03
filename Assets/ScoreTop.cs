@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MultiplierDisplay : MonoBehaviour
+public class ScoreTop : MonoBehaviour
 {
+    ModuleSpawner moduleSpawner;
+
+    GameManager gameManager;
     TextMeshProUGUI tGUI;
-    public int multiplier;
 
     // Start is called before the first frame update
     void Start()
     {
+        moduleSpawner = FindObjectOfType<ModuleSpawner>();
+        gameManager = FindObjectOfType<GameManager>();
         tGUI = GetComponent<TextMeshProUGUI>();
         this.gameObject.SetActive(true);
     }
@@ -18,19 +22,9 @@ public class MultiplierDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tGUI.text = multiplier.ToString();
-    }
+        //if (moduleSpawner.starPower)
+        //    else
 
-    public void StarPower()// here
-    {
-
-    }
-    public void NoStarPower()// here
-    {
-
-    }
-    public void UpgradeDifficultyModifier(int difficultyLevel)// here (1,2,3...)
-    {
-
+        tGUI.text ="Score: " + gameManager.score.ToString();
     }
 }
