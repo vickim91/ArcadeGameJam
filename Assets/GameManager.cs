@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     ScoreDisplay scoreDisplay;
     GameObject scoreAdditionSpawnPosition;
     DeathScreen deathScreen;
-    ScoreDisplay scoreDisplay;
 
     void Start()
     {

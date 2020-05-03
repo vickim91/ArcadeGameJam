@@ -13,6 +13,7 @@ public class ScoreDisplay : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         tGUI = GetComponent<TextMeshProUGUI>();
+        this.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
