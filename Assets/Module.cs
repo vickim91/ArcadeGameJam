@@ -236,8 +236,11 @@ public class Module : MonoBehaviour
     }
     public void DestroyThisModule()
     {
-        Instantiate(destructionObject, this.transform);
-        Destroy(this.gameObject);
+        if (destructionObject != null)
+        {
+            Instantiate(destructionObject, this.transform);
+            Destroy(this.gameObject);
+        }
     }
     public void HasReachedPlayer()
     {

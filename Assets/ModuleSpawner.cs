@@ -623,14 +623,14 @@ public class ModuleSpawner : MonoBehaviour
         bool lineUp = false;
         int lineUpCount = 0;
         int lastType = -1;
-        int lastStep = -1;
+        int lastStep = int.MinValue;
         int currentIndex = 0;
         foreach (GameObject g in currentSelectables)
         {
             if (g)
             {
                 Module m = g.GetComponent<Module>();
-                if (lastType != -1 && lastStep != -1)
+                if (lastType != -1 && lastStep != int.MinValue)
                 {
                     if (m.type == lastType && m.step == lastStep)
                     {
