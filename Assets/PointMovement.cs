@@ -51,10 +51,9 @@ public class PointMovement : MonoBehaviour
 
         if (moduleSpawner.starPower) // here
         {
-            while (true)
-            {
+           
+            StartCoroutine(flashCoroutine());
 
-            }
         }
         else
         {
@@ -80,6 +79,23 @@ public class PointMovement : MonoBehaviour
         }
     }
 
+    
+    IEnumerator flashCoroutine()
+    {
+        Color color1 = new Color(100f, 50f, 0f);
+        Color color2 = new Color(0, 100f, 100f);
+        Color color3 = new Color(100f, 0f, 100f);
+        for(int i=0; i<30; i++)
+        {
+            tGUI.color = color1;
+            yield return new WaitForSeconds(0.05f);
+            tGUI.color = color2;
+            yield return new WaitForSeconds(0.05f);
+            tGUI.color = color3;
+            yield return new WaitForSeconds(0.05f);
+
+        }
+    }
     void Update()
     {
         lerpSpeed += lerpAcceleration;
