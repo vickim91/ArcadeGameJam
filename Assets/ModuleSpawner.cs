@@ -477,7 +477,7 @@ public class ModuleSpawner : MonoBehaviour
                         SetSelectedModule(0);
                 }
             }
-            if (positionOfClosestModule > playerPosition.position.z)
+            if (positionOfClosestModule > playerPosition.position.z-1)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 //er flyttet til modules
@@ -735,6 +735,7 @@ public class ModuleSpawner : MonoBehaviour
             playerAnim.SetTrigger("Starpower");
             scoreDisplay.StarPower();
             multiplierDisplay.StarPower();
+            background.SetStarPowerBackground();
 
             //scroll1.scrollSpeed = -0.003f;
             //scroll1.scrollSpeed = -0.003f;
@@ -790,6 +791,8 @@ public class ModuleSpawner : MonoBehaviour
 
         //visuals
         playerAnim.SetTrigger("Deaccelerate");
+
+        background.setOldBackground();
         //scroll1.scrollSpeed = -0.001f;
         //scroll1.scrollSpeed = -0.001f;
         //scroll2.scrollSpeed = -0.01f;
