@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    Background background;
     public AudioLoop music1;
     public AudioLoop music2;
     public AudioLoop music3;
@@ -18,6 +19,7 @@ public class AudioManager : MonoBehaviour
     public static bool firstLoad = true;
 
     public AudioLoop rotation;
+    public AudioLoop rotationExtra;
     public AudioEvent rotStopPre;
     public AudioEvent rotationStop;
     public AudioEvent rotStopClearable;
@@ -30,10 +32,12 @@ public class AudioManager : MonoBehaviour
     public AudioEvent death;
     public AudioEvent clickSound;
     public AudioEvent moduleCleared;
+    public AudioLoop footsteps;
+    public AudioLoop breathing;
 
-    public AudioLoop rotationAlternative;
     private int previousSelectionAlt;
 
+    private AudioLoop[] rotationExtraV;
     private AudioLoop[] rotationV;
     private AudioEvent[] rotStopV;
     private AudioEvent[] rotStopClearableV;
@@ -121,6 +125,7 @@ public class AudioManager : MonoBehaviour
             InstantiateAudioEventVariantsWithPitching(ref rotationStop, ref rotStopV, true);
             InstantiateAudioEventVariantsWithPitching(ref rotStopClearable, ref rotStopClearableV, false);
             InstantiateAudioLoopVariants(ref rotation, ref rotationV);
+            InstantiateAudioLoopVariants(ref rotationExtra, ref rotationExtraV);
             InstantiateEvent(ref rotStopPre);
             InstantiateEvent(ref rotStopTwoAligned);
             InstantiateEvent(ref rotStopThreeAligned);
@@ -136,12 +141,15 @@ public class AudioManager : MonoBehaviour
             InstantiateLoop(ref starPower);
             InstantiateEvent(ref musicStinger);
             InstantiateEvent(ref death);
+            InstantiateLoop(ref footsteps);
+            InstantiateLoop(ref breathing);
             DontDestroyOnLoad(this);
             firstLoad = false;
         }
     }
     void Start()
     {
+        background = GameObject.FindObjectOfType<Background>();
         GameStart();
         gameManager = FindObjectOfType<GameManager>();
         mixerSnapshots[0].TransitionTo(0);
@@ -155,6 +163,7 @@ public class AudioManager : MonoBehaviour
             CountBeats();
             ResetMusic();
             ProgressMusic();
+            VisualBeats();
         }
     }
 
@@ -169,9 +178,33 @@ public class AudioManager : MonoBehaviour
             {
                 barCounter = 1;
                 sectionCounter++;
+
             }
         }
     }
+
+    private void VisualBeats()
+    {
+        if (beatCounter == 1)
+        {
+            if (barCounter % 8 == 1)
+            {
+                if (musicStates != MusicStates.level1)
+                {
+                    background.ChangeBackground();
+                }
+            }
+            if (musicStates == MusicStates.level2)
+            {
+                if (sectionCounter == 4)
+                {
+                    if (barCounter % 2 == 1)
+                        background.ChangeBackground();
+                }
+            }
+        }
+    }
+
 
     private void Update()
     {
@@ -206,6 +239,7 @@ public class AudioManager : MonoBehaviour
             }
             if (musicTrackIsPlaying)
             {
+                background.ChangeBackground();
                 fadeOutMusic = FadeAndStop(music2, 0, 0.6f, 0, true);
 //                fadeOutMusic = FadeOutAndStopMusic(music2, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
@@ -213,6 +247,7 @@ public class AudioManager : MonoBehaviour
             }
             else if (musicEndIsPlaying)
             {
+                background.ChangeBackground();
                 fadeOutMusic = FadeAndStop(music3, 0, 0.6f, 0, true);
 //                fadeOutMusic = FadeOutAndStopMusic(music3, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
@@ -399,14 +434,21 @@ public class AudioManager : MonoBehaviour
         {
             for (int i = 0; i < numOfSelectables; i++)
             {
+                float initVolExtra = rotationExtraV[i].initialVolume;
                 float initVol = rotationV[i].initialVolume;
+                float duckVolExtra = initVolExtra * varVolDuckPercent * 0.01f;
                 float duckVol = initVol * varVolDuckPercent * 0.01f;
                 float distSlope = varDistVolSlopeRot * i;
                 float fadeSlope = varVolDuckSlope;
                 if (i != selectedModule)
+                {
                     rotationV[i].FadeAudioLoop(duckVol - distSlope, fadeSlope);
+                    rotationExtraV[i].FadeAudioLoop(duckVolExtra - distSlope, fadeSlope);
+                }
                 else
                 {
+                    rotationExtraV[i].FadeAudioLoop(initVol - distSlope, fadeSlope * 2);
+                    rotationExtraV[i].StartAudioLoop();
                     rotationV[i].FadeAudioLoop(initVol - distSlope, fadeSlope * 2);
                     rotationV[i].StartAudioLoop();
                 }
@@ -440,6 +482,7 @@ public class AudioManager : MonoBehaviour
             //if (rotationV[numOfSelectables - 1].IsPlaying())
             //    rotationV[0].StopAudioLoop();
             rotationV[0].StopAudioLoop();
+            rotationExtraV[0].StopAudioLoop();
         }
         AudioLoop rotVZero = rotationV[0];
         for (int i = 0; i < numOfSelectables - 1; i++)
@@ -447,7 +490,12 @@ public class AudioManager : MonoBehaviour
             rotationV[i] = rotationV[i + 1];
         }
         rotationV[numOfSelectables - 1] = rotVZero;
-
+        AudioLoop rotVZeroExtra = rotationExtraV[0];
+        for (int i = 0; i < numOfSelectables - 1; i++)
+        {
+            rotationExtraV[i] = rotationExtraV[i + 1];
+        }
+        rotationExtraV[numOfSelectables - 1] = rotVZeroExtra;
 
         for (int i = 0; i < numOfSelectables - 1; i++)
         {
@@ -481,35 +529,49 @@ public class AudioManager : MonoBehaviour
         //RotationAlternative(selectedModule, clockwise);
 
         float pitchClockwise = rotationV[selectedModule].initialPitch + varRotPitching * selectedModule;
+        float pitchClockwiseExtra = rotationExtraV[selectedModule].initialPitch + varRotPitching * selectedModule;
+        float pitchClockwiseHotfix = rotationExtraV[selectedModule].initialPitch;
         if (clockwise)
+        {
             rotationV[selectedModule].pitch = pitchClockwise;
+            rotationExtraV[selectedModule].pitch = pitchClockwiseHotfix * Random.Range(0.98f, 1.05f);
+        }
         else
+        {
             rotationV[selectedModule].pitch = pitchClockwise - rotPitchingCounterclockwise;
+            rotationExtraV[selectedModule].pitch = pitchClockwiseHotfix - rotPitchingCounterclockwise * Random.Range(1, 1.1f);
+        }
         if (rotationV[selectedModule].IsPlaying() == false)
+        {
             rotationV[selectedModule].StartAudioLoop();
+            rotationExtraV[selectedModule].StartAudioLoop();
+        }
         if (rotationV[selectedModule].isStopping)
+        {
             rotationV[selectedModule].StartAudioLoop();
+            rotationExtraV[selectedModule].StartAudioLoop();
+        }
     }
 
     private void RotationAlternative(int selectedModule, bool clockwise) // stupid idea...
     {
-        if (previousSelectionAlt != selectedModule)
-        {
-            previousSelectionAlt = selectedModule;
-        }
-        if (!isRotatingAlt)
-        {
-            isRotatingAlt = true;
-        }
-        float pitchClockwise = rotationAlternative.initialPitch;
-        if (clockwise)
-        {
-            rotationAlternative.pitch = pitchClockwise;
-        }
-        else if (!clockwise)
-        {
-            rotationAlternative.pitch = pitchClockwise - rotPitchingCounterclockwise;
-        }
+        //if (previousSelectionAlt != selectedModule)
+        //{
+        //    previousSelectionAlt = selectedModule;
+        //}
+        //if (!isRotatingAlt)
+        //{
+        //    isRotatingAlt = true;
+        //}
+        //float pitchClockwise = rotationAlternative.initialPitch;
+        //if (clockwise)
+        //{
+        //    rotationAlternative.pitch = pitchClockwise;
+        //}
+        //else if (!clockwise)
+        //{
+        //    rotationAlternative.pitch = pitchClockwise - rotPitchingCounterclockwise;
+        //}
     }
 
     public void RotationCue(bool resetCueLength, bool clockwise, int selMod) // cueLength is not the sum of clockwise and counterclockwise. It is the sum of cues made since the last switch in cue-direction or the last rotationStop.
@@ -551,6 +613,7 @@ public class AudioManager : MonoBehaviour
         RotationCue(true, false, selMod);
         totalCueLengths[selMod] = 0;
         rotationV[selMod].StopAudioLoop();
+        rotationExtraV[selMod].StopAudioLoop();
         snapToBeat = SnapToBeat(rotStopV[selMod]);
         StartCoroutine(snapToBeat);
     }
@@ -573,9 +636,33 @@ public class AudioManager : MonoBehaviour
     public void ToggleMenu(bool menu)
     {
         inMenu = menu;
+        if (inMenu)
+        {
+            PauseMusic(musicStartIsLooping, music1, true);
+            PauseMusic(musicTrackIsPlaying, music2, true);
+            PauseMusic(musicEndIsPlaying, music3, true);
+        }
+        if (!inMenu)
+        {
+            PauseMusic(musicStartIsLooping, music1, false);
+            PauseMusic(musicTrackIsPlaying, music2, false);
+            PauseMusic(musicEndIsPlaying, music3, false);
+        }
         UpdateMixerSnapshot();
         PressMenuButton();
     }
+
+    private void PauseMusic(bool musicIsPlaying, AudioLoop music, bool pause)
+    {
+        if (musicIsPlaying)
+        {
+            if (pause)
+                music.PauseLoop();
+            else if (!pause)
+                music.UnpauseLoop();
+        }
+    }
+
     public void PressMenuButton() // this includes: start game, enter "how to play", exit "how to play"
     {
         clickSound.TriggerAudioEvent();
@@ -625,11 +712,42 @@ public class AudioManager : MonoBehaviour
         PressMenuButton();
     }
 
+    public float footstepFadeInTime;
+    public float footstepFadeInDelay;
     public void GameStart() // trigger this when starting/restarting from menu, and when restarting after death
     {
         gameIsPlaying = true;
         musicStates = MusicStates.level1;
+        FootstepSound();
     }
+
+    private void FootstepSound()
+    {
+        fadeSfxHotfix = FadeSfxHotfix();
+        StartCoroutine(fadeSfxHotfix);
+    }
+    IEnumerator FadeSfxHotfix()
+    {
+        //while (Beat() == false)
+        //{
+        //    yield return null;
+        //}
+        yield return new WaitForSeconds(0.001f);
+        yield return new WaitForSeconds(footstepFadeInDelay);
+        footsteps.volume = 0;
+        breathing.volume = 0;
+        footsteps.StartAudioLoop();
+        breathing.StartAudioLoop();
+        footsteps.FadeAudioLoop(footsteps.initialVolume, footstepFadeInTime);
+        breathing.FadeAudioLoop(breathing.initialVolume, footstepFadeInTime);
+
+        //fadeInSfx = FadeAndStop(footsteps, footsteps.initialVolume, footstepFadeInTime, 0, false);
+        //StartCoroutine(fadeInSfx);
+        //fadeInSfx = FadeAndStop(breathing, breathing.initialVolume, footstepFadeInTime, 0, false);
+        //StartCoroutine(fadeInSfx);
+    }
+    private IEnumerator fadeSfxHotfix;
+    private IEnumerator fadeInSfx;
 
     public void Death()
     {
@@ -646,6 +764,7 @@ public class AudioManager : MonoBehaviour
             for (int i = 0; i < numOfSelectables; i++)
             {
                 rotationV[i].StopAudioLoop();
+                rotationExtraV[i].StopAudioLoop();
             }
         }
     }

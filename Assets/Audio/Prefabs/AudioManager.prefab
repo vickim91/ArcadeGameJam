@@ -81,6 +81,10 @@ MonoBehaviour:
     type: 3}
   moduleCleared: {fileID: 8183701857975754423, guid: feefbe4ca9c3e82438cb61243fa06f0a,
     type: 3}
+  footsteps: {fileID: 6305951583400482748, guid: 1f23b8efee7f9574bb7f5b7688e62ac3,
+    type: 3}
+  breathing: {fileID: 5791387046653171617, guid: 42998e03e5e239044b245643651cfe41,
+    type: 3}
   varRotStopPitching: 0.02
   varRotPitching: 0.02
   varDistVolSlopeRot: 0.02
@@ -97,25 +101,26 @@ MonoBehaviour:
   - {fileID: 6925562726401063174, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
   - {fileID: 7999960736248240968, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
   menuFadeSlope: 0.2
+  inMenu: 0
+  soundsMuted: 0
+  musicMuted: 0
   rotStopCueLenMax: 5
   rotStopCueLenPitching: 0.05
   rotStopCueLenVol: 0.05
   timeUntilNextBeat: 0
   beatCounter: 0
   barCounter: 0
-  loopCounterLvl2: 0
+  sectionCounter: 0
   musicStates: 0
   musicStartIsLooping: 0
   musicStartIsPlaying: 0
   musicTrackIsPlaying: 0
   musicEndIsPlaying: 0
   gameIsPlaying: 0
-  musicStartFadeSlope: 0.005
-  musicStartFadeDelay: 1.8
-  musicEndFadeSlope: 0.02
-  musicEndFadeDelay: 0
   musicCutFadeSlope: 0.02
   musicCutStopDelay: 2
+  footstepFadeInTime: 0.01
+  footstepFadeInDelay: 0
 --- !u!1001 &8149629061007090506
 PrefabInstance:
   m_ObjectHideFlags: 0

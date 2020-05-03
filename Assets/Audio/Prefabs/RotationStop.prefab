@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound:
-  - soundFile: {fileID: 8300000, guid: dab36cc3d59ff554daba71d3387f4106, type: 3}
+  - soundFile: {fileID: 8300000, guid: 4285b1a1baf7a354b9938d6fb5a6e193, type: 3}
     pitch:
       minValue: 0.8665254
       maxValue: 0.8665254

@@ -54,7 +54,8 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            //currentScoreAddition.GetComponentInChildren<PointMovement>().thisPointAddition = Mathf.RoundToInt(score * scoreModifier);
+            scoreModifier = Random.Range(1, 5);
+            Point(100);
         }
     }
 
