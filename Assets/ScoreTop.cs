@@ -16,6 +16,7 @@ public class ScoreTop : MonoBehaviour
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
         gameManager = FindObjectOfType<GameManager>();
         tGUI = GetComponent<TextMeshProUGUI>();
+        this.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -24,6 +25,6 @@ public class ScoreTop : MonoBehaviour
         //if (moduleSpawner.starPower)
         //    else
 
-        tGUI.text = gameManager.score.ToString();
+        tGUI.text ="Score: " + gameManager.score.ToString();
     }
 }

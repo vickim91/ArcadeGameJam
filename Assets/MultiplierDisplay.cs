@@ -14,13 +14,15 @@ public class MultiplierDisplay : MonoBehaviour
     {
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
         tGUI = GetComponent<TextMeshProUGUI>();
+        this.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        tGUI.text = multiplier.ToString();
+        tGUI.text = "Multiplier: " + multiplier.ToString();
         //if (moduleSpawner.starPower)
         //    else
     }
+  
 }

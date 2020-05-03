@@ -17,13 +17,18 @@ public class GameManager : MonoBehaviour
     public GameObject scoreAddition;
     MultiplierDisplay multiplierDisplay;
     GameObject scoreAdditionSpawnPosition;
+    DeathScreen deathScreen;
+    ScoreTop scoreTop;
 
     void Start()
     {
         scoreAdditionSpawnPosition = scoreAddition;
         multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
+        scoreTop = FindObjectOfType<ScoreTop>();
         dead = false;
         audioManager = FindObjectOfType<AudioManager>();
+        deathScreen = FindObjectOfType<DeathScreen>();
+        deathScreen.ShowDeathScreen(false);
     }
     public void Point(int point)
     {
@@ -62,6 +67,7 @@ public class GameManager : MonoBehaviour
     public static void StartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+       
     }
 
     public void HowToPlay()
@@ -85,6 +91,9 @@ public class GameManager : MonoBehaviour
                 scoreBest = yourScore;
 
             //show yourScore and scoreBest with big numbers in middle of screen!!
+            deathScreen.ShowDeathScreen(true);
+            scoreTop.gameObject.SetActive(false);
+            multiplierDisplay.gameObject.SetActive(false);
         }
     }
 }
