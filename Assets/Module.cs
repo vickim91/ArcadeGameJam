@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Module : MonoBehaviour
 {
+    float pulsatingAlpha;
     public Material defaultFrameMaterial;
     public Material selectedFrameMaterial;
 
@@ -97,6 +98,11 @@ public class Module : MonoBehaviour
     {
         isSecondAlignment = false;
         isThirdAlignment = false;
+    }
+
+    private void Update()
+    {
+        //pulsatingAlpha = Mathf.Cos(Time.time * Mathf.PI * 2 * 4);
     }
 
     private void FixedUpdate()
@@ -271,8 +277,9 @@ public class Module : MonoBehaviour
             GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f,0.5f,1f,0.5f));
         else
         {
-            GetComponentInChildren<Renderer>().materials[0].SetColor("_Color", new Color(0f, 0.5f, 1f, 0.5f));
-            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 1f, 0f, 0.1f));
+            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f, 0.5f, 1f, 0.5f));
+        
+
         }
     }
     public void UnselectThisModule()
@@ -284,7 +291,8 @@ public class Module : MonoBehaviour
         GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 0f,0f,0.5f));
         else
         {
-            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(1f, 1f, 0f, 0.1f));
+            GetComponentInChildren<Renderer>().materials[1].SetColor("_Color", new Color(0f, 1f, 0.2f, 0.1f));
+
         }
     }
 
