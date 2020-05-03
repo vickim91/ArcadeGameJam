@@ -7,6 +7,8 @@ public class DeathScreen : MonoBehaviour
     TextMeshProUGUI text;
     GameManager gm;
     public GameObject panel;
+    public bool playerIsDead;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,12 +18,22 @@ public class DeathScreen : MonoBehaviour
     }
     public void ShowDeathScreen(bool show)
     {
-
-
-        panel.SetActive(show);            
+        playerIsDead = show;
+        DeathScreenDisplay(show);
+    }
+    private void DeathScreenDisplay(bool show)
+    {
+        panel.SetActive(show);
         text.text = "Your score: " + gm.score.ToString() + "\n" + "Personal best: " + GameManager.scoreBest.ToString();
     }
 
+    public void HideDeathScreenWhenMenu(bool show)
+    {
+        if (playerIsDead && show)
+            DeathScreenDisplay(show);
+        if (playerIsDead && !show)
+            DeathScreenDisplay(show);
+    }
 
     // Update is called once per frame
     void Update()

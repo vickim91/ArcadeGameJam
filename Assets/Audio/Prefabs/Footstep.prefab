@@ -143,7 +143,7 @@ MonoBehaviour:
   soundFile: {fileID: 8300000, guid: 1f31b8bc00ae59a4d90d6ae7c6daea57, type: 3}
   pitch: 1
   initialPitch: 1
-  volume: 0.37
+  volume: 0.45
   initialVolume: 0.5
   output: {fileID: -7288260760328263198, guid: 06e8637de55338e488c6b1a6bc0f0deb, type: 2}
   seekPercent: 0
