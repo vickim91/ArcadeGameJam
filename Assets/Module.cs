@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Module : MonoBehaviour
 {
+    public GameObject destructionObject;
+
     float pulsatingAlpha;
     public Material defaultFrameMaterial;
     public Material selectedFrameMaterial;
@@ -232,7 +234,11 @@ public class Module : MonoBehaviour
             }
         }
     }
-
+    public void DestroyThisModule()
+    {
+        Instantiate(destructionObject, this.transform);
+        Destroy(this.gameObject);
+    }
     public void HasReachedPlayer()
     {
         hasReachedPlayer = true;
@@ -248,6 +254,7 @@ public class Module : MonoBehaviour
               
                 moduleSpawner.StarPowerDeacceleration();
             }
+            DestroyThisModule();
         }
         else
         {
