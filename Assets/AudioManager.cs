@@ -187,20 +187,14 @@ public class AudioManager : MonoBehaviour
     {
         if (beatCounter == 1)
         {
-            if (barCounter % 8 == 1)
+            if (musicStates == MusicStates.level2 && sectionCounter == 4)
             {
-                if (musicStates != MusicStates.level1)
-                {
-                    background.ChangeBackground();
-                }
-            }
-            if (musicStates == MusicStates.level2)
-            {
-                if (sectionCounter == 4)
-                {
-                    if (barCounter % 2 == 1)
+                if (barCounter % 2 == 1)
                         background.ChangeBackground();
-                }
+            }
+            else if (musicStates != MusicStates.level1 && barCounter % 8 == 1)
+            {
+                background.ChangeBackground();
             }
         }
     }
@@ -232,24 +226,21 @@ public class AudioManager : MonoBehaviour
                 if (!musicStartIsPlaying)
                 {
                     fadeInMusic = FadeAndStop(music1, music1.initialVolume, 0.6f, 0, false);
-//                    fadeInMusic = FadeMusic(music1, music1.initialVolume, musicCutFadeSlope, 0);
                     StartCoroutine(fadeInMusic);
                     musicStartIsPlaying = true;
                 }
             }
+            if (musicTrackIsPlaying || musicEndIsPlaying)
+                background.ChangeBackground();
             if (musicTrackIsPlaying)
             {
-                background.ChangeBackground();
                 fadeOutMusic = FadeAndStop(music2, 0, 0.6f, 0, true);
-//                fadeOutMusic = FadeOutAndStopMusic(music2, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
                 musicTrackIsPlaying = false;
             }
             else if (musicEndIsPlaying)
             {
-                background.ChangeBackground();
                 fadeOutMusic = FadeAndStop(music3, 0, 0.6f, 0, true);
-//                fadeOutMusic = FadeOutAndStopMusic(music3, musicCutFadeSlope, musicCutStopDelay);
                 StartCoroutine(fadeOutMusic);
                 musicEndIsPlaying = false;
             }
@@ -475,12 +466,6 @@ public class AudioManager : MonoBehaviour
     {
         if (rotationV[0].IsPlaying())
         {
-            //if (!rotationV[numOfSelectables - 1].IsPlaying())
-            //{
-            //    //rotationV[0].FadeAudioLoop(0, 0.01f);
-            //}
-            //if (rotationV[numOfSelectables - 1].IsPlaying())
-            //    rotationV[0].StopAudioLoop();
             rotationV[0].StopAudioLoop();
             rotationExtraV[0].StopAudioLoop();
         }
@@ -765,6 +750,8 @@ public class AudioManager : MonoBehaviour
             {
                 rotationV[i].StopAudioLoop();
                 rotationExtraV[i].StopAudioLoop();
+                fadeSfxHotfix = FadeAndStop(rotationExtraV[i], 0, 0, 0, true);
+                StartCoroutine(fadeSfxHotfix);
             }
         }
     }

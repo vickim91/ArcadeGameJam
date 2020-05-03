@@ -3,27 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreTop : MonoBehaviour
+public class ScoreDisplay : MonoBehaviour
 {
-    ModuleSpawner moduleSpawner;
-
     GameManager gameManager;
     TextMeshProUGUI tGUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        moduleSpawner = FindObjectOfType<ModuleSpawner>();
         gameManager = FindObjectOfType<GameManager>();
         tGUI = GetComponent<TextMeshProUGUI>();
+        this.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (moduleSpawner.starPower)
-        //    else
-
         tGUI.text = gameManager.score.ToString();
+    }
+
+    public void AddPointToScore()// here
+    {
+
+    }
+    public void StarPower()// here
+    {
+
+    }
+    public void NoStarPower()// here
+    {
+
+    }
+    public void UpgradeDifficultyModifier(int difficultyLevel)// here (1,2,3...)
+    {
+
     }
 }

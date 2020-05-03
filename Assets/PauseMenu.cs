@@ -10,11 +10,18 @@ public class PauseMenu : MonoBehaviour
     public GameObject start;
     public GameObject howToPlay;
     public GameObject settings;
-
+    public static bool firstLoad = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (!firstLoad)
+            Destroy(this.gameObject);
+        if (firstLoad)
+        {
+            DontDestroyOnLoad(this);
+            firstLoad = false;
+        }
         audioManager = FindObjectOfType<AudioManager>();
         panel.SetActive(menu);
     }
@@ -60,12 +67,10 @@ public class PauseMenu : MonoBehaviour
     }
     public void MuteSound()
     {
-        print("testS");
         audioManager.ToggleMuteSounds();
     }
     public void MuteMusic()
     {
-        print("testM");
         audioManager.ToggleMuteMusic();
     }
 }

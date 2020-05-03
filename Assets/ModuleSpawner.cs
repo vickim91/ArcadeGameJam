@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class ModuleSpawner : MonoBehaviour
 {
+    ScoreDisplay scoreDisplay;
+    MultiplierDisplay multiplierDisplay;
     Background background;
     Animator playerAnim;
     public ScrollingTexture scroll1;
@@ -81,6 +83,8 @@ public class ModuleSpawner : MonoBehaviour
 
     void Start()
     {
+        scoreDisplay = FindObjectOfType<ScoreDisplay>();
+        multiplierDisplay = FindObjectOfType<MultiplierDisplay>();
         background = GameObject.FindObjectOfType<Background>();
         playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         divisionStepChangeCountdown = divisionStepInterval;
@@ -439,7 +443,8 @@ public class ModuleSpawner : MonoBehaviour
         postStarPosition -= difficultyLevel/4;
 //        debugSpawnPositioning -= difficultyLevel/4;
         setMultiplier();
-
+        multiplierDisplay.UpgradeDifficultyModifier(difficultyLevel);
+        scoreDisplay.UpgradeDifficultyModifier(difficultyLevel);
     }
 
     private bool godModeStart = true;
@@ -455,7 +460,8 @@ public class ModuleSpawner : MonoBehaviour
                     // SetSpeed(initialGameSpeed, 400, initialSpawnRate, initialRotationSpeed);
                     IncreaseDifficulty();
                     godModeStart = false;
-                    SetSelectedModule(0);
+                    if (selectedModIndex < 1)
+                        SetSelectedModule(0);
                 }
             }
             if (positionOfClosestModule > playerPosition.position.z)
@@ -464,7 +470,8 @@ public class ModuleSpawner : MonoBehaviour
                 //er flyttet til modules
                // gameManager.addToScore(Mathf.RoundToInt(gameSpeed * 100));
                 currentSelectablesScript[0].HasReachedPlayer();
-                audioManager.ShiftRotationVoices();
+                if (!gameManager.dead)
+                    audioManager.ShiftRotationVoices();
                 
                 for (int i = 0; i < maxNumOfModsInGame - 1; i++)
                 {
@@ -694,6 +701,8 @@ public class ModuleSpawner : MonoBehaviour
         {
             //hard codet for ikke at clogge inspector
             playerAnim.SetTrigger("Starpower");
+            scoreDisplay.StarPower();
+            multiplierDisplay.StarPower();
 
             //scroll1.scrollSpeed = -0.003f;
             //scroll1.scrollSpeed = -0.003f;
@@ -741,6 +750,8 @@ public class ModuleSpawner : MonoBehaviour
 
     public void StarPowerDeacceleration()
     {
+        scoreDisplay.NoStarPower();
+        multiplierDisplay.NoStarPower();
         //  print("deacceleration event");
 
         //SetSpeed(initialGameSpeed, starPowDeacc, initialSpawnRate , initialRotationSpeed);

@@ -8,14 +8,15 @@ public class DebugText : MonoBehaviour
     //TextMeshProUGUI tGUI;
     //public int avgFrameRate;
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    gameManager = FindObjectOfType<GameManager>();
-    //    tGUI = GetComponent<TextMeshProUGUI>();
-    //}
+    void start()
+    {
+        //gamemanager = findobjectoftype<gamemanager>();
+        //tgui = getcomponent<textmeshprougui>();
+    }
 
-    // Update is called once per frame
+    float deltaTime = 0.0f;
+    bool pauseFPS;
+
     void Update()
     {
 //        float current = 0;
@@ -30,12 +31,18 @@ public class DebugText : MonoBehaviour
 //            tGUI.text = 
 ////                tGUI.text + "\n" +
 //            "FPS: " + avgFrameRate.ToString();
-
-
 //        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (pauseFPS)
+                pauseFPS = false;
+            else if (!pauseFPS)
+                pauseFPS = true;
+        }
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
     }
-    float deltaTime = 0.0f;
+
 
     void OnGUI()
     {
@@ -50,7 +57,9 @@ public class DebugText : MonoBehaviour
         style.normal.textColor = new Color(1, 1, 1, 1);
         float msec = deltaTime * 1000.0f;
         int fps = Mathf.RoundToInt(1.0f / deltaTime);
-        string text = "fps:" + fps;
+        if (!pauseFPS)
+            text = "fps: " + fps;
         GUI.Label(rect, text, style);
     }
+    string text;
 }
