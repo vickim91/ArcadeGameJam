@@ -452,7 +452,7 @@ public class ModuleSpawner : MonoBehaviour
         if (currentSelectables[0] != null)
         {
             float positionOfClosestModule = currentSelectables[0].transform.position.z;
-            if ( godModeStart)
+            if (godModeStart)
             {
                 if (positionOfClosestModule > debugSpawnPositioning)
                 {
@@ -575,7 +575,6 @@ public class ModuleSpawner : MonoBehaviour
             audioManager.SelectPrevMod(selectedModIndex);
         SetSelectedModule(selectedModIndex);
     }
-
     public void RotateSelectedModuleCounterclockwise()
     {
         if (selectedModule)

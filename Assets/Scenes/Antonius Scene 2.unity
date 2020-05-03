@@ -607,6 +607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 145935090}
+  playerIsDead: 0
 --- !u!222 &216225205
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1725,424 +1726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d49507858b72a479d1515ddb9c1bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1823340747
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1823340749}
-  - component: {fileID: 1823340750}
-  - component: {fileID: 1823340748}
-  m_Layer: 0
-  m_Name: ModuleSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1823340748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823340747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 165702da81534c04387fa47df041669c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnedMods: []
-  frames:
-  - {fileID: 3210929756750240493, guid: 6a7a09fb53c6f094db2b3a145886d102, type: 3}
-  - {fileID: 3210929756750240493, guid: 18ee159635da5a04bbf70e5051c7447f, type: 3}
-  - {fileID: 3210929756750240493, guid: e373902adff878e4c99922182f5fb406, type: 3}
-  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
-  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
-  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
-  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
-  - {fileID: 3210929756750240493, guid: 768697ca659647349a14388a57821069, type: 3}
-  modules:
-  - {fileID: 3270407459084361614, guid: 99b93d48884cfab4bbdab98189b017f5, type: 3}
-  - {fileID: 3270407459084361614, guid: aedc245fac8b08d4a97c4564d6e56cb1, type: 3}
-  - {fileID: 3270407459084361614, guid: f3e962d0f9003fc43b41cef7befc3baf, type: 3}
-  - {fileID: 3270407459084361614, guid: 2fdd3ea3f3330a84eae42e4bc9bed16f, type: 3}
-  - {fileID: 3270407459084361614, guid: 31d3e66b8371ae048b60177a73d0c491, type: 3}
-  - {fileID: 3270407459084361614, guid: 7cad3bbb7991c82448050354352944e8, type: 3}
-  - {fileID: 1448088246054386964, guid: b33c25da2f23d5546ba893c271190e81, type: 3}
-  - {fileID: 4070496820357338431, guid: 2f51c5da6f1869d43bb20902708fc3df, type: 3}
-  - {fileID: 3280729753812372680, guid: 9d783152483dcce4a8bfb5a164247027, type: 3}
-  - {fileID: 6356456099747307822, guid: 534698a493a447d4c80f692ad6dd4ace, type: 3}
-  - {fileID: 4085854537488789809, guid: eb4712c0d2fba0f47b2b3efb2dc362b8, type: 3}
-  - {fileID: 1197312408836178476, guid: 7a4930a97758a794099eb452f7281899, type: 3}
-  - {fileID: 7590720394655935688, guid: c5a064943e445ce4f81f4a0c3d4d9906, type: 3}
-  - {fileID: 3522707446236327858, guid: bc8604dbc63eb3140b795ba6f6bc7439, type: 3}
-  - {fileID: 3927427125262487824, guid: ede4655e8ee3e2f4088dccf91d362c90, type: 3}
-  - {fileID: 8817221476703416931, guid: 2983eff1ffb9800448f55bec234eeceb, type: 3}
-  - {fileID: 4237822137715192921, guid: becb17abe3740414a8339959f5711759, type: 3}
-  queueLength: 6
-  numberOfSelectableMods: 7
-  maxNumOfModsInGame: 50
-  playerPosition: {fileID: 490850496}
-  acceleration: 1
-  initialGameSpeed: 3
-  initialSpawnRate: 0.6
-  initialRotationSpeed: 200
-  gameSpeed: 0
-  speedAccumulator: 0.2
-  spawnRateAccumulator: 0.03
-  starPowGameSpeed: 50
-  starPowSpawnrate: 5
-  starPowRotSpeed: 1000
-  starPowAcc: 100
-  starPowDeacc: 200
-  punyModsPerStarPower: 10
-  deaccelerationPoint: 3
-  preDeaccelerationPoint: 4
-  difficultyLevel: 0
-  debugSpawnPositioning: -20
-  divisionStep: 3
-  starPower: 0
-  divisionStepInterval: 30
-  postStarPosition: 0
-  backgroundLight: {fileID: 1284047142}
-  intensity: 2
-  defaultIntesity: 1
-  postStarReset: 0
---- !u!4 &1823340749
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823340747}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: -75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1823340750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1823340747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e862a6e6507915f43b8676633c0215b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapToDiv: 1
-  chanceForSequence: 100
-  divisionStepMax: 10
-  moduleSpawn:
-  - modTypeRotProb: {x: 0, y: 0, z: 1}
-    theREALDivApplication: 030000000400000005000000
-    initialRotation: 0
-  - modTypeRotProb: {x: 1, y: 0, z: 1}
-    theREALDivApplication: 06000000
-    initialRotation: 0
-  - modTypeRotProb: {x: 2, y: 0, z: 1}
-    theREALDivApplication: 0600000008000000
-    initialRotation: 0
-  - modTypeRotProb: {x: 3, y: 0, z: 1}
-    theREALDivApplication: 090000000a000000
-    initialRotation: 0
-  sequenceSpawn:
-  - probality: 0
-    seqTypeRot:
-    - {x: 0, y: 0}
-    - {x: 0, y: 0}
-    - {x: 0, y: 0}
-    theREALDivApplication: 
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 1, y: 0}
-    - {x: 1, y: 0}
-    - {x: 1, y: 0}
-    theREALDivApplication: 040000000500000006000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 2, y: 0}
-    - {x: 2, y: 0}
-    - {x: 2, y: 0}
-    theREALDivApplication: 030000000600000009000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 3, y: 0}
-    - {x: 3, y: 0}
-    - {x: 3, y: 0}
-    theREALDivApplication: 030000000600000009000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 4, y: 0}
-    - {x: 4, y: 0}
-    - {x: 4, y: 0}
-    theREALDivApplication: 030000000600000009000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 5, y: 0}
-    - {x: 5, y: 0}
-    - {x: 5, y: 0}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 6, y: 0}
-    - {x: 6, y: 0}
-    - {x: 6, y: 0}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 7, y: 0}
-    - {x: 7, y: 0}
-    - {x: 7, y: 0}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 8, y: 0}
-    - {x: 8, y: 0}
-    - {x: 8, y: 0}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 9, y: 0}
-    - {x: 9, y: 0}
-    - {x: 9, y: 0}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 10, y: 0}
-    - {x: 10, y: 0}
-    - {x: 10, y: 0}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 11, y: 0}
-    - {x: 11, y: 0}
-    - {x: 11, y: 0}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 12, y: 0}
-    - {x: 12, y: 0}
-    - {x: 12, y: 0}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 13, y: 0}
-    - {x: 13, y: 0}
-    - {x: 13, y: 0}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 14, y: 0}
-    - {x: 14, y: 0}
-    - {x: 14, y: 0}
-    theREALDivApplication: 06000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 15, y: 0}
-    - {x: 15, y: 0}
-    - {x: 15, y: 0}
-    theREALDivApplication: 06000000
-    initialRotation: []
-  - probality: 0
-    seqTypeRot:
-    - {x: 16, y: 0}
-    - {x: 16, y: 0}
-    - {x: 16, y: 0}
-    theREALDivApplication: 06000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 0, y: 100}
-    - {x: 0, y: 140}
-    - {x: 0, y: 180}
-    theREALDivApplication: 
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 1, y: 160}
-    - {x: 1, y: 180}
-    - {x: 1, y: 200}
-    theREALDivApplication: 040000000500000006000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 2, y: 240}
-    - {x: 2, y: 220}
-    - {x: 2, y: 260}
-    theREALDivApplication: 030000000600000009000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 3, y: 260}
-    - {x: 3, y: 220}
-    - {x: 3, y: 240}
-    theREALDivApplication: 030000000600000009000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 4, y: 100}
-    - {x: 4, y: 280}
-    - {x: 4, y: 260}
-    theREALDivApplication: 030000000600000009000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 5, y: 130}
-    - {x: 5, y: 230}
-    - {x: 5, y: 50}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 6, y: 310}
-    - {x: 6, y: 220}
-    - {x: 6, y: 270}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 7, y: 140}
-    - {x: 7, y: 220}
-    - {x: 7, y: 310}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 8, y: 310}
-    - {x: 8, y: 140}
-    - {x: 8, y: 220}
-    theREALDivApplication: 0400000008000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 9, y: 72}
-    - {x: 9, y: 288}
-    - {x: 9, y: 216}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 10, y: 72}
-    - {x: 10, y: 288}
-    - {x: 10, y: 72}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 11, y: 288}
-    - {x: 11, y: 72}
-    - {x: 11, y: 216}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 12, y: 288}
-    - {x: 12, y: 216}
-    - {x: 12, y: 288}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 13, y: 144}
-    - {x: 13, y: 288}
-    - {x: 13, y: 216}
-    theREALDivApplication: 050000000a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 14, y: 240}
-    - {x: 14, y: 300}
-    - {x: 14, y: 180}
-    theREALDivApplication: 06000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 15, y: 180}
-    - {x: 15, y: 240}
-    - {x: 15, y: 180}
-    theREALDivApplication: 06000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 16, y: 120}
-    - {x: 16, y: 300}
-    - {x: 16, y: 240}
-    theREALDivApplication: 06000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 9, y: 36}
-    - {x: 9, y: 252}
-    - {x: 9, y: 108}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 9, y: 72}
-    - {x: 9, y: 324}
-    - {x: 9, y: 180}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 10, y: 72}
-    - {x: 10, y: 324}
-    - {x: 10, y: 36}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 10, y: 108}
-    - {x: 10, y: 252}
-    - {x: 10, y: 72}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 12, y: 180}
-    - {x: 12, y: 288}
-    - {x: 12, y: 324}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 13, y: 252}
-    - {x: 13, y: 144}
-    - {x: 13, y: 288}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  - probality: 1
-    seqTypeRot:
-    - {x: 13, y: 324}
-    - {x: 13, y: 216}
-    - {x: 13, y: 252}
-    theREALDivApplication: 0a000000
-    initialRotation: []
-  queueLength: 0
 --- !u!20 &1825803858 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7206416556747873563, guid: 7045afc2f28e91146b090f4bc16fd3e8,
@@ -2689,6 +2272,85 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 833395147761784227, guid: 05794db75877ac14bad50bceec380268, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05794db75877ac14bad50bceec380268, type: 3}
+--- !u!1001 &4687959389303493891
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4687959390836862408, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_Name
+      value: ModuleSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862414, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862415, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: playerPosition
+      value: 
+      objectReference: {fileID: 490850496}
+    - target: {fileID: 4687959390836862415, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: backgroundLight
+      value: 
+      objectReference: {fileID: 1284047142}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e135f55bbc062364a85ce79e8f514f86, type: 3}
 --- !u!1001 &6355857834498459784
 PrefabInstance:
   m_ObjectHideFlags: 0
