@@ -17,9 +17,9 @@ MonoBehaviour:
   textures:
   - {fileID: 2800000, guid: 3b0683daf2f9e424c99ee5fa4cb034a9, type: 3}
   - {fileID: 2800000, guid: f3d9fe17c87670d4e855365631f04cb0, type: 3}
-  scaleX: 0.2
-  scaleY: 0.4
-  setColor: {r: 1, g: 0, b: 0, a: 1}
+  scaleX: 0.1
+  scaleY: 0.3
+  setColor: {r: 1, g: 0.9676375, b: 0, a: 0}
 --- !u!114 &6355857835553871963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,9 +37,9 @@ MonoBehaviour:
   textures:
   - {fileID: 2800000, guid: 3b0683daf2f9e424c99ee5fa4cb034a9, type: 3}
   - {fileID: 2800000, guid: f3d9fe17c87670d4e855365631f04cb0, type: 3}
-  scaleX: 0.2
-  scaleY: 0.4
-  setColor: {r: 0, g: 0.16104364, b: 1, a: 0}
+  scaleX: 0.1
+  scaleY: 0.3
+  setColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &6355857834890207954
 GameObject:
   m_ObjectHideFlags: 0
@@ -50,7 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6355857834890207955}
   m_Layer: 10
-  m_Name: Kaleidoscope1
+  m_Name: Kaleidoscope4
   m_TagString: Background
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
