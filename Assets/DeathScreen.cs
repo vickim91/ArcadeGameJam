@@ -24,7 +24,9 @@ public class DeathScreen : MonoBehaviour
     private void DeathScreenDisplay(bool show)
     {
         panel.SetActive(show);
-        text.text = "Your score: " + gm.score.ToString() + "\n" + "Personal best: " + GameManager.scoreBest.ToString();
+        text.text = "Your score: " + gm.score.ToString() + "\n\n\n" + "Personal best: " + GameManager.scoreBest.ToString() + "\n\n\n Post your highscore in the comments!";
+
+
     }
 
     public void HideDeathScreenWhenMenu(bool show)

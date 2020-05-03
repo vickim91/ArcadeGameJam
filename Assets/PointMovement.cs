@@ -129,7 +129,7 @@ public class PointMovement : MonoBehaviour
 
         }
     }
-    void Update()
+    void FixedUpdate()
     {
         SizingMethod();
         lerpSpeed += lerpAcceleration;
