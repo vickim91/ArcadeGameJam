@@ -5,7 +5,9 @@ using UnityEngine;
 public class Background : MonoBehaviour
 {
     public GameObject[] backgrounds;
+    public GameObject starPowerBackground;
     public static bool firstLoad = true;
+    int oldIndex;
 
     private void Start()
     {
@@ -21,8 +23,25 @@ public class Background : MonoBehaviour
 
     public void ChangeBackground()
     {
+        oldIndex = Random.Range(0, backgrounds.Length);
         Destroy(GameObject.FindGameObjectWithTag("Background"));
-        GameObject go = Instantiate(backgrounds[Random.Range(0, backgrounds.Length)], transform.position, Quaternion.identity) as GameObject;
+        GameObject go = Instantiate(backgrounds[oldIndex], transform.position, Quaternion.identity) as GameObject;
         go.transform.parent = transform;
+        
+    }
+    public void SetStarPowerBackground()
+    {
+        Destroy(GameObject.FindGameObjectWithTag("Background"));
+        GameObject go = Instantiate(starPowerBackground, transform.position, Quaternion.identity) as GameObject;
+        go.transform.parent = transform;
+
+    }
+    public void setOldBackground()
+    {
+     
+        Destroy(GameObject.FindGameObjectWithTag("Background"));
+        GameObject go = Instantiate(backgrounds[oldIndex], transform.position, Quaternion.identity) as GameObject;
+        go.transform.parent = transform;
+
     }
 }

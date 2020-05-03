@@ -562,6 +562,8 @@ MonoBehaviour:
   - {fileID: 203334731425187476, guid: c98023ef611f2874baf349a56822426b, type: 3}
   - {fileID: 6891780379074189325, guid: 0ad2488976b7e724381309211b462021, type: 3}
   - {fileID: 9123156695393283766, guid: 2ca4573ff8b554140949a9355c6cbb17, type: 3}
+  starPowerBackground: {fileID: 6355857834890207954, guid: f2a94f5934a3c3045b647fe7d7b2ec58,
+    type: 3}
 --- !u!1 &216225203
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5898620f08573f249a2d0907fe6887df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSpeed: 5
+  deathSpeed: 10
 --- !u!4 &629943757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6355857834890207955, guid: 7b71af76870e74a41ab552824294e19a,
@@ -2213,6 +2215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355857834890207954, guid: 7b71af76870e74a41ab552824294e19a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6355857834890207955, guid: 7b71af76870e74a41ab552824294e19a,
         type: 3}

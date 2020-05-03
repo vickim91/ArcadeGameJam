@@ -27,6 +27,10 @@ public class PointMovement : MonoBehaviour
 
     void Awake()
     {
+        if (!isSizing)
+        {
+            isSizing = true;
+        }
         panel = gameObject.transform.Find("Panel").gameObject;
         gameManager = FindObjectOfType<GameManager>();
         moduleSpawner = FindObjectOfType<ModuleSpawner>();
@@ -78,8 +82,37 @@ public class PointMovement : MonoBehaviour
                 //....... (how high does number actually go?)
         }
     }
+    private void SizingMethod()
+    {
+        if (isShrinking)
+        {
+            if (tGUI.fontSize > fontSizeNormal)
+            {
+                tGUI.fontSize -= fontSizingSpeed;
+            }
+            else
+            {
+                isSizing = false;
+                isShrinking = false;
+            }
+        }
+        else if (isSizing)
+        {
+            if (tGUI.fontSize < fontSizeMax)
+            {
+                tGUI.fontSize += fontSizingSpeed * 4;
+            }
+            else
+                isShrinking = true;
+        }
+    }
+    float fontSizingSpeed = 0.8f;
+    float fontSizeMax = 43f;
+    float fontSizeNormal = 20f;
+    bool isSizing;
+    bool isShrinking;
 
-    
+
     IEnumerator flashCoroutine()
     {
         Color color1 = new Color(100f, 50f, 0f);
@@ -98,6 +131,7 @@ public class PointMovement : MonoBehaviour
     }
     void Update()
     {
+        SizingMethod();
         lerpSpeed += lerpAcceleration;
         if (lerpSpeed > lerpSpeedMax)
             lerpSpeed = lerpSpeedMax;

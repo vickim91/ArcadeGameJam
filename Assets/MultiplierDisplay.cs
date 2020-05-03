@@ -24,11 +24,12 @@ public class MultiplierDisplay : MonoBehaviour
 
     public void StarPower()// here
     {
-
+        StartCoroutine(flashCoroutine());
     }
     public void NoStarPower()// here
     {
-
+        StopAllCoroutines();
+        tGUI.color = new Color(1, 1, 1, 1);
     }
 
     float fontSizingSpeed = 2f;
@@ -65,6 +66,23 @@ public class MultiplierDisplay : MonoBehaviour
             }
             else
                 isShrinking = true;
+        }
+    }
+
+    IEnumerator flashCoroutine()
+    {
+        Color color1 = new Color(100f, 50f, 0f);
+        Color color2 = new Color(0, 100f, 100f);
+        Color color3 = new Color(100f, 0f, 100f);
+        for (int i = 0; i < 30; i++)
+        {
+            tGUI.color = color1;
+            yield return new WaitForSeconds(0.05f);
+            tGUI.color = color2;
+            yield return new WaitForSeconds(0.05f);
+            tGUI.color = color3;
+            yield return new WaitForSeconds(0.05f);
+
         }
     }
 
