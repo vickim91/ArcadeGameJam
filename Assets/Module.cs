@@ -138,7 +138,7 @@ public class Module : MonoBehaviour
                 rotationVelocityChange = true;
                 if (isThirdAlignment)
                 {
-                    moduleSpawner.TriggerStarPower();
+                   // moduleSpawner.TriggerStarPower();
                 }
             }
             else // otherwise, rotate the amount necessary and subtract that from the counter
