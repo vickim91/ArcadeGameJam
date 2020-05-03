@@ -852,7 +852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5898620f08573f249a2d0907fe6887df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSpeed: 0
+  deathSpeed: 5
 --- !u!4 &629943757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6355857834890207955, guid: 7b71af76870e74a41ab552824294e19a,
@@ -2134,6 +2134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: impatienceGameSpeedModifier
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4687959390836862415, guid: e135f55bbc062364a85ce79e8f514f86,
+        type: 3}
+      propertyPath: initialNonControlTime
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e135f55bbc062364a85ce79e8f514f86, type: 3}

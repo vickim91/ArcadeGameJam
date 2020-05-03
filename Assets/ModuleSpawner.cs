@@ -477,7 +477,7 @@ public class ModuleSpawner : MonoBehaviour
                         SetSelectedModule(0);
                 }
             }
-            if (positionOfClosestModule > playerPosition.position.z)
+            if (positionOfClosestModule > playerPosition.position.z-1)
             {
                 //add score. 100 gange game speed for now . magic numbers men det er vel ligegyldigt
                 //er flyttet til modules
