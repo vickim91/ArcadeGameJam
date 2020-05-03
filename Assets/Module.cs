@@ -238,7 +238,7 @@ public class Module : MonoBehaviour
     {
         if (destructionObject != null)
         {
-            Instantiate(destructionObject, this.transform);
+            Instantiate(destructionObject, this.transform.position, destructionObject.transform.rotation);
             Destroy(this.gameObject);
         }
     }

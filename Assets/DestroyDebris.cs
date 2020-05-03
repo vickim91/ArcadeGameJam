@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyDebris : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         StartCoroutine(Destroy());
     }

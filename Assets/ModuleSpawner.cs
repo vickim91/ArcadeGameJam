@@ -8,8 +8,7 @@ public class ModuleSpawner : MonoBehaviour
     MultiplierDisplay multiplierDisplay;
     Background background;
     Animator playerAnim;
-    public ScrollingTexture scroll1;
-    public ScrollingTexture scroll2;
+
     Renderer scrollRend1;
     Renderer scrollRend2;
     Color originalColor1;
